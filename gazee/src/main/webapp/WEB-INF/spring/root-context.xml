@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd"">
 	<util:properties id="property" location="classpath:application.properties" />
 
 	<!-- 1) mybatis SqlSessionTemplate my = new SqlSessionTemplate(config); -->
@@ -27,6 +28,25 @@
 		<property name="configLocation"
 			value="classpath:mybatis-config.xml"></property>
 	</bean>
+	
+	<!-- mongoDB -->
+	<mongo:mongo-client
+        host="localhost"
+        port="27017" credentials="gazee:1234@gazee_chat" >
+        <mongo:client-options
+            connections-per-host="50"
+            threads-allowed-to-block-for-connection-multiplier="10"
+            connect-timeout="2000"
+            max-wait-time="2500"
+            socket-keep-alive="false"
+            socket-timeout="2500"
+        />
+    </mongo:mongo-client>
+ 
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongo" />
+        <constructor-arg name="databaseName" value="gazee_chat" />
+    </bean>
 	
 	
 </beans>
