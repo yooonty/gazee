@@ -10,34 +10,37 @@ a {
 }
 
 html, body {
-	height: 0;
+	height: 100%;
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
 
-/* #wrap {
+#wrap {
 	display: flex;
 	min-height: 100%;
 	text-align: center;
 	flex-direction: column;
-} */
+}
 
 #header {
 	width: 100%;
 	box-shadow: 0 1px 20px 1px rgba(0, 0, 0, 0.1);
 	position: fixed;
-	z-index: 2;
+	z-index: 3;
 	background-color: #fff;
 }
 
-#content {
-	width:1000px;
-	margin: 0 auto;
+#content_wrap {
 	flex: 1;
-	padding: 160px 0 100px 0;
-	/* display: flex;
-	flex-direction: column; */
+	padding: 140px 0 0 0;
+	/* 위, 오른쪽, 아래, 왼쪽 순 - 왼쪽 오른쪽은 건들지 말고 위, 아래 여백 조정하시고 싶으시면 여기서 하세요 */
+	margin: 0 auto;
+}
+
+#content {
+	width: 1000px;
+	/* height: 670px; */ /* 안에 내용 늘어나면 여기 사이즈를 조절하세요 */
 }
 
 #footer {
@@ -51,13 +54,13 @@ html, body {
 
 .headerContent {
 	display: flex;
-	width: 1000px;
-	margin: 0 auto;
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 0;
 	background-color: #fff;
-	justify-content: space-between;
 }
 
 #logo {
@@ -230,12 +233,84 @@ input[id="hamburger"]:checked+label+div {
 
 .itemImage {
 	border-radius: 5%;
-	width: 190px;
-	height: 200px;
+	width: 195px;
+	height: 195px;
 }
 
 .itemContent {
 	display: flex;
 	justify-content: flex-start;
 	font-weight: bold;
+}
+
+#banner {
+	width: 100%;
+	height: 300px;
+	border-radius: 30px;
+	overflow: hidden;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#sell {
+	height: 40px;
+	width: 80px;
+	background: white;
+	color: #693FAA;
+	border-radius: 30px;
+}
+
+.title {
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-top: 8px;
+}
+
+.recommend {
+	height: 350px;
+}
+
+.categoryMenu {
+	cursor: pointer;
+}
+
+#recentView {
+	width: 90px;
+	position: fixed;
+	top: 330px;
+	right: calc(50% - 630px);
+	transition: all 0.35s;
+}
+
+.recentViewItem {
+	padding: 10px;
+	border: 1px solid rgb(204, 204, 204);
+	background: rgb(255, 255, 255);
+	margin-bottom: 6px;
+}
+
+.recentViewTxt {
+	font-size: 12px;
+	font-weight: 600;
+	color: rgb(102, 102, 102);
+	text-align: center;
+	margin-bottom: 8px;
+}
+
+.recentViewCount {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+.viewCount {
+	display: flex;
+	justify-content: center;
+	font-size: 12px;
+	color: rgb(247, 0, 0);
+	font-weight: 600;
+	width: 38px;
+	border-bottom: 2px dotted rgb(136, 136, 136);
+	padding-bottom: 10px;
 }
