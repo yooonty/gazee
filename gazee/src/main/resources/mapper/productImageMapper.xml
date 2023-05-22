@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productImage">
 
+	<!-- insert, delete, update는 무조건 resultType="int"이므로 프로그래머가 써주지 않아도 이미 resultType="int"가 
+		있는 것으로 본다.! -->
+
+	<select id="list" resultType="productImageVO" parameterType="int">
+		select *
+		from product_image
+		where product_id = #{productId}
+		limit 1
+	</select>
+	
+	<!-- vo와 db table의 같을 때는 자동으로
+	컬럼명과 동일한 vo의 변수에 자동으로 넣어줌.
+	
+	vo와 db table이 다를 때는 수동으로
+	어떤 컬럼명에서 꺼내서 vo의 변수에 넣어줄지
+	mapping을 해주어야 함. -->
+	<!-- 
+	<resultMap type="memberVO" id="map1">
+		<result />
+	</resultMap> -->
 </mapper>
 
 

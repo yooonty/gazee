@@ -1,12 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	String mode = request.getParameter("mode");
 	String id = (String)session.getAttribute("id");
 %>	
 <link rel="stylesheet" href="../resources/css/style.css" type="text/css">
 		<div class="headerContent">
 			<div class="logo">
-				<a href="gazeeMain.jsp"> <img src="../resources/img/gazee_logo.png" id="logo"></a>
+				<%
+					if(mode!=null){
+				%>
+				<a href="../home/gazeeMain.jsp"> 
+					<img src="../resources/img/gazee_logo.png" id="logo">
+				</a>
+				<%
+					} else {
+				%>
+				<a href="gazeeMain.jsp"> 
+					<img src="../resources/img/gazee_logo.png" id="logo">
+				</a>
+				<%} %>
 			</div>
 			
 			<div id="search">
