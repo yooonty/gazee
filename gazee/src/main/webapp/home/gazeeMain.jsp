@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../resources/css/style.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/gazee-main.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript">
 	$(function() { //body 읽어왔을때
@@ -74,7 +74,7 @@
 		
 		/* 배너 클릭 -> 판매하기 */
 		$('#banner').click(function() {
-			alert("판매하기")
+			location.href = "../product/register.jsp"
 		})
 	}) 
 </script>
