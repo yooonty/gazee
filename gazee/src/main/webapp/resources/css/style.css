@@ -10,27 +10,37 @@ a {
 }
 
 html, body {
-	height: 0;
+	height: 100%;
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+}
+
+#wrap {
+	display: flex;
+	min-height: 100%;
+	text-align: center;
+	flex-direction: column;
 }
 
 #header {
 	width: 100%;
 	box-shadow: 0 1px 20px 1px rgba(0, 0, 0, 0.1);
 	position: fixed;
-	z-index: 2;
+	z-index: 3;
 	background-color: #fff;
 }
 
-#content {
-	width:1000px;
-	margin: 0 auto;
+#content_wrap {
 	flex: 1;
+	padding: 140px 0 0 0;
+	/* 위, 오른쪽, 아래, 왼쪽 순 - 왼쪽 오른쪽은 건들지 말고 위, 아래 여백 조정하시고 싶으시면 여기서 하세요 */
+	margin: 0 auto;
+}
 
-	/* display: flex;
-	flex-direction: column; */
+#content {
+	width: 1000px;
+	/* height: 670px; */ /* 안에 내용 늘어나면 여기 사이즈를 조절하세요 */
 }
 
 #footer {
@@ -44,13 +54,13 @@ html, body {
 
 .headerContent {
 	display: flex;
-	width: 1000px;
-	margin: 0 auto;
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px 0;
 	background-color: #fff;
-	justify-content: space-between;
 }
 
 #logo {
@@ -73,12 +83,7 @@ html, body {
 	padding: 0;
 	align-items: center;
 }
-#search{
-	display:flex;
-	width:410px;
-	height:45px;
-	align-items:center;
-}
+
 #searchBar {
 	width: 320px;
 	height: 43px;
@@ -99,6 +104,7 @@ html, body {
 	color: #fff;
 	line-height: 45px;
 	cursor: pointer;
+	margin-left: -4px;
 }
 
 input[id="hamburger"] {
@@ -216,23 +222,4 @@ input[id="hamburger"]:checked+label+div {
 	padding: 0 40px;
 	margin: 0;
 	border: 0px;
-}
-
-/* content */
-.item {
-	width: 200px;
-	float: left;
-	margin-bottom: 10px;
-}
-
-.itemImage {
-	border-radius: 5%;
-	width: 100%;
-	height: 200px;
-}
-
-.itemContent {
-	display: flex;
-	justify-content: flex-start;
-	font-weight: bold;
 }
