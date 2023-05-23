@@ -1,0 +1,294 @@
+@charset "UTF-8";
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.main {
+	width: 1000px;
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+}
+
+.pay {
+	width: 90%;
+	align-self: center;
+	height:150px;
+	border: 1px solid;
+	border-color : #693FAA;
+	background-color:#693FAA;
+	border-radius: 30px;
+}
+
+.state {
+	padding: 30px;
+	height:150px;
+}
+
+.balance {
+	font-size: 20px;
+	display: flex;
+	justify-content: space-between;
+}
+.account {
+
+}
+.charge {
+	height:70px;
+}
+
+.transaction {
+	height:70px;
+	display:flex;
+	justify-content: flex-end;
+}
+
+.record {
+	width: 90%;
+	height : 300px;
+	align-self: center;
+	display:flex;
+	flex-direction:column;
+}
+
+.details {
+	display: flex;
+	justify-content: space-between;
+}
+.btn-record-group {
+	width:100%;
+	display:flex;
+	margin-top:40px;
+	justify-content: space-between;
+}
+.not-clicked{
+	font-weight:bold;
+	font-size:15px;
+	width: 180px;
+	height: 30px;
+	border-radius: 30px;
+	border: 2px solid;
+	border-color: #693FAA;
+	background-color: #fff;
+	color: #693FAA;
+	line-height: 30px;
+	cursor: pointer;
+}
+.clicked {
+	font-weight:bold;
+	font-size:15px;
+	width: 180px;
+	height: 30px;
+	border-radius: 30px;
+	border: 2px solid;
+	border-color: #693FAA;
+	background-color: #693FAA;
+	color: #fff;
+	line-height: 30px;
+	cursor: pointer;
+	
+}
+
+.table {
+	margin-top:20px;
+	margin-left:10px;
+	width:100%;
+}
+tr{
+	height:50px;
+}
+tr .title{
+	height:40px;
+}
+.title td{
+	font-size:15px;
+	font-weight:bold;
+}
+td {
+	border-bottom: 1px solid #ddd;
+	text-align: center;
+}
+table {
+	width:100%;
+	margin: 0 auto;
+	border-spacing: 2px;
+	border-collapse: separate;
+}
+table .date {
+	width:50%;
+}
+table .trans {
+	width:20%;
+}
+table .price {
+	width:30%;
+}
+
+
+
+
+
+
+
+.modal {
+	position:absolute;
+	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+	background-color:#fff;
+	width:500px;
+	height:350px;
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	border : 1px solid;
+	border-radius: 30px;
+}
+.modal-close {
+	width:80%;
+	height:5%;
+	margin-top:15px;
+	display:flex;
+	justify-content: flex-end;
+}
+.modal-body {
+	width:60%;
+	position:absolute;
+	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+	display:flex;
+	flex-direction:column;
+}
+.confirm {
+	margin-top:10px;
+}
+.amount {
+	width:100%;
+	display:flex;
+}
+.input-withdraw {
+	width:200px;
+	border:1px solid;
+	text-align: right;
+}
+.input-charge {
+	width:260px;
+	border:1px solid;
+	text-align: right;
+}
+.won {
+	width:40px;
+	text-align:right;
+}
+.btn-calculate {
+	width: 60px;
+	height: 30px;
+	border-radius: 30px;
+	border: 1px;
+	background-color: #693FAA;
+	color: #fff;
+	line-height: 30px;
+	cursor: pointer;
+}
+.rule {
+	font-size: small;
+	text-align: right;
+}
+
+.calculate{
+	visibility:hidden;
+}
+.cms {
+	display:flex;
+	flex-direction:column;
+	justify-content: space-between;
+	margin-top:10px;
+}
+hr {
+	width:100%;
+	border:0.5px solid;
+}
+.cal {
+	display:flex;
+	justify-content:space-between;
+}
+
+.account-box {
+	height:30px;
+	margin-top:20px;
+	display: flex;
+	justify-content: space-between;
+}
+.account {
+	font-size: small;
+	line-height: 30px;
+}
+.now-balance {
+	height:30px;
+	margin-bottom:10px;
+}
+.account-box button{
+	width: 80px;
+	height: 30px;
+	border-radius: 30px;
+	border: 1px;
+	
+}
+.allowed {
+	background-color: #693FAA;
+	color: #fff;
+	line-height: 30px;
+	cursor: pointer;
+}
+.not {
+	background-color: #bfbfbf;
+	color: #0f0f0f;
+	line-height: 30px;
+}
+.btn-modal-close {
+	cursor: pointer;
+}
+.withdraw {
+	visibility:hidden;	
+}
+.charge {
+	visibility:hidden;
+}
+.btn-charge-group {
+	width:100%;
+	height:30px;
+	margin-top:10px;
+	display:flex;
+	justify-content: space-between;
+}
+.btn-charge-group button {
+	width: 130px;
+	height: 30px;
+	border-radius: 30px;
+	border: 1px;
+	background-color: #693FAA;
+	color: #fff;
+	line-height: 30px;
+	cursor: pointer;
+}
+.transaction button {
+	font-weight: bold;
+	font-size:15px;
+	width: 80px;
+	height: 30px;
+	border-radius: 30px;
+	border: 1px;
+	background-color: #fff;
+	color: #693FAA;
+	line-height: 30px;
+	cursor: pointer;
+}
+
+.balance .money {
+	font-family: 'Black Han Sans', sans-serif;
+	font-size:40px;
+	color: #fff;
+}
