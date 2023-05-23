@@ -25,6 +25,7 @@
 							var reportCategory = $('.reportCategory').val();
 							var reportTitle = $('.reportTitle').val();
 							var reportContent = $('.reportContent').val();
+							var reportee = $('.reportee').val();
 							var save= $(this).val();
 								
 							if (save == 1 && (reportCategory == null || reportTitle == null || reportContent == null)) {
@@ -37,7 +38,8 @@
 										reportCategory : reportCategory,
 										reportTitle : reportTitle,
 										reportContent : reportContent,
-										temporary : save
+										temporary : save,
+										reportee : reportee
 									},
 									success : function(x) {
 										if (save == 1) {
@@ -101,9 +103,15 @@
 									<td></td>
 
 								</tr>
+								<tr class="each-row">
+									<td class="attribute">신고 대상 닉네임</td>
+									<td><input class="prd-info reportee" type="text"></td>
+								</tr>
 								<tr class="content-row">
 									<td class="attribute">내용</td>
-									<td class="content"><textarea class="prd-info reportContent"> </textarea></td>
+									<td class="content"><textarea class="prd-info reportContent"
+																  placeholder="피해 금액 및 물품에 대해서 자세히 입력해주세요"> 
+													   </textarea></td>
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">사진첨부</td>
