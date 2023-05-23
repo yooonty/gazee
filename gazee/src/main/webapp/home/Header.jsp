@@ -42,9 +42,9 @@
 				<%
 					} else {
 				%>
-				<li id="login"><a href="login.jsp">로그인</a></li>
+				<li id="login"><a href="../member/member.jsp">로그인</a></li>
 				<li class= "line">|</li>
-				<li>회원가입</li>
+				<li><a href="../member/signup.jsp">회원가입</a></li>
 				<li class= "line">|</li>
 				<li>고객센터</li>
 				<li class= "line">|</li>

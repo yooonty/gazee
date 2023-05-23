@@ -163,8 +163,8 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.5.14</version>
 		</dependency>
-
 		<!-- object-storage 필요한 라이브러리 끝 -->
+		
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -188,6 +188,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-messaging</artifactId>
 			<version>5.0.1.RELEASE</version>
+		</dependency>
+		
+		<!-- MongoDB -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.9.1.RELEASE</version>
 		</dependency>
 
 		<!-- Test -->
