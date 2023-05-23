@@ -4,7 +4,7 @@
   
 <insert id="register" parameterType="productVO">
 	INSERT INTO product
-	(member_id, category, product_name, product_content, price, deal_delivery, deal_direct, `direct_address(x)`, `direct_address(y)`, product_views, `temporary`, saved_time)
+	(member_id, category, product_name, product_content, price, deal_delivery, deal_direct, `direct_addressx`, `direct_addressy`, product_views, `temporary`, saved_time)
 	VALUES(#{memberId}, #{category}, #{productName}, #{productContent}, #{price}, #{dealDelivery}, #{dealDirect}, #{directAddressx}, #{directAddressy}, 0, #{temporary}, #{savedTime});
 </insert>
   
