@@ -31,7 +31,7 @@ public class LoginController {
             String userId = (String) request.getSession().getAttribute("username");
             if (StringUtils.isNotEmpty(userId)) {
                 model.addAttribute("username", userId);
-                return "adminSidebar";
+                return "../admin/adminSidebar";
             }
         }
         
