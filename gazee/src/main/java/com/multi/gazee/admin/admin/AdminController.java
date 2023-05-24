@@ -8,8 +8,8 @@ import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.order.OrderVO;
 import com.multi.gazee.product.ProductDAO;
 import com.multi.gazee.product.ProductVO;
-import com.multi.gazee.customerService.ReportDAO;
-import com.multi.gazee.customerService.ReportVO;
+import com.multi.gazee.report.ReportDAO;
+import com.multi.gazee.report.ReportVO;
 import com.multi.gazee.set.SetVO;
 import com.multi.gazee.transactionHistory.TransactionHistoryVO;
 import com.multi.gazee.withdraw.WithdrawVO;
@@ -202,8 +202,6 @@ public class AdminController {
     public String loadPay(Model model) throws Exception {
         List<TransactionHistoryVO> transactionList = Adao.listTransactionHistory();
         List<WithdrawVO> withdrawList = Adao.listWithdraw();
-        List<WithdrawVO> withdrawNeedConfirmList = Adao.listWithdrawNeedConfirm();
-        List<WithdrawVO> withdrawCompleteList = Adao.listWithdrawComplete();
         List<MemberVO> bankAccountList = new ArrayList<>(); // 사용자 계좌 목록 담을 리스트
         // withdrawList에서 user 값을 하나씩 꺼내서 Adao.listBankAccount()의 파라미터로 사용
         int sum = Adao.sumCommission();
@@ -218,8 +216,6 @@ public class AdminController {
         
         model.addAttribute("seedHistoryList", transactionList);
         model.addAttribute("withdrawList", withdrawList);
-        model.addAttribute("withdrawNeedConfirmList", withdrawNeedConfirmList);
-        model.addAttribute("withdrawCompleteList", withdrawCompleteList);
         model.addAttribute("memberList", memberList);
         model.addAttribute("bankAccountList", bankAccountList); // 사용자 계좌 목록
         model.addAttribute("sum", sum);
