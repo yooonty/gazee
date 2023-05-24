@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="withdraw">
+
+    <!-- ALL -->
+    <select id="listWithdraw" resultType="WithdrawVO">
+        SELECT *
+        FROM withdraw
+    </select>
+
+    <!-- Transaction ID로 출금내역 Read -->
+    <select id="oneWithdrawById" parameterType="String" resultType="WithdrawVO">
+        SELECT *
+        FROM withdraw
+        WHERE transaction_id = #{id}
+    </select>
+
+    <!-- 수수료 수입 합계 -->
+    <select id="sumCommission" resultType="int">
+        SELECT SUM(commission) AS total_commission
+        FROM withdraw WHERE withdraw_status = 1
+    </select>
+
 </mapper>

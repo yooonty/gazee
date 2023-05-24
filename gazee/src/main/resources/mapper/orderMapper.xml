@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
 
+    <!-- ALL -->
+    <select id="listOrder" resultType="OrderVO">
+        SELECT *
+        FROM tb_order
+    </select>
+
+    <!-- 정산이 필요한 거래 Read -->
+    <select id="listOrderNeedToSet" resultType="OrderVO">
+        SELECT *
+        FROM tb_order
+        WHERE seller_confirm = 1
+          AND buyer_confirm = 1
+    </select>
+
+    <!-- 정산 완료 된 거래 Read -->
+    <select id="listOrderFinished" resultType="OrderVO">
+        SELECT *
+        FROM tb_order
+        WHERE set_status = 1
+    </select>
+
+    <!-- 총 거래량(금액) -->
+    <select id="sumTotalTrading" resultType="int">
+        SELECT SUM(p.price) AS total_trading
+        FROM tb_order o JOIN product p ON o.product_id = p.product_id
+        WHERE o.set_status = 1;
+    </select>
+
+
 </mapper>

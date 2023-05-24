@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="report">
+
+    <!-- 답변이 필요한 신고 Read -->
+    <select id="listReportNeedReply" resultType="ReportVO">
+        SELECT *
+        FROM report WHERE report_reply IS NULL
+    </select>
+
 </mapper>
