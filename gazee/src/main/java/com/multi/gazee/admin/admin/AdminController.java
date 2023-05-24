@@ -57,7 +57,6 @@ public class AdminController {
         List<OrderVO> orderNeedToSetList = Adao.listOrderNeedToSet();
         List<OrderVO> orderList = Adao.listOrder();
         int sum = Adao.sumCommission();
-        
         model.addAttribute("memberList", memberList);
         model.addAttribute("productList", productList);
         model.addAttribute("reportList", nonPagedReportList);
