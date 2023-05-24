@@ -18,7 +18,7 @@
     <!-- 수수료 수입 합계 -->
     <select id="sumCommission" resultType="int">
         SELECT SUM(commission) AS total_commission
-        FROM withdraw WHERE withdraw_status = 1
+        FROM withdraw
     </select>
 
 </mapper>
