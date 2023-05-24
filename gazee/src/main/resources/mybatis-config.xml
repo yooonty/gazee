@@ -9,7 +9,7 @@
    <typeAliases>
    		<typeAlias type="com.multi.gazee.charge.ChargeVO" alias="chargeVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.chat.ChatVO" alias="chatVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.customerService.CustomerServiceVO" alias="customerServiceVO"></typeAlias>
+   		<typeAlias type="com.multi.gazee.customerService.CustomerServiceVO" alias="csVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.customerServiceImg.CustomerServiceImgVO" alias="customerServiceImgVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.faq.FaqVO" alias="faqVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.member.MemberVO" alias="memberVO"></typeAlias>

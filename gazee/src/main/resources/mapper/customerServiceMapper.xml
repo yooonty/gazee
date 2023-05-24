@@ -80,4 +80,8 @@
         where cs2.cs_no between #{start} and #{end}
     </select>
 
+    <select id="nonPagedList" resultType="csVO">
+        select * from customer_service
+    </select>
+
 </mapper>
