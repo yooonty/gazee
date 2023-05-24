@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.gazee.member.MemberDAO;
+import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.product.ProductDAO;
 import com.multi.gazee.product.ProductVO;
 
@@ -28,7 +29,7 @@ import com.multi.gazee.product.ProductVO;
 public class ChatController {
 	
 	@Autowired
-	ChatDAO dao;
+	ChatDAO chatDao;
 	
 	@Autowired
 	ChatMessageDAO messageDao;
@@ -42,7 +43,7 @@ public class ChatController {
 	@RequestMapping("chat/chatRoomCreate")
 	@ResponseBody
 	public int chatRoomCreate(ChatVO bag) {
-		int result = dao.create(bag);
+		int result = chatDao.create(bag);
 		if (result != 0) {
 			return result;
 		} else {
@@ -53,7 +54,7 @@ public class ChatController {
 	@RequestMapping("chat/chatRoomCheck")
 	@ResponseBody
 	public int chatRoomCheck(ChatVO bag) {
-		ChatVO bag2 = dao.chatRoomSearch(bag);
+		ChatVO bag2 = chatDao.chatRoomSearch(bag);
 		if (bag2 != null) {
 			return bag2.getRoomId();
 		} else {
@@ -64,7 +65,7 @@ public class ChatController {
 	@RequestMapping("chat/myChatRoomIds")
 	@ResponseBody
 	public ArrayList<Integer> myChatRoomIds(String memberId) {
-		List<ChatVO> list = dao.chatList(memberId);
+		List<ChatVO> list = chatDao.chatList(memberId);
 		ArrayList<Integer> roomIds = new ArrayList<Integer>();
 		for (int i = 0; i < list.size(); i++) {
 			roomIds.add(list.get(i).getRoomId());
@@ -72,19 +73,19 @@ public class ChatController {
 		return roomIds;
 	}
 	
-	@RequestMapping("chat/myChatList")
-	public void myChatList(String memberId, Model model) {
-		List<ChatVO> list = dao.chatList(memberId);
+	@RequestMapping("chat/chatList")
+	public void chatList(String memberId, Model model) {
+		List<ChatVO> list = chatDao.chatList(memberId);
 		List<String> nickname = new LinkedList<String>();
 		List<String> lastMessage = new LinkedList<String>();
 		List<String> lastMessageTime = new LinkedList<String>();
 		for (int i = 0; i < list.size(); i++) {
-			String sellerNickname = memberDao.nickname(list.get(i).getSellerId());
-			String buyerNickname = memberDao.nickname(list.get(i).getBuyerId());
+			MemberVO sellerVO = memberDao.searchOne(list.get(i).getSellerId());
+			MemberVO buyerVO = memberDao.searchOne(list.get(i).getBuyerId());
 			if (list.get(i).getBuyerId().equals(memberId)) {
-				nickname.add(sellerNickname);
+				nickname.add(sellerVO.getNickname());
 			} else {
-				nickname.add(buyerNickname);
+				nickname.add(buyerVO.getNickname());
 			}
 			int roomId = list.get(i).getRoomId();
 			ChatMessageVO bag = messageDao.lastMessageList(roomId);
@@ -107,9 +108,9 @@ public class ChatController {
 	
 	@RequestMapping("chat/chatRoomEntry")
 	public void chatRoomEntry(int roomId, Model model, HttpSession session) {
-		ChatVO bag = dao.chatRoomOne(roomId);
-		String sellerNickname = memberDao.nickname(bag.getSellerId());
-		String buyerNickname = memberDao.nickname(bag.getBuyerId());
+		ChatVO bag = chatDao.chatRoomOne(roomId);
+		MemberVO sellerVO = memberDao.searchOne(bag.getSellerId());
+		MemberVO buyerVO = memberDao.searchOne(bag.getBuyerId());
 		ProductVO bag2 = productDao.productone(bag.getProductId());
 		DecimalFormat decFormat = new DecimalFormat("###,###");
 		String priceDec = decFormat.format(bag2.getPrice());
@@ -126,8 +127,8 @@ public class ChatController {
 		model.addAttribute("priceDec", priceDec);
 		model.addAttribute("dealType", bag.getDealType());
 		model.addAttribute("sellerId", bag.getSellerId());
-		model.addAttribute("sellerNickname", sellerNickname);
-		model.addAttribute("buyerNickname", buyerNickname);
+		model.addAttribute("sellerNickname", sellerVO.getNickname());
+		model.addAttribute("buyerNickname", buyerVO.getNickname());
 		model.addAttribute("bag", bag);
 		model.addAttribute("bag2", bag2);
 	}
@@ -135,12 +136,12 @@ public class ChatController {
 	@RequestMapping("chat/roomLeave")
 	@ResponseBody
 	public void roomLeave(int roomId) {
-		dao.roomLeave(roomId);
+		chatDao.roomLeave(roomId);
 	}
 	
-	@RequestMapping("chat/paymentModal")
-	public void paymentModal(int roomId, Model model) {
-		ChatVO bag = dao.chatRoomOne(roomId);
+	@RequestMapping("chat/chatPaymentModal")
+	public void chatPaymentModal(int roomId, Model model) {
+		ChatVO bag = chatDao.chatRoomOne(roomId);
 		ProductVO bag2 = productDao.productone(bag.getProductId());
 		if (bag.getDealDirectDate() != null) {
 			Timestamp time = bag.getDealDirectDate();
@@ -153,15 +154,16 @@ public class ChatController {
 			model.addAttribute("dealDirectDate", dealDirectDate);
 		}
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		int balance = 2000000;
+		int balance = 1000;
 		int amount = balance - bag2.getPrice();
+		int lackAmount = bag2.getPrice() - balance;
 		String priceDec = decFormat.format(bag2.getPrice());
 		String balanceDec = decFormat.format(balance);
 		if (amount >= 0) {
 			String amountDec = decFormat.format(amount);
 			model.addAttribute("amountDec", amountDec);
 		} else {
-			String amountDec = "0";
+			String amountDec = decFormat.format(lackAmount);
 			model.addAttribute("amountDec", amountDec);
 		}
 		model.addAttribute("bag", bag);
@@ -181,14 +183,13 @@ public class ChatController {
 		calendar.add(Calendar.HOUR_OF_DAY, 18);
 		Timestamp updatedTime = new Timestamp(calendar.getTimeInMillis());
 		bag.setDealDirectDate(updatedTime);
-		dao.dealDirectDateUpdate(bag);
+		chatDao.dealDirectDateUpdate(bag);
 	}
 	
 	@PostMapping(value = "chat/saveSubscribedRoomIds", consumes = "application/json")
     @ResponseBody
     public void saveSubscribedRoomIds(HttpSession session, @RequestBody List<String> roomIds) {
 		List<Integer> roomIds2 = new LinkedList<Integer>();
-		// roomIds 출력
 	    for (String roomId : roomIds) {
 	        roomIds2.add(Integer.parseInt(roomId));
 	    }
