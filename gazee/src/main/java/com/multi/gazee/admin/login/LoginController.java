@@ -1,6 +1,6 @@
 package com.multi.gazee.admin.login;
 
-import com.multi.gazee.admin.admin.AdminDAOImpl;
+import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     public LoginService service;
     @Autowired
-    public AdminDAOImpl adminDAO;
+    public MemberDAO Mdao;
     
     @GetMapping(value = "/admin")
     public String checkCookie(HttpServletRequest request, Model model) {
@@ -42,7 +42,7 @@ public class LoginController {
     @PostMapping(value = "/admin_main")
     public String checkLogin(@RequestParam("user_id") String idToCheck, @RequestParam("user_pwd") String pwToCheck, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
     
-        MemberVO adminVo = adminDAO.readAdmin();
+        MemberVO adminVo = Mdao.readAdmin();
         
         int idCheck = service.checkId(idToCheck);
         model.addAttribute("msg", "");
