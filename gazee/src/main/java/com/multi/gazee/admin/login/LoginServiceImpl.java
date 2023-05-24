@@ -1,6 +1,6 @@
 package com.multi.gazee.admin.login;
 
-import com.multi.gazee.admin.admin.AdminDAOImpl;
+import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.mindrot.jbcrypt.BCrypt;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
-    AdminDAOImpl dao = new AdminDAOImpl();
+    MemberDAO dao = new MemberDAO();
     @Autowired
     SqlSessionTemplate my;
     @Override
