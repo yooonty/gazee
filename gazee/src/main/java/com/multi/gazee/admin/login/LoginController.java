@@ -41,11 +41,9 @@ public class LoginController {
     
     @PostMapping(value = "/admin_main")
     public String checkLogin(@RequestParam("user_id") String idToCheck, @RequestParam("user_pwd") String pwToCheck, HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-    
-        MemberVO adminVo = Mdao.readAdmin();
         
+        MemberVO adminVo = Mdao.readAdmin();
         int idCheck = service.checkId(idToCheck);
-        model.addAttribute("msg", "");
         
         if (idCheck == 1) {
             String plainPassword = pwToCheck;
