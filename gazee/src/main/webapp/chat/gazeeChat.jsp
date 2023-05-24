@@ -8,6 +8,7 @@
 <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="../resources/css/chatRoom.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/alarm.css" rel="stylesheet" type="text/css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript" src="../resources/js/sockjs-0.3.4.js"></script>
@@ -149,7 +150,7 @@
 		/* 내 채팅목록 불러오는 함수 */
 		$(document).ready(function() {
 			$.ajax({
-				url: 'myChatList',
+				url: 'chatList',
 				data: {
 					memberId : memberId
 				},
@@ -318,18 +319,112 @@
     }
 	
 	/* 가지페이 부족할 때 결제 모달창 open */
-	function gazeepay(roomId, productId, dealType) {
-		console.log(roomId)
-		console.log(productId)
-		console.log(dealType)
+	function gazeepay(buyerId, productId, dealType) {
 		let modal = document.getElementById('gazeepay_modal');
 		modal.style.display = 'flex';
+		
+		let price = 0;
+		let balance = 0;
+		let lackBalance = 0;
+		
+		/* 상품 가격 가져오기 */
+		$.ajax({
+			url: '../product/productOne',
+			data: {
+				productId: productId
+			},
+			success: function(result) {
+				price = result.price
+				let productPrice = document.getElementById('productPrice')
+				let formattedPrice = formatNumber(price);
+				productPrice.textContent = formattedPrice + '원';
+				
+				/* 내 보유 가지씨앗 가져오기 */
+				$.ajax({
+					url: '../transactionHistory/checkBalance',
+					data: {
+						memberId: buyerId
+					},
+					success: function(balance) {
+						balance = balance;
+						let myBalance = document.getElementById('myBalance')
+						let formattedMyBalance = formatNumber(balance);
+						myBalance.textContent = formattedMyBalance + '원';
+						
+						lackBalance = price - balance;
+						
+						/* 부족한 가지씨앗 계산 */
+						let lackBalanceSpan = document.getElementById('lackBalance')
+						let formattedLackBalance = formatNumber(lackBalance);
+						lackBalanceSpan.textContent = formattedLackBalance + '원';
+						lackBalanceSpan.value = lackBalance;
+					}
+				})
+			}
+		})
 	}
 	
 	/* 결제가 완료되었을 때 */
-	function order(roomId) {
-		console.log(roomId)
-		console.log("결제가 완료되었습니다.")
+	function order(roomId, dealType) {
+		if (dealType == '직거래') {
+			$.ajax({
+				url: '../order/orderComplete',
+				data: {
+					roomId: roomId
+				},
+				success: function(result) {
+					if (result == 1) {
+						dealDirectComplete(roomId);
+						location.href = "../home/gazeeMain.jsp"
+					}
+				}
+			})
+		} else {
+			let city = $("#address").val();
+			let detailAddress = $("#detailAddress").val();
+			let address = city + " " + detailAddress;
+			
+			$.ajax({
+				url: '../order/orderComplete',
+				data: {
+					roomId: roomId,
+					address: address
+				},
+				success: function(result) {
+					if (result == 1) {
+						dealDeliveryComplete(roomId);
+						location.href = "../home/gazeeMain.jsp"
+					}
+				}
+			})
+		}
+	}
+	
+	/* 직거래 거래완료 메세지 */
+	function dealDirectComplete(roomId) {
+		let sender = memberId;
+		let content = "결제완료";
+		
+		stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+			'sender' : sender,
+			'content' : content
+		}));
+	}
+	
+	/* 택배거래 거래완료 메세지 */
+	function dealDeliveryComplete(roomId) {
+		let sender = memberId;
+		let content = "운송장번호";
+		
+		stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+			'sender' : sender,
+			'content' : content
+		}));
+	}
+	
+	/* 숫자 쉼표 */
+	function formatNumber(number) {
+		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 </script>
 <style>
@@ -341,6 +436,7 @@
 </head>
 <body>
 <div id="wrap">
+	<div id="newMessagePushAlarm"></div>
 	<div id="header">
 		<jsp:include page="../home/Header.jsp" flush="true"/>
 	</div>
@@ -357,16 +453,16 @@
 			<div class="gazeepay_modal_amount">
 				<div class="amount">
 					<span>상품금액</span>
-					<span>1,800,000원</span>
+					<span id="productPrice"></span>
 				</div>
 				<div class="amount">
 					<span>보유 가지씨앗</span>
-					<span>1,800,000원</span>
+					<span id="myBalance"></span>
 				</div>
 				<hr style="border: 1px solid #e1e1e1; width: 100%;">
 				<div class="amount">
 					<span>부족한 가지씨앗</span>
-					<span>1,800,000원</span>
+					<span id="lackBalance" class="input_charge"></span>
 				</div>
 			</div>
 			<div>
