@@ -2,10 +2,112 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="report">
 
-    <!-- 답변이 필요한 신고 Read -->
-    <select id="listReportNeedReply" resultType="ReportVO">
-        SELECT *
-        FROM report WHERE report_reply IS NULL
+    <!-- 신고 글 등록 -->
+    <insert id="register" parameterType="ReportVO">
+        insert into report(report_title, report_content, report_writer, report_category, report_secret, temporary)
+        values (#{reportTitle},
+                #{reportContent},
+                #{reportWriter},
+                #{reportCategory},
+                #{reportSecret},
+                #{temporary})
+    </insert>
+
+    <!-- 답변 등록 -->
+    <update id="reply" parameterType="ReportVO">
+        update report
+        SET report_reply= #{reportReply}
+        WHERE report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 삭제 -->
+    <delete id="del" parameterType="ReportVO">
+        delete
+        from report
+        where report_id = #{reportId}
+    </delete>
+
+    <!-- 신고글 제목 수정 -->
+    <update id="up" parameterType="ReportVO">
+        update report
+        set reportTitle= #{reportTitle}
+        where report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 상세 -->
+    <select id="one" parameterType="Integer" resultType="ReportVO">
+        select *
+        from report
+        where report_id = #{reportId}
     </select>
 
+    <!-- 신고글 조회수 UP -->
+    <update id="viewUpdate" parameterType="Integer">
+        update report
+        set report_view= report_view + 1
+        where report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 전체 Read (non페이징) -->
+    <select id="nonPagedList" resultType="ReportVO">
+        select * from report
+    </select>
+
+    <!-- 신고글 전체 Read (페이징) -->
+    <select id="all" resultType="ReportVO" parameterType="pageVO">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc)as report_no, r.*
+              from report r) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+
+    <!-- 신고글 카테고리화 -->
+    <select id="category" parameterType="Map" resultType="ReportVO">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc)as report_no, r.*
+              from report r
+              where r.report_category = #{category1}) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        select count(*)
+        from report
+    </select>
+
+    <select id="countCategory" parameterType="String" resultType="Integer">
+        select count(*)
+        from report
+        where report_category = #{category1}
+    </select>
+
+    <select id="countSearch" parameterType="String" resultType="Integer">
+        select count(*)
+        from report
+        where report_title like concat('%', #{search1}, '%')
+    </select>
+
+    <select id="list2" resultType="ReportVO" parameterType="PageVO">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc) as report_no, r.*
+              from report r) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+
+    <select id="searchAll" resultType="ReportVO" parameterType="Map">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc) as report_no, r.*
+              from report r
+              where r.report_title like concat('%', #{search1}, '%')) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+
+    <!-- 답변이 필요한 신고글 불러오기 (페이징) -->
+    <select id="needReply" resultType="ReportVO" parameterType="Map">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc) as report_no, r.*
+              from report r
+              where r.report_reply is null) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
 </mapper>
