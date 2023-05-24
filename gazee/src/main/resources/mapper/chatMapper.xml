@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="chatList" parameterType="String" resultType="chatVO">
-		select * from chat where buyer_id = #{memberId} OR seller_id = #{memberId} order by last_message_time;
+		select * from chat where buyer_id = #{memberId} OR seller_id = #{memberId} order by last_message_time DESC;
 	</select>
 	
 	<select id="chatRoomOne" parameterType="Integer" resultType="chatVO">
