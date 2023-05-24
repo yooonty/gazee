@@ -372,14 +372,14 @@ p {
 
 /* 결제요청 채팅 div */
 #paymentMessage_wrap {
-	text-align: center;
+	text-align: left;
 	display: flex;
 	flex-flow: column;
 	gap: 10px;
 }
 
 /* 결제 요청 버튼 */
-#btn_payment {
+#btn_payment, #btn_myPage, #btn_trackingNo {
 	border: none;
 	background: #693FAA;
     color: #fff;
