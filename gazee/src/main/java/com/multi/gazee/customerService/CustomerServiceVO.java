@@ -74,12 +74,14 @@ public class CustomerServiceVO {
 	public void setTemporary(int temporary) {
 		this.temporary = temporary;
 	}
+	
 	@Override
 	public String toString() {
-		return "QnaVO [csId=" + csId + ", csNo=" + csNo + ", csTitle=" + csTitle + ", csContent=" + csContent
-				+ ", csWriter=" + csWriter + ", csDate=" + csDate + ", csView=" + csView + ", csCategory=" + csCategory
-				+ ", csReply=" + csReply + ", temporary=" + temporary + "]";
+		return "CustomerServiceVO [csId=" + csId + ", csNo=" + csNo + ", csTitle=" + csTitle + ", csContent="
+				+ csContent + ", csWriter=" + csWriter + ", csDate=" + csDate + ", csView=" + csView + ", csCategory="
+				+ csCategory + ", csReply=" + csReply + ", temporary=" + temporary + "]";
 	}
+	
 	
 	
 	
