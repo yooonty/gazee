@@ -23,13 +23,7 @@ public interface AdminDAO {
     
     List<ChargeVO> listCharge() throws Exception;
     
-    List<WithdrawVO> listWithdrawNeedConfirm() throws Exception;
-    
-    List<WithdrawVO> listWithdrawComplete() throws Exception;
-    
     WithdrawVO oneWithdrawById(String id) throws Exception;
-    
-    int withdrawComplete(WithdrawVO bag) throws Exception;
     
     int sumCommission() throws Exception;
     

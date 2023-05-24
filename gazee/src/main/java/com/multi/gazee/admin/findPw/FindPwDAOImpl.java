@@ -12,17 +12,17 @@ public class FindPwDAOImpl implements FindPwDAO {
     
     @Override
     public MemberVO readAdmin() throws Exception {
-        return my.selectOne("findPw.readAdmin");
+        return my.selectOne("member.readAdmin");
     }
     
     @Override
     public MemberVO checkAdmin(String email) throws Exception {
-        return my.selectOne("findPw.readAdmin", email);
+        return my.selectOne("member.readAdmin", email);
     }
     
     @Override
     public void updatePw(MemberVO vo) throws Exception {
-        int result = my.update("findPw.updatePw", vo);
+        int result = my.update("member.updatePw", vo);
     }
 }
 

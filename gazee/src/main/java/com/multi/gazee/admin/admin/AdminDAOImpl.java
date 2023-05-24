@@ -20,68 +20,51 @@ public class AdminDAOImpl implements AdminDAO {
     
     @Override
     public MemberVO readAdmin() throws Exception {
-        return my.selectOne("admin.readAdmin");
+        return my.selectOne("member.readAdmin");
     }
     
     @Override
     public MemberVO checkAdmin(String email) throws Exception {
-        return my.selectOne("admin.readAdmin", email);
+        return my.selectOne("member.readAdmin", email);
     }
     
     @Override
     public void updatePw(MemberVO vo) throws Exception {
-        int result = my.update("admin.updatePw", vo);
+        int result = my.update("member.updatePw", vo);
     }
     
     @Override
     public List<TransactionHistoryVO> listTransactionHistory() {
-        List<TransactionHistoryVO> transactionHistoryVo = my.selectList("admin.listTransaction");
+        List<TransactionHistoryVO> transactionHistoryVo = my.selectList("history.listTransaction");
         return transactionHistoryVo;
     }
     
     @Override
     public List<WithdrawVO> listWithdraw() {
-        List<WithdrawVO> withdrawList = my.selectList("admin.listWithdraw");
+        List<WithdrawVO> withdrawList = my.selectList("withdraw.listWithdraw");
         return withdrawList;
     }
     
     @Override
     public List<ChargeVO> listCharge() {
-        List<ChargeVO> chargeList = my.selectList("admin.listCharge");
+        List<ChargeVO> chargeList = my.selectList("charge.listCharge");
         return chargeList;
     }
     
     @Override
-    public List<WithdrawVO> listWithdrawNeedConfirm() {
-        List<WithdrawVO> withdrawNeedConfirmList = my.selectList("admin.listWithdrawNeedConfirm");
-        return withdrawNeedConfirmList;
-    }
-    
-    @Override
-    public List<WithdrawVO> listWithdrawComplete() {
-        List<WithdrawVO> withdrawCompleteList = my.selectList("admin.listWithdrawComplete");
-        return withdrawCompleteList;
-    }
-    
-    @Override
     public WithdrawVO oneWithdrawById(String id) {
-        return my.selectOne("admin.oneWithdrawById", id);
-    }
-    
-    @Override
-    public int withdrawComplete(WithdrawVO bag) {
-        return my.update("admin.withdrawComplete", bag);
+        return my.selectOne("withdraw.oneWithdrawById", id);
     }
     
     @Override
     public int sumCommission() {
-        int totalCommission = my.selectOne("admin.sumCommission");
+        int totalCommission = my.selectOne("withdraw.sumCommission");
         return totalCommission;
     }
     
     @Override
     public List<SetVO> listSet() {
-        List<SetVO> setList = my.selectList("admin.listSet");
+        List<SetVO> setList = my.selectList("set.listSet");
         return setList;
     }
     
@@ -93,73 +76,73 @@ public class AdminDAOImpl implements AdminDAO {
     
     @Override
     public List<ProductVO> listProductToday() {
-        List<ProductVO> productTodayList = my.selectList("admin.listProductToday");
+        List<ProductVO> productTodayList = my.selectList("product.listProductToday");
         return productTodayList;
     }
     
     @Override
     public List<OrderVO> listOrder() {
-        List<OrderVO> orderList = my.selectList("admin.listOrder");
+        List<OrderVO> orderList = my.selectList("order.listOrder");
         return orderList;
     }
     
     @Override
     public List<OrderVO> listOrderNeedToSet() {
-        List<OrderVO> orderNeedToSetList = my.selectList("admin.listOrderNeedToSet");
+        List<OrderVO> orderNeedToSetList = my.selectList("order.listOrderNeedToSet");
         return orderNeedToSetList;
     }
     
     @Override
     public List<OrderVO> listOrderFinished() {
-        List<OrderVO> orderFinishedList = my.selectList("admin.listOrderFinished");
+        List<OrderVO> orderFinishedList = my.selectList("order.listOrderFinished");
         return orderFinishedList;
     }
     
     @Override
     public int sumTotalTrading() {
-        int totalTrading = my.selectOne("admin.sumTotalTrading");
+        int totalTrading = my.selectOne("order.sumTotalTrading");
         return totalTrading;
     }
     
     @Override
     public ProductVO productOneById(int id) {
-        ProductVO productOneById = my.selectOne("admin.productOneById", id);
+        ProductVO productOneById = my.selectOne("product.productOneById", id);
         return productOneById;
     }
     
     @Override
     public List<MemberVO> newMemberThisWeek() {
-        List<MemberVO> newMemberThisWeekList = my.selectList("admin.newMemberThisWeek");
+        List<MemberVO> newMemberThisWeekList = my.selectList("member.newMemberThisWeek");
         return newMemberThisWeekList;
     }
     
     @Override
     public List<MemberVO> memberOfPastThirtyDays() {
-        List<MemberVO> memberOfPastThirtyDaysList = my.selectList("admin.memberOfPastThirtyDays");
+        List<MemberVO> memberOfPastThirtyDaysList = my.selectList("member.memberOfPastThirtyDays");
         return memberOfPastThirtyDaysList;
     }
     
     @Override
     public List<MemberVO> listBankAccount(String id) {
-        List<MemberVO> bankAccountList = my.selectList("admin.listBankAccount", id);
+        List<MemberVO> bankAccountList = my.selectList("member.listBankAccount", id);
         return bankAccountList;
     }
     
     @Override
     public List<MemberVO> suspendedList() {
-        List<MemberVO> suspendedList = my.selectList("admin.suspended");
+        List<MemberVO> suspendedList = my.selectList("member.suspended");
         return suspendedList;
     }
     
     @Override
     public MemberVO oneById(String id) {
-        MemberVO oneById = my.selectOne("admin.oneById", id);
+        MemberVO oneById = my.selectOne("member.oneById", id);
         return oneById;
     }
     
     @Override
     public int getBalance(String id){
-        int balance = my.selectOne("admin.balance", id);
+        int balance = my.selectOne("history.select", id);
         return balance;
     }
 }
