@@ -71,14 +71,14 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${withdrawNeedConfirmList}" var="withdrawBag" varStatus="withdrawStatus">
+            <c:forEach items="${withdrawList}" var="bag" varStatus="withdrawStatus">
                 <tr>
-                    <p id="withdraw_id" style="display:none;">${withdrawBag.transactionId}</p>
-                    <td>${withdrawBag.memberId}</td>
-                    <td><fmt:formatNumber value="${withdrawBag.totalAmount}" type="number" pattern="#,###"/>원</td>
-                    <td><fmt:formatNumber value="${withdrawBag.requestedAmount}" type="number" pattern="#,###"/>원</td>
-                    <td id="requested_amoumt"><fmt:formatNumber value="${withdrawBag.commission}" type="number" pattern="#,###"/>원</td>
-                    <td>${withdrawBag.bank} - ${withdrawBag.account}</td>
+                    <p id="withdraw_id" style="display:none;">${bag.transactionId}</p>
+                    <td>${bag.memberId}</td>
+                    <td><fmt:formatNumber value="${bag.totalAmount}" type="number" pattern="#,###"/>원</td>
+                    <td><fmt:formatNumber value="${bag.requestedAmount}" type="number" pattern="#,###"/>원</td>
+                    <td id="requested_amoumt"><fmt:formatNumber value="${bag.commission}" type="number" pattern="#,###"/>원</td>
+                    <td>${bag.bank} - ${bag.account}</td>
                     <td><span class="status confirm">확인</span></td>
                 </tr>
             </c:forEach>

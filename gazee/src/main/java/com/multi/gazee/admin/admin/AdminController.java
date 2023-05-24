@@ -230,6 +230,7 @@ public class AdminController {
         List<WithdrawVO> withdrawList = Wdao.listWithdraw();
         List<MemberVO> bankAccountList = new ArrayList<>(); // 사용자 계좌 목록 담을 리스트
         // withdrawList에서 user 값을 하나씩 꺼내서 Adao.listBankAccount()의 파라미터로 사용
+        List<MemberVO> memberList = Mdao.list();
         int sum = Wdao.sumCommission();
         
         for (WithdrawVO withdraw : withdrawList) {
@@ -237,8 +238,6 @@ public class AdminController {
             List<MemberVO> userBankAccounts = Mdao.listBankAccount(user);
             bankAccountList.addAll(userBankAccounts);
         }
-        
-        List<MemberVO> memberList = Mdao.list();
         
         model.addAttribute("seedHistoryList", transactionList);
         model.addAttribute("withdrawList", withdrawList);
