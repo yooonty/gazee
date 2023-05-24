@@ -17,29 +17,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ChatMessageController {
 
 	@Autowired
-	ChatMessageDAO dao;
+	ChatMessageDAO chatMessageDao;
 	
 	@Autowired
-	ChatDAO dao2;
+	ChatDAO chatDao;
 	
 	@RequestMapping("chat/chatMessageList")
 	@ResponseBody
 	public List<ChatOutputMessageVO> list(int roomId) {
-		List<ChatOutputMessageVO> arrList = dao.list(roomId);
+		List<ChatOutputMessageVO> arrList = chatMessageDao.list(roomId);
 		return arrList;
 	}
 	
 	@RequestMapping("chat/chatLastMessage")
 	@ResponseBody
 	public ChatMessageVO lastMeesage(int roomId) {
-		ChatMessageVO bag = dao.lastMessageList(roomId);
+		ChatMessageVO bag = chatMessageDao.lastMessageList(roomId);
 		return bag;
 	}
 	
 	@RequestMapping("chat/lastMessageTimeUpdate")
 	@ResponseBody
 	public int lastMessageTimeUpdate(int roomId) {
-		ChatMessageVO bag = dao.lastMessageList(roomId);
+		ChatMessageVO bag = chatMessageDao.lastMessageList(roomId);
 		if (bag != null) {
 			ChatVO bag2 = new ChatVO();
 			Date date = new Date(bag.getDate().getTime() * 1000L);
@@ -57,7 +57,7 @@ public class ChatMessageController {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			int result = dao2.lastMessageTimeUpdate(bag2);
+			int result = chatDao.lastMessageTimeUpdate(bag2);
 			return result;
 		} else {
 			return 0;
