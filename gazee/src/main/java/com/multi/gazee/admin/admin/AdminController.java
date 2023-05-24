@@ -2,16 +2,23 @@ package com.multi.gazee.admin.admin;
 
 import com.multi.gazee.admin.login.LoginService;
 import com.multi.gazee.brcypt.BcryptServiceImpl;
+import com.multi.gazee.charge.ChargeDAO;
 import com.multi.gazee.charge.ChargeVO;
+import com.multi.gazee.customerService.CustomerServiceDAO;
+import com.multi.gazee.customerService.CustomerServiceVO;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
+import com.multi.gazee.order.OrderDAO;
 import com.multi.gazee.order.OrderVO;
 import com.multi.gazee.product.ProductDAO;
 import com.multi.gazee.product.ProductVO;
 import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
+import com.multi.gazee.set.SetDAO;
 import com.multi.gazee.set.SetVO;
+import com.multi.gazee.transactionHistory.TransactionHistoryDAO;
 import com.multi.gazee.transactionHistory.TransactionHistoryVO;
+import com.multi.gazee.withdraw.WithdrawDAO;
 import com.multi.gazee.withdraw.WithdrawVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,14 +34,34 @@ import java.util.List;
 public class AdminController {
     @Autowired
     MemberDAO Mdao;
+    
     @Autowired
     ProductDAO Pdao;
+    
+    @Autowired
+    CustomerServiceDAO CSdao;
+    
+    @Autowired
+    ChargeDAO Cdao;
+    
     @Autowired
     ReportDAO Rdao;
+    
     @Autowired
-    AdminDAO Adao;
+    OrderDAO Odao;
+    
+    @Autowired
+    WithdrawDAO Wdao;
+    
+    @Autowired
+    SetDAO Sdao;
+    
+    @Autowired
+    TransactionHistoryDAO Tdao;
+    
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
+    
     @Autowired
     public LoginService loginService;
     
@@ -54,9 +81,9 @@ public class AdminController {
         List<MemberVO> memberList = Mdao.list();
         List<ProductVO> productList = Pdao.list();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
-        List<OrderVO> orderNeedToSetList = Adao.listOrderNeedToSet();
-        List<OrderVO> orderList = Adao.listOrder();
-        int sum = Adao.sumCommission();
+        List<OrderVO> orderNeedToSetList = Odao.listOrderNeedToSet();
+        List<OrderVO> orderList = Odao.listOrder();
+        int sum = Wdao.sumCommission();
         model.addAttribute("memberList", memberList);
         model.addAttribute("productList", productList);
         model.addAttribute("reportList", nonPagedReportList);
@@ -68,21 +95,21 @@ public class AdminController {
     
     @RequestMapping(value = "info.do")
     public String loadInfo(Model model) throws Exception {
-        MemberVO memberVo = Adao.readAdmin();
+        MemberVO memberVo = Mdao.readAdmin();
         model.addAttribute("adminOne", memberVo);
         return "../admin/adminInfo";
     }
     
     @RequestMapping(value = "infoEdit.do")
     public String loadInfoEdit(Model model) throws Exception {
-        MemberVO memberVo = Adao.readAdmin();
+        MemberVO memberVo = Mdao.readAdmin();
         model.addAttribute("adminOne", memberVo);
         return "../admin/adminInfoEdit";
     }
     
     @RequestMapping(value = "adminPwEdit.do")
     public @ResponseBody String loadInfoEdit(@ModelAttribute("currentPw") String currentPw, @ModelAttribute("newPw") String newPw, @ModelAttribute("newPwCheck") String newPwCheck, @ModelAttribute("resultMsg") String resultMsg, Model model) throws Exception {
-        MemberVO adminVo = Adao.readAdmin();
+        MemberVO adminVo = Mdao.readAdmin();
         String plainPassword = currentPw;
         String hasedPassword = "";
         int pwCheck = loginService.checkPass(plainPassword, hasedPassword);
@@ -90,7 +117,7 @@ public class AdminController {
             if (newPw.equals(newPwCheck)) {
                 String hasedNewPw = bcry.encrypt(newPw);
                 adminVo.setPw(hasedNewPw);
-                Adao.updatePw(adminVo);
+                Mdao.updatePw(adminVo);
                 model.addAttribute("adminOne", adminVo);
                 return "SUCCESS";
             } else {
@@ -107,9 +134,9 @@ public class AdminController {
     public String loadMember(Model model) throws Exception {
         
         List<MemberVO> memberList = Mdao.list();
-        List<MemberVO> newMemberThisWeekList = Adao.newMemberThisWeek();
-        List<MemberVO> memberOfPastThirtyDaysList = Adao.memberOfPastThirtyDays();
-        List<MemberVO> suspendedList = Adao.suspendedList();
+        List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
+        List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
+        List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         
         model.addAttribute("memberList", memberList);
@@ -125,9 +152,9 @@ public class AdminController {
     public String loadMemberList(Model model) throws Exception {
         
         List<MemberVO> memberList = Mdao.list();
-        List<MemberVO> newMemberThisWeekList = Adao.newMemberThisWeek();
-        List<MemberVO> memberOfPastThirtyDaysList = Adao.memberOfPastThirtyDays();
-        List<MemberVO> suspendedList = Adao.suspendedList();
+        List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
+        List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
+        List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         
         model.addAttribute("memberList", memberList);
@@ -142,12 +169,12 @@ public class AdminController {
     @RequestMapping(value = "order.do")
     public String loadOrder(Model model) throws Exception {
         List<ProductVO> productList = Pdao.list();
-        List<OrderVO> orderList = Adao.listOrder();
-        List<OrderVO> orderNeedToSetList = Adao.listOrderNeedToSet();
-        List<OrderVO> orderFinishedList = Adao.listOrderFinished();
+        List<OrderVO> orderList = Odao.listOrder();
+        List<OrderVO> orderNeedToSetList = Odao.listOrderNeedToSet();
+        List<OrderVO> orderFinishedList = Odao.listOrderFinished();
         int orderInProgress = orderList.size() - orderFinishedList.size();
-        int sum = Adao.sumCommission();
-        List<SetVO> setList = Adao.listSet();
+        int sum = Wdao.sumCommission();
+        List<SetVO> setList = Sdao.listSet();
         
         model.addAttribute("productList", productList);
         model.addAttribute("orderList", orderList);
@@ -161,22 +188,22 @@ public class AdminController {
     
     @RequestMapping(value = "orderList.do")
     public String loadOrderList(Model model) throws Exception {
-        List<OrderVO> orderList = Adao.listOrder();
+        List<OrderVO> orderList = Odao.listOrder();
         model.addAttribute("orderList", orderList);
         return "../admin/adminOrderList";
     }
     
     @RequestMapping(value = "chargeList.do")
     public String loadChargeList(Model model) throws Exception {
-        List<ChargeVO> chargeList = Adao.listCharge();
+        List<ChargeVO> chargeList = Cdao.listCharge();
         model.addAttribute("chargeList", chargeList);
         return "../admin/adminChargeList";
     }
     
     @RequestMapping(value = "set.do")
     public String set(@ModelAttribute("productId") int productId, @ModelAttribute("sellerId") String sellerId, Model model) throws Exception {
-        int balance = Adao.getBalance(sellerId);
-        List<OrderVO> orderList = Adao.listOrder();
+        int balance = Tdao.getBalance(sellerId);
+        List<OrderVO> orderList = Odao.listOrder();
         model.addAttribute("orderList", orderList);
         return "정산이 완료되었습니다.";
     }
@@ -184,10 +211,10 @@ public class AdminController {
     @RequestMapping(value = "product.do")
     public String loadProduct(Model model) throws Exception {
         List<ProductVO> productList = Pdao.list();
-        List<ProductVO> productTodayList = Adao.listProductToday();
-        List<OrderVO> orderList = Adao.listOrder();
-        List<OrderVO> orderFinishedList = Adao.listOrderFinished();
-        int sum = Adao.sumTotalTrading();
+        List<ProductVO> productTodayList = Pdao.listProductToday();
+        List<OrderVO> orderList = Odao.listOrder();
+        List<OrderVO> orderFinishedList = Odao.listOrderFinished();
+        int sum = Odao.sumTotalTrading();
         
         model.addAttribute("productList", productList);
         model.addAttribute("productTodayList", productTodayList);
@@ -199,15 +226,15 @@ public class AdminController {
     
     @RequestMapping(value = "pay.do")
     public String loadPay(Model model) throws Exception {
-        List<TransactionHistoryVO> transactionList = Adao.listTransactionHistory();
-        List<WithdrawVO> withdrawList = Adao.listWithdraw();
+        List<TransactionHistoryVO> transactionList = Tdao.listTransactionHistory();
+        List<WithdrawVO> withdrawList = Wdao.listWithdraw();
         List<MemberVO> bankAccountList = new ArrayList<>(); // 사용자 계좌 목록 담을 리스트
         // withdrawList에서 user 값을 하나씩 꺼내서 Adao.listBankAccount()의 파라미터로 사용
-        int sum = Adao.sumCommission();
+        int sum = Wdao.sumCommission();
         
         for (WithdrawVO withdraw : withdrawList) {
             String user = withdraw.getMemberId();
-            List<MemberVO> userBankAccounts = Adao.listBankAccount(user);
+            List<MemberVO> userBankAccounts = Mdao.listBankAccount(user);
             bankAccountList.addAll(userBankAccounts);
         }
         
@@ -222,15 +249,22 @@ public class AdminController {
         return "../admin/adminPay";
     }
     
-    @RequestMapping(value = "approve_withdraw.do")
-    public String approveWithdraw(@ModelAttribute("id") String id, @ModelAttribute("requested") int requested) throws Exception {
-        WithdrawVO vo = Adao.oneWithdrawById(id);
-        
-        return "출금이 승인되었습니다.";
-    }
-    
     @RequestMapping(value = "cs.do")
     public String loadCs(Model model) throws Exception {
+        List<CustomerServiceVO> csList = CSdao.nonPagedList();
+        model.addAttribute("csList", csList);
+        return "../admin/adminCs";
+    }
+    
+    @RequestMapping(value = "cs_one.do")
+    public String cs_one(@ModelAttribute("csId") int id, Model model) throws Exception {
+        CustomerServiceVO csOne = CSdao.one(id);
+        model.addAttribute("csOne", csOne);
+        return "../admin/adminCsOne";
+    }
+    
+    @RequestMapping(value = "report.do")
+    public String loadReport(Model model) throws Exception {
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         model.addAttribute("reportList", nonPagedReportList);
         return "../admin/adminReport";

@@ -1,6 +1,7 @@
 package com.multi.gazee.admin.findPw;
 
 import com.multi.gazee.brcypt.BcryptServiceImpl;
+import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.io.PrintWriter;
 @Service
 public class FindPwServiceImpl implements FindPwService {
     @Autowired
-    FindPwDAOImpl dao = new FindPwDAOImpl();
+    MemberDAO dao = new MemberDAO();
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
     
