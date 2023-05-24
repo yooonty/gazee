@@ -12,7 +12,6 @@ public class CustomerServiceVO {
 	private String csReply;
 	private int temporary;
 	
-	
 	public int getCsId() {
 		return csId;
 	}
