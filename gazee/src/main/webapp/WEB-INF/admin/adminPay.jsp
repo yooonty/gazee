@@ -3,29 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminPay.css"/>
 <script>
-    function approveWithdraw() {
-        var id = $("#withdraw_id").text();
-        const requestedAmount = $("requested_amoumt").text();
-
-        $.ajax({
-            url: "approve_withdraw.do",
-            type: "POST",
-            data: {
-                id: id,
-                requested: requestedAmount
-
-            },
-            success: function (result) {
-                alert(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-
-    function rejectWithdraw() {
-
+    function chargeList() {
+        $(".details").load("chargeList.do");
     }
 </script>
 <html>
@@ -77,7 +56,7 @@
 <div class="details">
     <div class="recentOrders">
         <div class="cardHeader">
-            <h2>신청된 출금 요청</h2>
+            <h2>최근 출금 내역</h2>
             <a href="#" class="btn">전체목록 조회</a>
         </div>
         <table>
@@ -89,7 +68,6 @@
                 <td>수수료</td>
                 <td>출금계좌</td>
                 <td>잔액확인</td>
-                <td>승인</td>
             </tr>
             </thead>
             <tbody>
@@ -102,16 +80,12 @@
                     <td id="requested_amoumt"><fmt:formatNumber value="${withdrawBag.commission}" type="number" pattern="#,###"/>원</td>
                     <td>${withdrawBag.bank} - ${withdrawBag.account}</td>
                     <td><span class="status confirm">확인</span></td>
-                    <td>
-                        <button onclick="approveWithdraw()">출금승인</button>
-                        <button onclick="rejectWithdraw()">출금거절</button>
-                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </div>
-    <div class="recentCustomers">
+ <%--   <div class="recentCustomers">
         <div class="cardHeader">
             <h2>최근 출금 내역</h2>
         </div>
@@ -141,5 +115,5 @@
         </table>
     </div>
 </div>
-</body>
+</body>--%>
 </html>

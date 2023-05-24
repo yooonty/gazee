@@ -19,7 +19,6 @@
                 <td>ID</td>
                 <td>이름</td>
                 <td>닉네임</td>
-                <td>주소</td>
                 <td>Email</td>
                 <td>가지씨앗 잔액</td>
                 <td>판매 중 물품</td>
@@ -35,7 +34,6 @@
                     <td>${bag.id}</td>
                     <td>${bag.name}</td>
                     <td>${bag.nickname}</td>
-                    <td>${bag.address}</td>
                     <td>${bag.email}</td>
                     <td>60,000</td>
                     <td>3개</td>

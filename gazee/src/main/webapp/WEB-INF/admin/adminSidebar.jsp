@@ -42,6 +42,10 @@
         $("#contents_container").load("cs.do");
     }
 
+    function loadReport() {
+        $("#contents_container").load("report.do");
+    }
+
     function orderList() {
         $("#order_container").load("orderList.do");
     }
@@ -50,43 +54,6 @@
         $("#contents_container").load("order.do");
     }
 
-    function loadReportOne() {
-        const bagReportId = $("#bag_report_id").text();
-        $.ajax({
-            url: "report_one.do",
-            type: "POST",
-            data: {
-                reportId: bagReportId
-            },
-            success: function (result) {
-                $('#report_list').html(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-
-    function loadReportOneDashboard() {
-        const bagReportId = $("#bag_report_id").text();
-        $.ajax({
-            url: "report_one_dashboard.do",
-            type: "POST",
-            data: {
-                reportId: bagReportId
-            },
-            success: function (result) {
-                $('#report_list').html(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-
-    function chargeList() {
-        $(".details").load("chargeList.do");
-    }
 </script>
 <div class="container">
     <div class="navigation">
@@ -141,6 +108,12 @@
             <li>
                 <a href=# id="nav_cs" onclick="loadCs()">
                     <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                    <span class="title">문의 관리</span>
+                </a>
+            </li>
+            <li>
+                <a href=# id="nav_report" onclick="loadReport()">
+                    <span class="icon"><i class="fa fa-user-secret" aria-hidden="true"></i></span>
                     <span class="title">신고 관리</span>
                 </a>
             </li>

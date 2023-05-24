@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <script>
     function prev() {
-        $("#contents_container").load("cs.do")
+        $("#contents_container").load("report.do")
     }
 
     function replyResgister() {
