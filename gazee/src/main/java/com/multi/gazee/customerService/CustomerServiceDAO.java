@@ -15,26 +15,26 @@ public class CustomerServiceDAO {
     SqlSessionTemplate my;
     
     public int replyRegister(CustomerServiceVO bag) {
-        int result = my.insert("customerService.reply", bag);
+        int result = my.insert("cs.reply", bag);
         return result;
     }
     
     public List<CustomerServiceVO> needReplyList(PageVO vo){
-        List<CustomerServiceVO> needReplyList = my.selectList("customerService.needReply", vo);
+        List<CustomerServiceVO> needReplyList = my.selectList("cs.needReply", vo);
         return needReplyList;
     }
    
     public CustomerServiceVO one(int no) {
-        CustomerServiceVO bag = my.selectOne("customerService.one",no);
-        my.update("customerService.viewUpdate", no);
+        CustomerServiceVO bag = my.selectOne("cs.one",no);
+        my.update("cs.viewUpdate", no);
         return bag;
     }
     public List<CustomerServiceVO> nonPagedList(){
-        List<CustomerServiceVO> list = my.selectList("customerService.nonPagedList");
+        List<CustomerServiceVO> list = my.selectList("cs.nonPagedList");
         return list;
     }
     public List<CustomerServiceVO> list(PageVO vo){
-        List<CustomerServiceVO> list = my.selectList("customerService.all", vo);
+        List<CustomerServiceVO> list = my.selectList("cs.all", vo);
         return list;
     }
    
