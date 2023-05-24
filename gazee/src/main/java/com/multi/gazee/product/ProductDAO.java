@@ -15,5 +15,14 @@ public class ProductDAO {
 		List<ProductVO> productList = my.selectList("product.all");
 		return productList;
 	}
+	public List<ProductVO> listProductToday() {
+		List<ProductVO> productTodayList = my.selectList("product.listProductToday");
+		return productTodayList;
+	}
+	
+	public ProductVO productOneById(int id) {
+		ProductVO productOneById = my.selectOne("product.productOneById", id);
+		return productOneById;
+	}
 }
 
