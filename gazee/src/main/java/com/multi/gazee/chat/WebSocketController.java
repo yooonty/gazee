@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebSocketController {
 	
 	@Autowired
-	ChatMessageDAO dao;
+	ChatMessageDAO chatMessageDao;
 	
 	@MessageMapping("/chat/{roomId}")
 	@SendTo("/topic/{roomId}")
@@ -22,7 +22,7 @@ public class WebSocketController {
 		BsonTimestamp timestamp = new BsonTimestamp((int) (System.currentTimeMillis() / 1000), 0);
 		message.setDate(timestamp);
 		message.setRoomId(Integer.parseInt(roomId));
-		dao.insert(message);
+		chatMessageDao.insert(message);
 		ChatOutputMessageVO output = new ChatOutputMessageVO();
 		output.setRoomId(roomId);
 		output.setSender(message.getSender());
