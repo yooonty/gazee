@@ -28,6 +28,12 @@ public class MemberDAO {
 		return memberList;
 	}
 	
+	/* Admin 제외 회원 List */
+	public List<MemberVO> listExceptAdmin() {
+		List<MemberVO> memberList = my.selectList("member.allExceptAdmin");
+		return memberList;
+	}
+	
 	public List<MemberVO> newMemberThisWeek() {
 		List<MemberVO> newMemberThisWeekList = my.selectList("member.newMemberThisWeek");
 		return newMemberThisWeekList;

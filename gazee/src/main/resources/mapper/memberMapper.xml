@@ -8,6 +8,12 @@
         FROM member
     </select>
 
+    <!-- 관리자 제외 ALL -->
+    <select id="allExceptAdmin" resultType="MemberVO">
+        SELECT *
+        FROM member WHERE user_level = 1
+    </select>
+
     <!-- 관리자 권한 계정 Read -->
     <select id="readAdmin" resultType="MemberVO">
         SELECT *
