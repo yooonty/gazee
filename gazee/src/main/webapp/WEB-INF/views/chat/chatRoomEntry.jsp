@@ -30,7 +30,22 @@
 				<span style="display: none;" id="chatRoomNumber">${bag.roomId}</span>
 				<div style="display: flex; gap: 20px; align-items: center;">
 					<div style="display: flex; flex-flow: column;">
+					<%
+						String order = (String)request.getAttribute("order");
+						if(order.equals("null")) {
+					%>
 						<span id="status">판매중</span>
+					<%
+						} else if (order.equals("yet")) {
+					%>
+						<span id="status" style="background: #693FAA;">거래중</span>
+					<%
+						} else {
+					%>
+						<span id="status">거래완료</span>
+					<%
+						}
+					%>
 						<div class="productThumbnail"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
@@ -44,9 +59,28 @@
 					<div id="dealType">
 						<span>${bag.dealType}</span>
 					</div>
-					<div id="btn_sell">
-						<button>판매하기</button>
-					</div>
+					<%
+						String order2 = (String)request.getAttribute("order");
+						if(order2.equals("null")) {
+					%>
+						<div id="btn_sell">
+							<button>판매하기</button>
+						</div>
+					<%
+						} else if (order2.equals("yet")) {
+					%>
+						<div id="btn_yet">
+							<button>결제완료</button>
+						</div>
+					<%
+						} else {
+					%>
+						<div id="btn_done">
+							<button>거래완료</button>
+						</div>
+					<%
+						}
+					%>
 					<div id="productPrice_wrap">
 						<div style="font-size: 26px; font-weight: bold; color: #000; margin: 0 5px;">
 							${priceDec}원
@@ -88,7 +122,22 @@
 				<span style="display: none;" id="chatRoomNumber">${bag.roomId}</span>
 				<div style="display: flex; gap: 20px; align-items: center;">
 					<div style="display: flex; flex-flow: column;">
+					<%
+						String order = (String)request.getAttribute("order");
+						if(order.equals("null")) {
+					%>
 						<span id="status">판매중</span>
+					<%
+						} else if (order.equals("yet")) {
+					%>
+						<span id="status" style="background: #693FAA;">거래중</span>
+					<%
+						} else {
+					%>
+						<span id="status">거래완료</span>
+					<%
+						}
+					%>
 						<div class="productThumbnail"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
