@@ -2,15 +2,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
+<script>
+    function penaltyComplete() {
+        var replyContent = $("#reply_content").val();
+        console.log(replyContent)
+        $.ajax({
+            url: "penaltyComplete.do",
+            type: "POST",
+            data: {
+                reportId: ${reportOne.reportId},
+                replyContent: replyContent
+            },
+            success: function (result) {
+                alert("답변이 등록되었습니다.")
+                loadReport()
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        });
+    }
+</script>
 <!DOCTYPE html>
 <div class="details" id="details_container">
     <div class="recentOrders" id="reported_member">
         <div class="cardHeader">
-            <span><h2>회원별 제재 현황</h2></span>
-            <span style="text-align: right">
-            <input id="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">
-            <a href="#" class="btn">검색</a>
-            </span>
+            <span><h2>제재 대상 회원 목록</h2></span>
         </div>
         <table>
             <thead>
@@ -19,19 +36,32 @@
                 <td>ID</td>
                 <td>이름</td>
                 <td>닉네임</td>
-                <td>회원상태</td>
-                <td>제재횟수</td>
+                <td>누적 제재 횟수</td>
+                <td>현재 상태</td>
+                <td>제재 형식</td>
+                <td>제재 실행</td>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${memberList}" var="bag">
+            <c:forEach items="${needPenaltyList}" var="bag" varStatus="status">
                 <tr>
                     <td>${bag.no}</td>
                     <td>${bag.id}</td>
                     <td>${bag.name}</td>
                     <td>${bag.nickname}</td>
+                    <td>${countList[status.index]}회</td>
                     <td>${bag.status}</td>
-                    <td>1회</td>
+                    <td>
+                        <select name="penalty" id="days">
+                            <option value="seven">7일 정지</option>
+                            <option value="thirty">30일 정지</option>
+                            <option value="permanent">영구 정지</option>
+                            <option value="release">정지 해제</option>
+                        </select>
+                    </td>
+                    <td>
+                        <a href="#" class="btn" onclick="penaltyComplete()">확인</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

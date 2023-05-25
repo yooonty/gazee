@@ -345,8 +345,29 @@ public class AdminController {
     public String loadReport(Model model) throws Exception {
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         List<ReportVO> nonPagedNeedReplyList = Rdao.nonPagedNeedReply();
+        List<MemberVO> needPenaltyList = Mdao.needPenaltyList();
+        List<Integer> countList = new ArrayList<>();
+        
+        
+    
+        for (MemberVO member : needPenaltyList) {
+            String memberId = member.getId();
+            ReportCountVO RCvo = RCdao.one(memberId);
+        
+            int count = 0;
+        
+            if (RCvo != null) {
+                count = RCvo.getCount();
+            }
+        
+            countList.add(count);
+        }
+        
         model.addAttribute("reportList", nonPagedReportList);
         model.addAttribute("nonPagedNeedReplyList", nonPagedNeedReplyList);
+        model.addAttribute("needPenaltyList", needPenaltyList);
+        model.addAttribute("countList", countList);
+        
         return "../admin/adminReport";
     }
     
@@ -362,7 +383,7 @@ public class AdminController {
         return "../admin/adminReportOne";
     }
     
-    @RequestMapping(value = "reportReplyRegisterComplete.do")
+    @RequestMapping(value = "penaltyComplete.do")
     public String reportReplyRegister(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent) throws Exception {
         ReportVO vo = Rdao.one(reportId);
         vo.setReportReply(replyContent);

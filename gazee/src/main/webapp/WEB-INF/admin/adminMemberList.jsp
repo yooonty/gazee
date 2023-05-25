@@ -38,8 +38,7 @@
                 <td>3개</td>
                 <td>${bag.joinDate}</td>
                 <td>${bag.status}</td>
-                <td>${countList[status.index]}회
-                <td>
+                <td>${countList[status.index]}회</td>
             </tr>
         </c:forEach>
         </tbody>
