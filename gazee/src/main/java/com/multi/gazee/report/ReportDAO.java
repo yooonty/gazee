@@ -27,6 +27,11 @@ public class ReportDAO {
         return needReplyList;
     }
     
+    public List<ReportVO> nonPagedNeedReply() {
+        List<ReportVO> nonPagedNeedReplyList = my.selectList("report.nonPagedNeedReply");
+        return nonPagedNeedReplyList;
+    }
+    
     public void delete(ReportVO bag) {
         my.delete("report.del", bag);
     }

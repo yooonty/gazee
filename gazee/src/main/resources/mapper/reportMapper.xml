@@ -53,6 +53,13 @@
         select * from report
     </select>
 
+    <!-- 답변이 필요한 신고글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="ReportVO">
+        select *
+        from report
+        WHERE report_reply IS NULL
+    </select>
+
     <!-- 신고글 전체 Read (페이징) -->
     <select id="all" resultType="ReportVO" parameterType="pageVO">
         select *

@@ -57,7 +57,7 @@
     </div>
     <div class="recentOrders" id="report_list">
         <div class="cardHeader">
-            <span><h2>신고 목록</h2></span>
+            <span><h2>답변이 필요한 신고 목록</h2></span>
         </div>
         <table>
             <thead>
@@ -69,7 +69,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${reportList}" var="bag">
+            <c:forEach items="${nonPagedNeedReplyList}" var="bag">
                 <tr>
                     <p style="display: none" id="bag_report_id">${bag.reportId}</p>
                     <td>${bag.reportCategory}</td>
