@@ -3,25 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminOrder.css"/>
 <script>
-    function set() {
-        var sellerId = $("seller_id").text();
-        const productId = $("product_id").text();
-        $.ajax({
-            url: "set.do",
-            type: "POST",
-            data: {
-                sellerId: sellerId,
-                productId: productId
-            },
-            success: function (result) {
-                alert(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-
     function orderList() {
         $("#order_container").load("orderList.do");
     }

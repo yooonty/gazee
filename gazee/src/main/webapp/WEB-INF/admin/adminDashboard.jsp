@@ -50,7 +50,7 @@
         </div>
     </div>
 </div>
-<div class="details">
+<div class="details" id="details_container">
     <div class="recentOrders" id="order_container">
         <div class="cardHeader">
             <h2>정산이 필요한 거래 : ${orderNeedToSetList.size()}건</h2>
@@ -100,7 +100,7 @@
                 </span>
                     </td>
                     <td>
-                        <button>정산</button>
+                        <button onclick="set()" style="font-size: 1.0rem">정산</button>
                     </td>
                 </tr>
             </c:forEach>
@@ -122,8 +122,9 @@
             </thead>
             <tbody>
             <c:forEach items="${reportList}" var="bag">
+                <p style="display: none" id="bag_report_id">${bag.reportId}</p>
                 <tr>
-                    <td>${bag.reportTitle}</td>
+                    <td><a href=# id="report_list_title" onclick="loadReportOneDash()">${bag.reportTitle}</a></td>
                     <td>${bag.reportWriter}</td>
                 </tr>
             </c:forEach>
