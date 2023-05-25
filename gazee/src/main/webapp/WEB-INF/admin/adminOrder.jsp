@@ -21,6 +21,10 @@
             }
         });
     }
+
+    function orderList() {
+        $("#order_container").load("orderList.do");
+    }
 </script>
 <html>
 <body>
@@ -120,7 +124,7 @@
                 </span>
                     </td>
                     <td>
-                        <button onclick="set()">정산</button>
+                        <button onclick="set()" style="font-size: 1.0rem">정산</button>
                     </td>
                 </tr>
             </c:forEach>
