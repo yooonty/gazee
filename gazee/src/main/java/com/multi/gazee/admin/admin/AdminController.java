@@ -14,6 +14,8 @@ import com.multi.gazee.product.ProductDAO;
 import com.multi.gazee.product.ProductVO;
 import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
+import com.multi.gazee.reportCount.ReportCountDAO;
+import com.multi.gazee.reportCount.ReportCountVO;
 import com.multi.gazee.set.SetDAO;
 import com.multi.gazee.set.SetVO;
 import com.multi.gazee.transactionHistory.TransactionHistoryDAO;
@@ -46,6 +48,9 @@ public class AdminController {
     
     @Autowired
     ReportDAO Rdao;
+    
+    @Autowired
+    ReportCountDAO RCdao;
     
     @Autowired
     OrderDAO Odao;
@@ -156,15 +161,36 @@ public class AdminController {
         List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
         List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
+        List<Integer> countList = new ArrayList<>();
+    
+        for (MemberVO member : memberList) {
+            String memberId = member.getId();
+            System.out.println("mId : " + memberId);
+            ReportCountVO RCvo = RCdao.one(memberId);
+            System.out.println("RVO : " + RCvo);
+            
+            int count = 0;
+            
+            if (RCvo != null) {
+                count = RCvo.getCount();
+            }
+            
+            countList.add(count);
+            System.out.println(memberId + "의 카운트 값 : " + count);
+        }
+    
+        System.out.println(countList);
         
         model.addAttribute("memberList", memberList);
         model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         model.addAttribute("reportList", nonPagedReportList);
+        model.addAttribute("countList", countList);
         
         return "../admin/adminMemberList";
     }
+  
     
     @RequestMapping(value = "order.do")
     public String loadOrder(Model model) throws Exception {
@@ -265,7 +291,9 @@ public class AdminController {
     @RequestMapping(value = "report.do")
     public String loadReport(Model model) throws Exception {
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
+        List<ReportVO> nonPagedNeedReplyList = Rdao.nonPagedNeedReply();
         model.addAttribute("reportList", nonPagedReportList);
+        model.addAttribute("nonPagedNeedReplyList", nonPagedNeedReplyList);
         return "../admin/adminReport";
     }
     
@@ -273,8 +301,11 @@ public class AdminController {
     public String report_one(@ModelAttribute("reportId") int id, Model model) throws Exception {
         ReportVO reportOne = Rdao.one(id);
         String reportee = reportOne.getReportee();
+        ReportCountVO countOne = RCdao.one(reportee);
+        System.out.println("dd" + countOne.getCount());
         MemberVO reporteeInfo = Mdao.oneById(reportee);
         model.addAttribute("reportOne", reportOne);
+        model.addAttribute("countOne", countOne);
         model.addAttribute("reporteeInfo", reporteeInfo);
         return "../admin/adminReportOne";
     }
@@ -284,8 +315,6 @@ public class AdminController {
         ReportVO vo = Rdao.one(reportId);
         vo.setReportReply(replyContent);
         Rdao.replyRegister(vo);
-        List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
-        model.addAttribute("reportList", nonPagedReportList);
         return "../admin/adminReport";
     }
 }

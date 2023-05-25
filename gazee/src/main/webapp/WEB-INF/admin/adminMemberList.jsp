@@ -28,19 +28,19 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${memberList}" var="bag">
-                <tr>
-                    <td>${bag.no}</td>
-                    <td>${bag.id}</td>
-                    <td>${bag.name}</td>
-                    <td>${bag.nickname}</td>
-                    <td>${bag.email}</td>
-                    <td>60,000</td>
-                    <td>3개</td>
-                    <td>${bag.joinDate}</td>
-                    <td>${bag.status}</td>
-                    <td>1회</td>
-                </tr>
+            <c:forEach items="${memberList}" var="memberList" varStatus="status">
+                    <tr>
+                        <td>${memberList.no}</td>
+                        <td>${memberList.id}</td>
+                        <td>${memberList.name}</td>
+                        <td>${memberList.nickname}</td>
+                        <td>${memberList.email}</td>
+                        <td>60,000</td>
+                        <td>3개</td>
+                        <td>${memberList.joinDate}</td>
+                        <td>${memberList.status}</td>
+                        <td>${countList[status.index]}회<td>
+                    </tr>
             </c:forEach>
             </tbody>
         </table>
