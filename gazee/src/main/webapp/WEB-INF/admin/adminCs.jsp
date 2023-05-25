@@ -57,7 +57,7 @@
     </div>
     <div class="recentOrders" id="cs_list">
         <div class="cardHeader">
-            <span><h2>문의 목록</h2></span>
+            <span><h2>답변이 필요한 문의 목록</h2></span>
         </div>
         <table>
             <thead>
