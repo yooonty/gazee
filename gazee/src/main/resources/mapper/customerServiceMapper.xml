@@ -11,6 +11,13 @@
                 #{temporary})
     </insert>
 
+    <!-- 답변 등록 -->
+    <update id="reply" parameterType="csVO">
+        update customer_service
+        SET cs_reply = #{csReply}
+        WHERE cs_id = #{csId}
+    </update>
+
     <delete id="del"  parameterType="csVO">
         delete from customer_service where cs_id = #{csId}
     </delete>
@@ -40,6 +47,14 @@
                      customer_service cs) cs2
         where (cs2.cs_no between #{start} and #{end}) and cs2.temporary = 1
     </select>
+
+    <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="csVO">
+        select *
+        from customer_service
+        WHERE cs_reply IS NULL
+    </select>
+
 
     <select id="category" parameterType="Map" resultType="csVO">
         select * from (
