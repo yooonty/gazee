@@ -39,7 +39,7 @@
 			}) //ajax
 		})
 
-		$('#reportList')
+		$('#reportCategoryList')
 				.click(
 						function() {
 							var category1 = $('#category').val();
@@ -58,7 +58,20 @@
 						})//category
 
 		$('#reportWrite').click(function() {
-			location.href = "../../customerService/report/goToReportWrite"
+			var sessionId = "<%=session.getAttribute("id")%>";
+			$.ajax({
+				url: "checkTemporaryReport",
+				data:{
+					reportWriter: sessionId
+				},
+				success: function(x){
+					$('#alert').html(x);
+				},
+				error: function(xhr, status, error){
+					location.href = "../../customerService/report/goToReportWrite?reportWriter="+sessionId;
+				}
+							
+			})
 		}) //qna 글쓰기 버튼
 
 	})
@@ -66,6 +79,7 @@
 
 </head>
 <body>
+	<div id="alert"></div>
 	<div id="wrap">
 		<div id="header">
 			<jsp:include page="/home/Header.jsp" flush="true" />
@@ -95,7 +109,7 @@
 											<option value="거래 관련">거래 관련</option>
 										</select>
 									</form>
-									<button id="reportList">목록</button>
+									<button id="reportCategoryList">목록</button>
 									<button id="reportWrite">글쓰기</button>
 								</div>
 							</div>
@@ -108,7 +122,7 @@
 									<td><a href="../faq/faqlist?page=1&mode=1">FAQ게시판 목록</a></td>
 								</tr>
 								<tr>
-									<td><a href="../qna/qnaList?page=1&mode=1">질문게시판 목록</a></td>
+									<td><a href="../cs/csList?page=1&mode=1">질문게시판 목록</a></td>
 								</tr>
 								<tr>
 									<td><a href="../report/reportList?page=1&mode=1">신고게시판

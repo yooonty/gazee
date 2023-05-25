@@ -20,12 +20,12 @@ public class ReportDAO {
 		return result;
 	}
 	
-	public void delete(ReportVO bag) {
+	public void reportDelete(ReportVO bag) {
 		my.delete("report.del", bag);
 	}
 	
-	public void update(ReportVO bag) {
-		my.delete("report.up", bag);
+	public void reportUpdate(ReportVO bag) {
+		my.update("report.up", bag);
 	}
 	
 	public ReportVO one(int no) {
@@ -63,5 +63,10 @@ public class ReportDAO {
 	public int countSearch(String search1) {
 		return my.selectOne("report.countSearch", search1);
 	}  
+	
+	public ReportVO checkTemporaryReport(ReportVO report) {
+		ReportVO bag= my.selectOne("report.checkTemporaryReport",report);
+		return bag;
+	}
 }
 

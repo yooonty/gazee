@@ -3,6 +3,8 @@ package com.multi.gazee.report;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,23 @@ public class ReportController {
 	ReportDAO dao;
 	
 	@RequestMapping("customerService/report/reportWrite")
-	public void reportWrite(ReportVO bag) {
-		System.out.println(bag);
+	public void reportWrite(ReportVO bag,  HttpSession session) {
+		bag.setReportWriter((String)session.getAttribute("id"));
 		dao.reportRegister(bag);
 	}
+	
+	@RequestMapping("customerService/report/reportDelete")
+	public void reportDelete(ReportVO bag) {
+		dao.reportDelete(bag);
+		System.out.println(bag);
+	}
+	
+	@RequestMapping("customerService/report/reportUpdate")
+	public void csUpdate(ReportVO bag) {
+		dao.reportUpdate(bag);
+		System.out.println(bag);
+	}
+	
 	
 	@RequestMapping("customerService/report/reportList")
 	public String list(PageVO vo, Model model, int mode) {
@@ -86,6 +101,7 @@ public class ReportController {
 	public void one(int id, Model model) {
 		ReportVO bag = dao.one(id);
 		model.addAttribute("bag",bag);
+		model.addAttribute("reportWriter",bag.getReportWriter());
 	}
 	
 	
@@ -93,4 +109,29 @@ public class ReportController {
 	public String goToReportWrite() {
 		return "customerService/report/reportWrite";
 	}
+	
+	@RequestMapping("customerService/report/goToReportUpdate")
+	public String goToReportUpdate(Model model, int id) {
+		System.out.println(id);
+		ReportVO bag = dao.one(id);
+		model.addAttribute("bag",bag);
+		return "customerService/report/reportUpdate";
+	}
+	
+	@RequestMapping("customerService/report/checkTemporaryReport")
+	public void checkTemporaryReport(HttpSession session, Model model, ReportVO bag) {
+		ReportVO bag2 =dao.checkTemporaryReport(bag);
+		
+		if(bag2 !=null) {//임시저장 존재
+			model.addAttribute("result",1);
+			model.addAttribute("bag",bag2);
+			model.addAttribute("reportId",bag2.getReportId());
+		} else { //임시저장 없음 바로 글쓰기
+			model.addAttribute("result",0);
+			bag2= new ReportVO();
+			bag2.setReportId(0);
+			model.addAttribute("bag",bag2);
+		}
+	}
+	
 }
