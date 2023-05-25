@@ -23,4 +23,9 @@
         VALUES (#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
     </insert>
 
+    <insert id="insertTest" parameterType="historyVO">
+        INSERT INTO gazee.transaction_history
+            (`no`, transaction_id, member_id, transaction_time, amount, balance)
+        VALUES (1, 'c0000000001ye2305221228', 'testuser', '2023-05-11 11:00:00', 50000, 50000);
+    </insert>
 </mapper>
