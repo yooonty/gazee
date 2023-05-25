@@ -202,7 +202,7 @@ public class AdminController {
     
     @RequestMapping(value = "set.do")
     public String set(@ModelAttribute("productId") int productId, @ModelAttribute("sellerId") String sellerId, Model model) throws Exception {
-        int balance = Tdao.getBalance(sellerId);
+        int balance = Tdao.checkBalance(sellerId);
         List<OrderVO> orderList = Odao.listOrder();
         model.addAttribute("orderList", orderList);
         return "정산이 완료되었습니다.";

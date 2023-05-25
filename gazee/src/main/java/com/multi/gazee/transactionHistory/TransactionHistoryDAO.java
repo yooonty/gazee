@@ -15,8 +15,15 @@ public class TransactionHistoryDAO {
         return transactionHistoryVo;
     }
     
-    public int getBalance(String id){
-        int balance = my.selectOne("history.select", id);
+    public int checkBalance(String id) {
+        int balance;
+        
+        try {
+            balance = my.selectOne("history.select", id);
+        } catch (Exception e) {
+            balance = 0;
+        }
+        
         return balance;
     }
 }
