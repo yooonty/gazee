@@ -25,6 +25,7 @@
 	var selectedRoomId = null;
 	
 	$(function() {
+		/* 로드될 때 웹소켓 연결 */
 		if (socketSession != null) {
 			$(document).ready(function() {
 				$.ajax({
@@ -106,7 +107,7 @@
 					roomId: roomId
 				},
 				success: function() {
-					
+					console.log('업데이트 성공')
 				},
 				error: function(e) {
 					console.log(e)
@@ -163,7 +164,7 @@
 					for (let i = 0; i < li.length; i++) {
 						li[i].addEventListener('click', function() {
 							
-						/* 빨간 점 삭제 */
+						/* 해당 채팅방 클릭시 빨간 뱃지 삭제 */
 						const liId = li[i].getAttribute('id');
 						let liElement = document.getElementById(liId);
 						let chatListElement = liElement.querySelector('.chatList');
@@ -177,7 +178,7 @@
 									roomId: roomId
 								},
 								success: function(result) {
-									getChatHistory(roomId);
+									getChatHistory(roomId); /* 해당 채팅방 내용 불러오기 */
 									$('.chatRoomEntry').empty();
 									$('.chatRoomEntry').append(result)
 
@@ -366,7 +367,7 @@
 	
 	/* 결제가 완료되었을 때 */
 	function order(roomId, dealType) {
-		if (dealType == '직거래') {
+		if (dealType == '직거래') { /* 직거래일 때 */
 			$.ajax({
 				url: '../order/orderComplete',
 				data: {
@@ -375,11 +376,11 @@
 				success: function(result) {
 					if (result == 1) {
 						dealDirectComplete(roomId);
-						location.href = "../home/gazeeMain.jsp"
+						location.href = "../order/orderComplete.jsp"
 					}
 				}
 			})
-		} else {
+		} else { /* 택배거래일 때 */
 			let city = $("#address").val();
 			let detailAddress = $("#detailAddress").val();
 			let address = city + " " + detailAddress;
@@ -393,11 +394,16 @@
 				success: function(result) {
 					if (result == 1) {
 						dealDeliveryComplete(roomId);
-						location.href = "../home/gazeeMain.jsp"
+						location.href = "../order/orderComplete.jsp"
 					}
 				}
 			})
 		}
+	}
+	
+	/* 중복 결제 방지 */
+	function orderDone() {
+		alert('이미 결제되었습니다.')
 	}
 	
 	/* 직거래 거래완료 메세지 */
@@ -430,6 +436,11 @@
 <style>
 	body {
 		background-color: #fafafa;
+	}
+	
+	.chatPartnerProfile {
+		background-image: url("https://github.com/JJ2uu/JJ2uu/blob/main/images/profile.jpg?raw=true");
+		background-size: 40px;
 	}
 </style>
 <title>가지가지</title>
@@ -499,6 +510,7 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="../home/SideBar.jsp" flush="true"/>
 	<jsp:include page="../home/Footer.jsp" flush="true"/>
 </div>
 </body>
