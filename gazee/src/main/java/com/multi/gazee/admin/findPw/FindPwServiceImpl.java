@@ -5,16 +5,25 @@ import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+@PropertySource("classpath:application.properties")
 @Service
 public class FindPwServiceImpl implements FindPwService {
     @Autowired
     MemberDAO dao = new MemberDAO();
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
+    
+    @Value("${host.SMTP.id}")
+    private String hostSmtpId;
+    @Value("${host.SMTP.pwd}")
+    private String hostSmtpPwd;
+    
     
     String tempPw = "";
     
@@ -65,8 +74,8 @@ public class FindPwServiceImpl implements FindPwService {
         // Mail Server 설정
         String charSet = "utf-8";
         String hostSMTP = "smtp.gmail.com";
-        String hostSMTPid = "qlscmgns@gmail.com";
-        String hostSMTPpwd = "vkmvbwbtoachizpz";
+        String hostSMTPid = hostSmtpId;
+        String hostSMTPpwd = hostSmtpPwd;
         
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "qlscmgns@gmail.comm";
