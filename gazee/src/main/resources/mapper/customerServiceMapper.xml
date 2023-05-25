@@ -4,12 +4,11 @@
 
 
     <insert id="register" parameterType="csVO">
-		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, cs_secret, temporary) 
+		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary) 
 		values (#{csTitle}, 
 				#{csContent},
 				#{csWriter},
 				#{csCategory},
-				#{csSecret},
 				#{temporary})
 	</insert>
 	
@@ -18,7 +17,10 @@
 	</delete>
 	
 	<update id="up"  parameterType="csVO">
-		update customer_service set csTitle= #{csTitle} where cs_id = #{csId}
+		update customer_service 
+		set 
+		cs_title= #{csTitle}, cs_content =#{csContent}, cs_category = #{csCategory}, `temporary`=1
+		where cs_id = #{csId}
 	</update>
 	
 	<select id="one" parameterType="Integer" resultType="csVO">
@@ -31,42 +33,44 @@
 		where cs_id =#{csId}
 	</update>
 	
-	<select id="all" resultType="csVO" parameterType="pageVO">
+	<select id="all"  parameterType="pageVO" resultType="csVO">
 		select * 
 		from (
 		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.* 
-		from 
-		customer_service cs) cs2 
-		where cs2.cs_no between #{start} and #{end}
+		from customer_service cs
+		where cs.temporary = 1) cs2 
+		where (cs2.cs_no between #{start} and #{end}) 
 	</select>
 	
 	<select id="category" parameterType="Map" resultType="csVO">
 		select * from (
 		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.*
 		from customer_service cs 
-		where cs.cs_category=#{category1}) cs2
+		where cs.cs_category=#{category1} and cs.temporary=1) cs2
 		where cs2.cs_no between #{start} and #{end}
 	</select>
 	
 	<select id="count" resultType="Integer">
-		select count(*) from customer_service
+		select count(*) from customer_service cs
+		where cs.temporary =1
 	</select>
 	
 	<select id="countCategory" parameterType="String" resultType="Integer">
 		select count(*) from customer_service
-		where cs_category=#{category1}
+		where cs_category=#{category1} and temporary=1
 	</select>
 	
 	<select id="countSearch" parameterType="String" resultType="Integer">
 		select count(*) from customer_service
-		where cs_title like concat('%', #{search1}, '%')
+		where cs_title like concat('%', #{search1}, '%') and temporary=1
 	</select>
 	
 	<select id="list2" resultType="csVO" parameterType="PageVO">
 		select *
 		from (
 		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
-		from customer_service cs) cs2
+		from customer_service cs
+		where cs.temporary=1) cs2
 		where cs2.cs_no between #{start} and #{end} 
 	</select>
 	
@@ -74,10 +78,12 @@
 		select * from (
 		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
 		from customer_service cs
-		where cs.cs_title like concat('%', #{search1}, '%')) cs2
+		where cs.cs_title like concat('%', #{search1}, '%') and cs.temporary=1) cs2
 		where cs2.cs_no between #{start} and #{end}
 	</select>
 
-
+	<select id="checkTemporaryCs" resultType="csVO" parameterType="csVO">
+		select * from customer_service where cs_Writer= #{csWriter} and `temporary`= 0
+	</select>
 
 </mapper>

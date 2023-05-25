@@ -20,12 +20,12 @@ public class CustomerServiceDAO {
 		return result;
 	}
 	
-	public void delete(CustomerServiceVO bag) {
+	public void csDelete(CustomerServiceVO bag) {
 		my.delete("cs.del", bag);
 	}
 	
-	public void update(CustomerServiceVO bag) {
-		my.delete("cs.up", bag);
+	public void csUpdate(CustomerServiceVO bag) {
+		my.update("cs.up", bag);
 	}
 	
 	public CustomerServiceVO one(int no) {
@@ -64,5 +64,9 @@ public class CustomerServiceDAO {
 		return my.selectOne("cs.countSearch", search1);
 	}  
 	
+	public CustomerServiceVO checkTemporaryCs(CustomerServiceVO cs) {
+		CustomerServiceVO bag= my.selectOne("cs.checkTemporaryCs",cs);
+		return bag;
+	}
 	
 }

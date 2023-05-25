@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
+	rel="stylesheet">
 
 <link href="../../resources/css/style2.css" rel="stylesheet" />
 <link
@@ -35,6 +38,24 @@
 			location.href="../../customerService/cs/csSearch?page=1&mode=1&search1="+search1;
 			
 		})//category
+		
+		
+	$('#csWrite').click(function() {
+		var sessionId = "<%=session.getAttribute("id")%>";
+		$.ajax({
+			url: "checkTemporaryCs",
+			data:{
+				csWriter: sessionId
+			},
+			success: function(x){
+				$('#alert').html(x);
+			},
+			error: function(xhr, status, error){
+				location.href = "../../customerService/cs/goToCsWrite?csWriter="+sessionId;
+			}
+			
+		})
+	})
 </script>
 
 <table class="table table-striped"

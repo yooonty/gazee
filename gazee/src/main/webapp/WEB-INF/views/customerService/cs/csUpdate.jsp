@@ -21,12 +21,10 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
-		
-		$('.save')
-				.click(
+		var sessionId = "<%=session.getAttribute("id")%>";
+		$('#csUpdateBtn').click(
 						function() {
-							var sessionId = "<%=session.getAttribute("id")%>";
+							var csWriter = sessionId;
 							var csCategory = $('.csCategory').val();
 							var csTitle = $('.csTitle').val();
 							var csContent = $('.csContent').val();
@@ -36,24 +34,21 @@
 								alert("필수값을 입력해주세요");
 							} else {
 								$.ajax({
-									url : "csWrite",
+									url : "csUpdate",
 									data : {
 										csWriter : sessionId,
 										csCategory : csCategory,
 										csTitle : csTitle,
 										csContent : csContent,
-										csSecrete : 1,
-										temporary : save
+										csId:${bag.csId}
 									},
 									success : function(x) {
-										if (save == 1) {
-											alert("1:1 질문 글을 등록했습니다.");
+											alert("글 수정이 완료되었습니다.");
 											location.href="../../customerService/cs/csList?page=1&mode=1"
-										} else if (save == 0) {
-											alert("글을 저장했습니다.");
-											location.href="../../customerService/cs/csList?page=1&mode=1"
+										}, error: function() {
+											alert("글 수정 실패.");
 										}
-									}
+									
 								})
 							}
 
@@ -96,23 +91,32 @@
 							<table>
 								<tr class="each-row">
 									<td class="attribute">제목</td>
-									<td><input class="prd-info csTitle" type="text"></td>
+									<td><input class="prd-info csTitle" type="text"
+										value="${bag.csTitle}"></td>
 
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">카테고리</td>
 									<td><select class="csCategory" name="csCategory">
-											<option value="페이 관련">페이 관련</option>
-											<option value="배송 관련">배송 관련</option>
-											<option value="계정 관련">계정 관련</option>
-											<option value="거래 관련">거래 관련</option>
+											<option value="페이 관련"
+												${bag.csCategory == '페이 관련' ? 'selected' : ''}>페이
+												관련</option>
+											<option value="결제 관련"
+												${bag.csCategory == '결제 관련' ? 'selected' : ''}>결제
+												관련</option>
+											<option value="계정 관련"
+												${bag.csCategory == '계정 관련' ? 'selected' : ''}>계정
+												관련</option>
+											<option value="배송 관련"
+												${bag.csCategory == '배송 관련' ? 'selected' : ''}>배송
+												관련</option>
 									</select></td>
 									<td></td>
 
 								</tr>
 								<tr class="content-row">
 									<td class="attribute">내용</td>
-									<td class="content"><textarea class="prd-info csContent"> </textarea></td>
+									<td class="content"><textarea class="prd-info csContent">${bag.csContent}</textarea></td>
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">사진첨부</td>
@@ -120,14 +124,13 @@
 								</tr>
 							</table>
 						</div>
-						<div>
-							<button class="save" value="1">저장</button>
-							<button class="save" value="0">임시저장</button>
+						<div style="display: flex; justify-content: right">
+							<button id="csUpdateBtn">수정하기</button>
 						</div>
 					</div>
 				</div>
 
-				<div id="qnaButtom" style="margin-top: 10px; text-align: center">
+				<div id="csButtom" style="margin-top: 10px; text-align: center">
 
 
 				</div>

@@ -3,6 +3,8 @@ package com.multi.gazee.customerService;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,21 @@ public class CustomerServiceController {
 	CustomerServiceDAO dao;
 	
 	@RequestMapping("customerService/cs/csWrite")
-	public void csWrite(CustomerServiceVO bag) {
-		System.out.println(bag);
+	public void csWrite(CustomerServiceVO bag, HttpSession session) {
+		bag.setCsWriter((String)session.getAttribute("id"));
 		dao.csRegister(bag);
+		
+	}
+	
+	@RequestMapping("customerService/cs/csDelete")
+	public void csDelete(CustomerServiceVO bag) {
+		dao.csDelete(bag);
+	}
+	
+	@RequestMapping("customerService/cs/csUpdate")
+	public void csUpdate(CustomerServiceVO bag) {
+		dao.csUpdate(bag);
+		System.out.println(bag);
 	}
 	
 	@RequestMapping("customerService/cs/csList")
@@ -86,11 +100,37 @@ public class CustomerServiceController {
 	public void one(int id, Model model) {
 		CustomerServiceVO bag = dao.one(id);
 		model.addAttribute("bag",bag);
-	}
-	
+		model.addAttribute("csWriter",bag.getCsWriter());		
+		}
 	
 	@RequestMapping("customerService/cs/goToCsWrite")
 	public String goToCsWrite() {
 		return "customerService/cs/csWrite";
 	}
+	
+	@RequestMapping("customerService/cs/goToCsUpdate")
+	public String goToCsUpdate(Model model, int id) {
+		CustomerServiceVO bag = dao.one(id);
+		model.addAttribute("bag",bag);
+		return "customerService/cs/csUpdate";
+	}
+	
+	@RequestMapping("customerService/cs/checkTemporaryCs")
+	public void checkTemporaryCs(HttpSession session, Model model, CustomerServiceVO bag) {
+		CustomerServiceVO bag2 =dao.checkTemporaryCs(bag);
+		
+		if(bag2 !=null) {//임시저장 존재
+			model.addAttribute("result",1);
+			model.addAttribute("bag",bag2);
+			model.addAttribute("csId",bag2.getCsId());
+		} else { //임시저장 없음 바로 글쓰기
+			model.addAttribute("result",0);
+			bag2= new CustomerServiceVO();
+			bag2.setCsId(0);
+			model.addAttribute("bag",bag2);
+		}
+	}
+	
+	
+	
 }

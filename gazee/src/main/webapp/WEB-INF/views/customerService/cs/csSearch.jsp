@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
+	rel="stylesheet">
 <link href="../../resources/css/style2.css" rel="stylesheet" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
@@ -53,14 +56,28 @@
 
 						})//cs 검색 버튼
 
-		$('#qnaWrite').click(function() {
-			location.href = "../../customerService/cs/goToCsWrite"
-		})//qna 글쓰기 버튼
+		$('#csWrite').click(function() {
+			  	var sessionId = "<%=session.getAttribute("id")%>";
+					$.ajax({
+						url: "checkTemporaryCs",
+						data:{
+							csWriter: sessionId
+						},
+						success: function(x){
+							$('#alert').html(x);
+						},
+						error: function(xhr, status, error){
+							location.href = "../../customerService/cs/goToCsWrite?csWriter="+sessionId;
+						}
+					
+					})
+					})//qna 글쓰기 버튼
 	})
 </script>
 
 </head>
 <body>
+    <div id="alert"></div>
 	<div id="wrap">
 		<div id="header">
 			<jsp:include page="/home/Header.jsp" flush="true" />
