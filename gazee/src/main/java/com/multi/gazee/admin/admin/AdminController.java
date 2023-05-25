@@ -28,7 +28,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,22 +151,20 @@ public class AdminController {
         return "../admin/adminMember";
     }
     
-    
     @RequestMapping(value = "memberList.do")
     public String loadMemberList(Model model) throws Exception {
         
         List<MemberVO> memberList = Mdao.list();
+        List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
         List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
         List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
         List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         List<Integer> countList = new ArrayList<>();
     
-        for (MemberVO member : memberList) {
+        for (MemberVO member : memberExceptAdminList) {
             String memberId = member.getId();
-            System.out.println("mId : " + memberId);
             ReportCountVO RCvo = RCdao.one(memberId);
-            System.out.println("RVO : " + RCvo);
             
             int count = 0;
             
@@ -176,12 +173,10 @@ public class AdminController {
             }
             
             countList.add(count);
-            System.out.println(memberId + "의 카운트 값 : " + count);
         }
-    
-        System.out.println(countList);
         
         model.addAttribute("memberList", memberList);
+        model.addAttribute("memberExceptAdminList", memberExceptAdminList);
         model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
@@ -189,6 +184,62 @@ public class AdminController {
         model.addAttribute("countList", countList);
         
         return "../admin/adminMemberList";
+    }
+    
+    @RequestMapping(value = "memberThisWeekList.do")
+    public String loadMemberThisWeek(Model model) throws Exception {
+        
+        List<MemberVO> memberList = Mdao.list();
+        List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
+        List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
+        List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
+        List<MemberVO> suspendedList = Mdao.suspendedList();
+        List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
+        List<Integer> countList = new ArrayList<>();
+        
+        model.addAttribute("memberList", memberList);
+        model.addAttribute("memberExceptAdminList", memberExceptAdminList);
+        model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
+        model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
+        model.addAttribute("suspendedList", suspendedList);
+        
+        return "../admin/adminMemberThisWeekList";
+    }
+    
+    @RequestMapping(value = "memberThisMonthList.do")
+    public String loadMemberThisMonth(Model model) throws Exception {
+        
+        List<MemberVO> memberList = Mdao.list();
+        List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
+        List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
+        List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
+        List<MemberVO> suspendedList = Mdao.suspendedList();
+        
+        model.addAttribute("memberList", memberList);
+        model.addAttribute("memberExceptAdminList", memberExceptAdminList);
+        model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
+        model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
+        model.addAttribute("suspendedList", suspendedList);
+        
+        return "../admin/adminMemberThisMonthList";
+    }
+    
+    @RequestMapping(value = "memberSuspendedList.do")
+    public String loadSuspendedMember(Model model) throws Exception {
+        
+        List<MemberVO> memberList = Mdao.list();
+        List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
+        List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
+        List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
+        List<MemberVO> suspendedList = Mdao.suspendedList();
+        
+        model.addAttribute("memberList", memberList);
+        model.addAttribute("memberExceptAdminList", memberExceptAdminList);
+        model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
+        model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
+        model.addAttribute("suspendedList", suspendedList);
+        
+        return "../admin/adminMemberSuspendedList";
     }
   
     

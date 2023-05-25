@@ -26,6 +26,18 @@
         $("#contents_container").load("member.do");
     }
 
+    function loadMemberThisWeek() {
+        $("#details_container").load("memberThisWeekList.do");
+    }
+
+    function loadMemberThisMonth() {
+        $("#details_container").load("memberThisMonthList.do");
+    }
+
+    function loadSuspended() {
+        $("#details_container").load("memberSuspendedList.do");
+    }
+
     function loadProduct() {
         $("#contents_container").load("product.do");
     }
@@ -57,82 +69,89 @@
 </script>
 <div class="container">
     <div class="navigation">
-        <ul>
-            <li>
-                <a href="main.do">
+        <div>
+            <ul>
+                <li>
+                    <a href="main.do">
                     <span class="title">
                         <img src="/resources/img/gazee_admin_logo_white.png" alt="logo"
                              style="margin-top: 10px; width: 100%;">
                         </span>
-                </a>
-            </li>
-            <li>
-                <a href="gazee.do">
-                    <span class="icon"><i class="fa fa-home" aria-hidden="true"></i></span>
-                    <span class="title">사이트로 바로가기</span>
-                </a>
-            </li>
-            <li>
-                <hr>
-            </li>
-            <li>
-                <a href=# id="nav_dashboard" onclick="loadDashboard()">
-                    <span class="icon"><i class="fa fa-dashboard" aria-hidden="true"></i></span>
-                    <span class="title">대시보드</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_member" onclick="loadMember()">
-                    <span class="icon"><i class="fa fa-users" aria-hidden="true"></i></span>
-                    <span class="title">회원 관리</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_product" onclick="loadProduct()">
-                    <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
-                    <span class="title">상품 관리</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_order" onclick="loadOrder()">
-                    <span class="icon"><i class="fa fa-handshake-o" aria-hidden="true"></i></span>
-                    <span class="title">거래 관리</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_pay" onclick="loadPay()">
-                    <span class="icon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
-                    <span class="title">가지페이 관리</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_cs" onclick="loadCs()">
-                    <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                    <span class="title">문의 관리</span>
-                </a>
-            </li>
-            <li>
-                <a href=# id="nav_report" onclick="loadReport()">
-                    <span class="icon"><i class="fa fa-user-secret" aria-hidden="true"></i></span>
-                    <span class="title">신고 관리</span>
-                </a>
-            </li>
-            <li>
-                <hr>
-            </li>
-            <li>
-                <a href=# id="nav_setting" onclick="loadSetting()">
-                    <span class="icon"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
-                    <span class="title">관리자 설정</span>
-                </a>
-            </li>
-            <li>
-                <a href="logout.do">
-                    <span class="icon"><i class="fa fa-sign-out" aria-hidden="true"></i></span>
-                    <span class="title">로그아웃</span>
-                </a>
-            </li>
-        </ul>
+                    </a>
+                </li>
+                <li>
+                    <a href="gazee.do">
+                        <span class="icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                        <span class="title">사이트로 바로가기</span>
+                    </a>
+                </li>
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <a href=# id="nav_dashboard" onclick="loadDashboard()">
+                        <span class="icon"><i class="fa fa-dashboard" aria-hidden="true"></i></span>
+                        <span class="title">대시보드</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_member" onclick="loadMember()">
+                        <span class="icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+                        <span class="title">회원 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_product" onclick="loadProduct()">
+                        <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                        <span class="title">상품 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_order" onclick="loadOrder()">
+                        <span class="icon"><i class="fa fa-handshake-o" aria-hidden="true"></i></span>
+                        <span class="title">거래 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_pay" onclick="loadPay()">
+                        <span class="icon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
+                        <span class="title">가지페이 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_cs" onclick="loadCs()">
+                        <span class="icon"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                        <span class="title">문의 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=# id="nav_report" onclick="loadReport()">
+                        <span class="icon"><i class="fa fa-user-secret" aria-hidden="true"></i></span>
+                        <span class="title">신고 관리</span>
+                    </a>
+                </li>
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <a href=# id="nav_setting" onclick="loadSetting()">
+                        <span class="icon"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
+                        <span class="title">관리자 설정</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="logout.do">
+                        <span class="icon"><i class="fa fa-sign-out" aria-hidden="true"></i></span>
+                        <span class="title">로그아웃</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="footer_container">
+            <div id="footer">
+                <p style="margin: 0; font-size: 14px;">Copyrightⓒ 2023. gazee. All rights reserved.</p>
+            </div>
+        </div>
     </div>
     <div class="main">
         <div class="top-bar">
