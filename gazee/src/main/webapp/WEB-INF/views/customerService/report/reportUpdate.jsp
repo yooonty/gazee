@@ -28,6 +28,7 @@
 							var reportCategory = $('.reportCategory').val();
 							var reportTitle = $('.reportTitle').val();
 							var reportContent = $('.reportContent').val();
+							var reportee = $('.reportee').val();
 							var save= $(this).val();
 								
 							if (save == 1 && (reportCategory == null || reportTitle == null || reportContent == null)) {
@@ -40,7 +41,8 @@
 										reportCategory : reportCategory,
 										reportTitle : reportTitle,
 										reportContent : reportContent,
-										reportId:${bag.reportId}
+										reportId:${bag.reportId},
+										reportee: reportee
 									},
 									success : function(x) {
 											alert("글 수정이 완료되었습니다.");
@@ -115,7 +117,7 @@
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">신고 대상 닉네임</td>
-									<td><input class="prd-info reportee" type="text"></td>
+									<td><input class="prd-info reportee" type="text" value="${bag.reportee}"></td>
 								</tr>
 								<tr class="content-row">
 									<td class="attribute">내용</td>

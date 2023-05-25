@@ -24,7 +24,7 @@
 		$('.save')
 				.click(
 						function() {
-							var reportWriter = "pa";
+							var sessionId = "<%=session.getAttribute("id")%>";
 							var reportCategory = $('.reportCategory').val();
 							var reportTitle = $('.reportTitle').val();
 							var reportContent = $('.reportContent').val();
@@ -37,7 +37,7 @@
 								$.ajax({
 									url : "reportWrite",
 									data : {
-										reportWriter : "pa",
+										reportWriter : sessionId,
 										reportCategory : reportCategory,
 										reportTitle : reportTitle,
 										reportContent : reportContent,
