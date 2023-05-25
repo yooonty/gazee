@@ -12,7 +12,7 @@
         var replyContent = $("#reply_content").val();
         console.log(replyContent)
         $.ajax({
-            url: "replyRegisterComplete.do",
+            url: "csReplyRegisterComplete.do",
             type: "POST",
             data: {
                 csId: ${csOne.csId},
@@ -20,7 +20,7 @@
             },
             success: function (result) {
                 alert("답변이 등록되었습니다.")
-                $('#contents_container').html(result);
+                loadCs()
             },
             error: function (xhr, status, error) {
                 alert("에러 발생: " + error);
@@ -29,7 +29,7 @@
     }
 </script>
     <div class="cardHeader">
-        <span><h2>신고 상세 조회</h2></span>
+        <span><h2>문의 상세 조회</h2></span>
         <span style="text-align: right">
             <a href=# id="returnPrev" onclick="prev()">목록으로 돌아가기</a>
         </span>
@@ -55,7 +55,7 @@
             </tbody>
         </table>
         <div>
-            <span><h3>신고 내용</h3></span>
+            <span><h3>문의 내용</h3></span>
         </div>
         <div>
             ${csOne.csContent}

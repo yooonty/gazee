@@ -12,7 +12,7 @@
         var replyContent = $("#reply_content").val();
         console.log(replyContent)
         $.ajax({
-            url: "replyRegisterComplete.do",
+            url: "reportReplyRegisterComplete.do",
             type: "POST",
             data: {
                 reportId: ${reportOne.reportId},
@@ -20,7 +20,7 @@
             },
             success: function (result) {
                 alert("답변이 등록되었습니다.")
-                $('#contents_container').html(result);
+                loadReport()
             },
             error: function (xhr, status, error) {
                 alert("에러 발생: " + error);
