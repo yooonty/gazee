@@ -21,4 +21,8 @@ public class TransactionHistoryDAO {
 		
 		return balance;
 	}
+	
+	public int insert(TransactionHistoryVO historyVO) {
+		return my.insert("history.insert", historyVO);
+	}
 }

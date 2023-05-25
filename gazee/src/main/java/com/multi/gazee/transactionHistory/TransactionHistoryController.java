@@ -16,7 +16,7 @@ public class TransactionHistoryController {
 	@ResponseBody
 	public String checkBalance(HttpSession session) {
 		session.setAttribute("id", "testuser");
-		String balance = String.valueOf(dao.checkBalance(String.valueOf(session.getAttribute("id"))));
+		String balance = String.valueOf(dao.select(String.valueOf(session.getAttribute("id"))));
 		return balance;
 	}
 }
