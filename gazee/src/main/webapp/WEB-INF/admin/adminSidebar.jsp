@@ -73,7 +73,7 @@
             <ul>
                 <li>
                     <a href="main.do">
-                    <span class="title">
+                    <span class="title" id="logo">
                         <img src="/resources/img/gazee_admin_logo_white.png" alt="logo"
                              style="margin-top: 10px; width: 100%;">
                         </span>
@@ -176,6 +176,13 @@
         toggle.classList.toggle("active");
         navigation.classList.toggle("active");
         main.classList.toggle("active");
+        if ($('#logo').css('visibility') == 'hidden' && $('#footer_container').css('visibility') == 'hidden')  {
+            $('#logo').css('visibility', 'visible');
+            $('#footer_container').css('visibility', 'visible');
+        } else {
+            $('#logo').css('visibility', 'hidden');
+            $('#footer_container').css('visibility', 'hidden');
+        }
     }
 </script>
 </html>
