@@ -54,6 +54,11 @@ public class MemberDAO {
 		return suspendedList;
 	}
 	
+	public List<MemberVO> needPenaltyList() {
+		List<MemberVO> needPenaltyList = my.selectList("member.needPenaltyList");
+		return needPenaltyList;
+	}
+	
 	public MemberVO oneById(String id) {
 		MemberVO oneById = my.selectOne("member.oneById", id);
 		return oneById;

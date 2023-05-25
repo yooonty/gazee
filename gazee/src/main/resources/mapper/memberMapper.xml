@@ -70,4 +70,14 @@
         WHERE join_date > DATE_SUB(NOW(), INTERVAL 30 DAY)
     </select>
 
+    <!-- 제재 대상 회원 목록 (누적 신고 횟수가 3, 5, 7 이면서 상태가 '정상'인 회원) -->
+    <select id="needPenaltyList" resultType="MemberVO">
+        SELECT *
+        FROM member
+        WHERE id IN (SELECT member_id
+                     FROM report_count
+                     WHERE count IN (3, 5, 7))
+          AND status = '정상';
+    </select>
+
 </mapper>
