@@ -17,6 +17,7 @@
                 <td>닉네임</td>
                 <td>Email</td>
                 <td>상태</td>
+                <td>정지해제</td>
             </tr>
             </thead>
             <tbody>
@@ -28,6 +29,7 @@
                         <td>${bag.nickname}</td>
                         <td>${bag.email}</td>
                         <td>${bag.status}</td>
+                        <td><a href="#" class="btn" onclick="penaltyComplete()">해제</a></td>
                     </tr>
             </c:forEach>
             </tbody>
