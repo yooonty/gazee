@@ -1,4 +1,5 @@
 		var stompClient = null;
+		var connectedRoomIds = [];
 		
 		window.addEventListener("beforeunload", function() {
 			console.log("소켓삭제");
@@ -8,8 +9,9 @@
 		function subscribeToChatRooms(roomIds) {
 			roomIds.forEach(function(roomId) {
 				allSocketConnect(roomId);
+				connectedRoomIds.push(roomId);
 			});
-			saveSubscribedRoomIdsToSession(roomIds);
+			saveSubscribedRoomIdsToSession(connectedRoomIds);
 		}
 		
 		function allSocketConnect(roomId) {
@@ -22,8 +24,21 @@
 				stompClient.subscribe('/topic/' + roomId, function(messageOutput) {
 					showMessageOutput(JSON.parse(messageOutput.body));
 					lastChatMessage(JSON.parse(messageOutput.body));
+				}, function(error) {
+					console.error('ERROR', error);
+					reconnectWebSocket(roomId);
 				});
+			}, function(error) {
+				console.error('ERROR', error);
+				reconnectWebSocket(roomId);
 			});
+		}
+		
+		function reconnectWebSocket(roomId) {
+			setTimeout(function() {
+				console.log('WebSocket 재연결 시도');
+				allSocketConnect(roomId); // 새로운 웹 소켓 연결을 시도합니다.
+			}, 3000); // 일정 시간 후에 연결을 시도합니다. 여기서는 3초로 설정하였습니다.
 		}
 		
 		function saveSubscribedRoomIdsToSession(roomIds) {
