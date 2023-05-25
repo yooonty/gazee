@@ -66,6 +66,58 @@
         $("#contents_container").load("order.do");
     }
 
+    function loadReportOneDash() {
+        const bagReportId = $("#bag_report_id").text();
+        $.ajax({
+            url: "report_one.do",
+            type: "POST",
+            data: {
+                reportId: bagReportId
+            },
+            success: function (result) {
+                $('#contents_container').html(result);
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        })
+    };
+
+    function set() {
+        var sellerId = $("seller_id").text();
+        const productId = $("product_id").text();
+        $.ajax({
+            url: "set.do",
+            type: "POST",
+            data: {
+                sellerId: sellerId,
+                productId: productId
+            },
+            success: function (result) {
+                alert(result);
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        });
+    }
+
+    function loadReportOne() {
+        const bagReportId = $("#bag_report_id").text();
+        $.ajax({
+            url: "report_one.do",
+            type: "POST",
+            data: {
+                reportId: bagReportId
+            },
+            success: function (result) {
+                $('#details_container').html(result);
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        })
+    };
 </script>
 <div class="container">
     <div class="navigation">
