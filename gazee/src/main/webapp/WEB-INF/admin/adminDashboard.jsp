@@ -28,7 +28,7 @@
             </div>
         </div>
     </a>
-    <a href=# onclick="loadProduct()">
+    <a href=# onclick="loadOrder()">
         <div class="card">
             <div>
                 <div class="numbers">${orderList.size()}건</div>
