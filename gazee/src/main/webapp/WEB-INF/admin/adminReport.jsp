@@ -2,24 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
-<script>
-    function loadReportOne() {
-        const bagReportId = $("#bag_report_id").text();
-        $.ajax({
-            url: "report_one.do",
-            type: "POST",
-            data: {
-                reportId: bagReportId
-            },
-            success: function (result) {
-                $('#details_container').html(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-</script>
 <!DOCTYPE html>
 <div class="details" id="details_container">
     <div class="recentOrders" id="reported_member">
