@@ -355,7 +355,6 @@ public class AdminController {
         ReportVO reportOne = Rdao.one(id);
         String reportee = reportOne.getReportee();
         ReportCountVO countOne = RCdao.one(reportee);
-        System.out.println("dd" + countOne.getCount());
         MemberVO reporteeInfo = Mdao.oneById(reportee);
         model.addAttribute("reportOne", reportOne);
         model.addAttribute("countOne", countOne);
