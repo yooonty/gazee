@@ -50,8 +50,18 @@
 					<p style="font-weight: bold; font-size: 18px;">${amountDec} 원</p>
 				</div>
 			</div>
-			<button style="border: none; background: #693FAA; height: 40px; margin: 10px 0; color: #fff; border-radius: 10px; font-size: 16px;"
-				id="btn_finalPayment" onclick="order(${bag.roomId}, '${dealType}')">결제하기</button>
+				<%
+					String order = (String)request.getAttribute("order");
+					if (order.equals("null")) {
+				%>
+					<button id="btn_finalPayment" onclick="order(${bag.roomId}, '${dealType}')">결제하기</button>
+				<%
+					} else {
+				%>
+					<button id="btn_finalPayment" onclick="orderDone()">결제하기</button>
+				<%
+					}
+				%>
 			<%
 				} else {
 			%>
@@ -63,8 +73,18 @@
 					<p style="font-weight: bold; font-size: 18px;">- ${amountDec} 원</p>
 				</div>
 			</div>
-			<button style="border: none; background: #693FAA; height: 40px; margin: 10px 0; color: #fff; border-radius: 10px; font-size: 16px;"
-				id="btn_finalPayment" onclick="gazeepay('${bag.buyerId}', ${bag2.productId}, '${dealType}')">결제하기</button>
+				<%
+					String order = (String)request.getAttribute("order");
+					if (order.equals("null")) {
+				%>
+					<button id="btn_finalPayment" onclick="gazeepay('${bag.buyerId}', ${bag2.productId}, '${dealType}')">결제하기</button>
+				<%
+					} else {
+				%>
+					<button id="btn_finalPayment" onclick="orderDone()">결제하기</button>
+				<%
+					}
+				%>
 			<%
 				}
 			%>
@@ -78,7 +98,7 @@
 	String dealType3 = (String)request.getAttribute("dealType");
 	if (dealType3.equals("택배거래")) {
 %>
-<div style="margin-top: 20px;">
+<div style="margin-top: 20px; padding: 0 20px;">
 	<hr style="border: 1px solid #e1e1e1; width: 100%;">
 	<div style="display: flex; flex-flow: column; text-align: left;">
 		<span style="font-size: 18px; font-weight: bold; margin: 10px 0;">배송지 입력</span>
@@ -96,3 +116,15 @@
 <%
 	}
 %>
+<div style="width: 100%; margin-top: 20px; padding: 0 20px;">
+	<hr style="border: 1px solid #e1e1e1; width: 100%;">
+	<div style="margin-top: 20px; text-align: left;">
+		<span style="font-size: 18px; font-weight: bold; margin: 10px 0;">유의 사항</span>
+		<div style="width: 100%;">
+			<span>유의사항 1</span>
+			<span>유의사항 2</span>
+			<span>유의사항 3</span>
+			<span>유의사항 4</span>
+		</div>
+	</div>
+</div>
