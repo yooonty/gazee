@@ -117,18 +117,5 @@ public class MemberVO {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
-	
-	@Override
-	public String toString() {
-		return "MemberVO [no=" + no + ", id=" + id + ", pw=" + pw + ", name=" + name + ", tel=" + tel + ", nickname="
-				+ nickname + ", email=" + email + ", userLevel=" + userLevel + ", account=" + account + ", bank=" + bank
-				+ ", status=" + status + ", birth=" + birth + ", gender=" + gender + ", joinDate=" + joinDate
-				+ ", profileImg=" + profileImg + "]";
-	}
-	
 
-
-
-	
-	
 }
