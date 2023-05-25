@@ -21,6 +21,7 @@
                 },
                 success: function (result) {
                     alert(result);
+                    location.href = "/admin"
                 },
                 error: function (xhr, status, error) {
                     alert("에러 발생: " + error);
