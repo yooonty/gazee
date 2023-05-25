@@ -276,8 +276,10 @@ public class AdminController {
     
     @RequestMapping(value = "cs.do")
     public String loadCs(Model model) throws Exception {
-        List<CustomerServiceVO> csList = CSdao.nonPagedList();
-        model.addAttribute("csList", csList);
+        List<CustomerServiceVO> nonPagedCsList = CSdao.nonPagedList();
+        List<CustomerServiceVO> nonPagedNeedReplyList = CSdao.nonPagedNeedReply();
+        model.addAttribute("csList", nonPagedCsList);
+        model.addAttribute("nonPagedNeedReplyList", nonPagedNeedReplyList);
         return "../admin/adminCs";
     }
     
@@ -310,11 +312,19 @@ public class AdminController {
         return "../admin/adminReportOne";
     }
     
-    @RequestMapping(value = "replyRegisterComplete.do")
-    public String replyRegister(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent, Model model) throws Exception {
+    @RequestMapping(value = "reportReplyRegisterComplete.do")
+    public String reportReplyRegister(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent) throws Exception {
         ReportVO vo = Rdao.one(reportId);
         vo.setReportReply(replyContent);
         Rdao.replyRegister(vo);
         return "../admin/adminReport";
+    }
+    
+    @RequestMapping(value = "csReplyRegisterComplete.do")
+    public String csReplyRegister(@ModelAttribute("csId") int csId, @ModelAttribute("replyContent") String replyContent) throws Exception {
+        CustomerServiceVO vo = CSdao.one(csId);
+        vo.setCsReply(replyContent);
+        CSdao.replyRegister(vo);
+        return "../admin/adminCs";
     }
 }

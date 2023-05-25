@@ -29,6 +29,12 @@ public class CustomerServiceDAO {
         my.update("cs.viewUpdate", no);
         return bag;
     }
+    
+    public List<CustomerServiceVO> nonPagedNeedReply() {
+        List<CustomerServiceVO> nonPagedNeedReplyList = my.selectList("cs.nonPagedNeedReply");
+        return nonPagedNeedReplyList;
+    }
+    
     public List<CustomerServiceVO> nonPagedList(){
         List<CustomerServiceVO> list = my.selectList("cs.nonPagedList");
         return list;

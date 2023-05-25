@@ -69,7 +69,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${csList}" var="bag">
+            <c:forEach items="${nonPagedNeedReplyList}" var="bag">
                 <tr>
                     <p style="display: none" id="bag_cs_id">${bag.csId}</p>
                     <td>${bag.csCategory}</td>
