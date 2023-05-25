@@ -272,7 +272,10 @@ public class AdminController {
     @RequestMapping(value = "report_one.do")
     public String report_one(@ModelAttribute("reportId") int id, Model model) throws Exception {
         ReportVO reportOne = Rdao.one(id);
+        String reportee = reportOne.getReportee();
+        MemberVO reporteeInfo = Mdao.oneById(reportee);
         model.addAttribute("reportOne", reportOne);
+        model.addAttribute("reporteeInfo", reporteeInfo);
         return "../admin/adminReportOne";
     }
     

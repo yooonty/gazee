@@ -12,7 +12,7 @@
                 reportId: bagReportId
             },
             success: function (result) {
-                $('#report_list').html(result);
+                $('#details_container').html(result);
             },
             error: function (xhr, status, error) {
                 alert("에러 발생: " + error);
@@ -21,7 +21,7 @@
     }
 </script>
 <!DOCTYPE html>
-<div class="details">
+<div class="details" id="details_container">
     <div class="recentOrders" id="reported_member">
         <div class="cardHeader">
             <span><h2>회원별 제재 현황</h2></span>

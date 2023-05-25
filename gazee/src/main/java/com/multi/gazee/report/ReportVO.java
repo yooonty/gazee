@@ -85,13 +85,13 @@ public class ReportVO {
 	public void setReportContent(String reportContent) {
 		this.reportContent = reportContent;
 	}
-	
 	public String getReportee() {
 		return reportee;
 	}
 	public void setReportee(String reportee) {
 		this.reportee = reportee;
 	}
+	
 	@Override
 	public String toString() {
 		return "ReportVO [reportId=" + reportId + ", reportNo=" + reportNo + ", reportTitle=" + reportTitle
