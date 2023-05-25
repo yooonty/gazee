@@ -39,6 +39,7 @@
             <td>닉네임</td>
             <td>이름</td>
             <td>TEL</td>
+            <td>신고누적횟수</td>
             <td>이메일</td>
         </tr>
         </thead>
@@ -48,6 +49,7 @@
             <td>${reporteeInfo.nickname}</td>
             <td>${reporteeInfo.name}</td>
             <td>${reporteeInfo.tel}</td>
+            <td>${countOne.count}회</td>
             <td>${reporteeInfo.email}</td>
         </tr>
         </tbody>
@@ -88,7 +90,7 @@
         <div>
             <span><h3>신고 내용</h3></span>
         </div>
-        <div>
+        <div id="report_content">
             ${reportOne.reportContent}
         </div>
     </div>
@@ -97,10 +99,10 @@
             <span><h3>답변하기</h3></span>
         </div>
         <div>
-            <textarea id="reply_content"></textarea>
+            <textarea id="reply_content" style="width: 100%; height: 100px; font-size: 1.2rem"></textarea>
         </div>
-        <div>
-            <a href=# id="reply_register_button" onclick="replyResgister()">답변 등록하기</a>
+        <div style="text-align: center">
+            <button id="reply_register_button" style="font-size: 1.0rem" onclick="replyResgister()">답변 등록하기</button>
         </div>
     </div>
 </div>
