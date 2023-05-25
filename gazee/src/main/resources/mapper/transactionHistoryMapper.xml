@@ -3,7 +3,7 @@
 <mapper namespace="history">
 
     <!-- ALL -->
-    <select id="listTransaction" resultType="historyVO">
+    <select id="all" resultType="historyVO">
         SELECT *
         FROM transaction_history
     </select>

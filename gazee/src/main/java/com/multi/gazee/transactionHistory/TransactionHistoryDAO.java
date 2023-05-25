@@ -10,8 +10,9 @@ import java.util.List;
 public class TransactionHistoryDAO {
     @Autowired
     SqlSessionTemplate my;
+    
     public List<TransactionHistoryVO> listTransactionHistory() {
-        List<TransactionHistoryVO> transactionHistoryVo = my.selectList("history.listTransaction");
+        List<TransactionHistoryVO> transactionHistoryVo = my.selectList("history.all");
         return transactionHistoryVo;
     }
     
