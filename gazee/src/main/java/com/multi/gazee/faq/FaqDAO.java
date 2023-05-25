@@ -35,17 +35,13 @@ public class FaqDAO {
 	}
 	
 	public List<FaqVO> list(PageVO vo){
-		System.out.println(vo);
 		List<FaqVO> list = my.selectList("faq.faqAll", vo);
-		System.out.println(list.size());
-		System.out.println("faqdaolist"+list);
 		return list;
 	}
 	
 	
 	public List<FaqVO> category(HashMap<String, Object> map){
 		List<FaqVO> category = my.selectList("faq.category", map);
-		System.out.println(category.size());
 		return category;
 	}
 	

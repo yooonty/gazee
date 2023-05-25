@@ -22,9 +22,7 @@ public class FaqController {
 	@RequestMapping("customerService/faq/faqlist")
 	public String list(PageVO vo, Model model, int mode) {
 		vo.setStartEnd(vo.getPage());
-		System.out.println("faqcontrollerVO"+vo);
 		List<FaqVO> list = dao.list(vo);
-		System.out.println("faqlist"+list);
 		int count = dao.count();
 		int pages = count / 10 +1;
 		model.addAttribute("list", list);
