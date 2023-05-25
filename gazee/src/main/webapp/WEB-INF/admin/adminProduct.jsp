@@ -2,11 +2,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminProduct.css"/>
-<script>
-    function orderList() {
-        $("#recentOrders").load("orderList.do");
-    }
-</script>
 <html>
 <body>
 <div class="cardBox">
