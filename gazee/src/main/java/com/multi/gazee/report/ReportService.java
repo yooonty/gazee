@@ -7,5 +7,5 @@ public interface ReportService {
     
     String reportReply(int reportId, String replyContent, Model model) throws Exception;
     
-    String penalty(int reportId, String replyContent) throws Exception;
+    String penalty(String reporteeId, String penaltyType);
 }

@@ -10,7 +10,6 @@ public class MemberDAO {
 	@Autowired
 	SqlSessionTemplate my;
 	
-	
 	public MemberVO readAdmin() throws Exception {
 		return my.selectOne("member.readAdmin");
 	}
@@ -26,6 +25,10 @@ public class MemberDAO {
 	public List<MemberVO> list() {
 		List<MemberVO> memberList = my.selectList("member.all");
 		return memberList;
+	}
+	
+	public void changeStatus(MemberVO bag) {
+		int result = my.update("member.changeStatus", bag);
 	}
 	
 	/* Admin 제외 회원 List */
@@ -59,8 +62,8 @@ public class MemberDAO {
 		return needPenaltyList;
 	}
 	
-	public MemberVO oneById(String id) {
-		MemberVO oneById = my.selectOne("member.oneById", id);
+	public MemberVO one(String id) {
+		MemberVO oneById = my.selectOne("member.one", id);
 		return oneById;
 	}
 }

@@ -200,8 +200,9 @@ public class AdminController {
         return reportService.reportReply(reportId, replyContent, model);
     }
     
-    @RequestMapping(value = "penaltyComplete.do")
-    public String penaltyComplete(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent) throws Exception {
-        return reportService.penalty(reportId, replyContent);
+    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String penaltyComplete(@ModelAttribute("reporteeId") String reporteeId, @ModelAttribute("penaltyType") String penaltyType) {
+        return reportService.penalty(reporteeId, penaltyType);
     }
 }

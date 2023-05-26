@@ -2,6 +2,41 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminMember.css"/>
+<script>
+    $(".btn").click(function () {
+
+        var str = ""
+        var tdArr = new Array();	// 배열 선언
+        var confirmPenalty = $(this);
+
+        var tr = confirmPenalty.parent().parent();
+        var td = tr.children();
+
+        var no = td.eq(0).text();
+        var reporteeId = td.eq(1).text();
+        var name = td.eq(2).text();
+        var nickname = td.eq(3).text();
+        var count = td.eq(4).text();
+        var status = 'release'
+        var penaltyType = td.eq(6).find("select[name='penalty']").val();
+
+        $.ajax({
+            url: "penaltyComplete.do",
+            type: "POST",
+            data: {
+                reporteeId: reporteeId,
+                penaltyType: status
+            },
+            success: function (response) {
+                alert(response);
+                loadSuspended();
+            },
+            error: function (xhr, status, error) {
+                alert("제재 실패, 대상 정보를 확인하세요.")
+            }
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html>
 <div class="recentOrders">
@@ -29,7 +64,7 @@
                         <td>${bag.nickname}</td>
                         <td>${bag.email}</td>
                         <td>${bag.status}</td>
-                        <td><a href="#" class="btn" onclick="penaltyComplete()">해제</a></td>
+                        <td><a href="#" class="btn">해제</a></td>
                     </tr>
             </c:forEach>
             </tbody>

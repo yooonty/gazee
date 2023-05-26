@@ -3,19 +3,19 @@
 <mapper namespace="member">
 
     <!-- ALL -->
-    <select id="all" resultType="MemberVO">
+    <select id="all" resultType="memberVO">
         SELECT *
         FROM member
     </select>
 
     <!-- 관리자 제외 ALL -->
-    <select id="allExceptAdmin" resultType="MemberVO">
+    <select id="allExceptAdmin" resultType="memberVO">
         SELECT *
         FROM member WHERE user_level = 1
     </select>
 
     <!-- 관리자 권한 계정 Read -->
-    <select id="readAdmin" resultType="MemberVO">
+    <select id="readAdmin" resultType="memberVO">
         SELECT *
         FROM member
         WHERE user_level = 0
@@ -28,50 +28,57 @@
         WHERE email = #{email}
     </update>
 
+    <!-- 회원 상태 변경 (정상/정지) -->
+    <update id="changeStatus" parameterType="memberVO">
+        UPDATE member
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
     <!-- Email로 회원 검색 -->
-    <select id="checkAdmin" parameterType="String" resultType="MemberVO">
+    <select id="checkAdmin" parameterType="String" resultType="memberVO">
         SELECT *
         FROM member
         WHERE email = #{email}
     </select>
 
     <!-- ID로 회원 검색-->
-    <select id="oneById" parameterType="String" resultType="MemberVO">
+    <select id="one" parameterType="String" resultType="memberVO">
         SELECT *
         FROM member
         WHERE id = #{id}
     </select>
 
     <!-- 정지 회원 검색 -->
-    <select id="suspended" resultType="MemberVO">
+    <select id="suspended" resultType="memberVO">
         SELECT *
         FROM member
         WHERE status = '정지'
     </select>
 
     <!-- 회원의 출금 계좌와 은행 Read -->
-    <select id="listBankAccount" parameterType="String" resultType="MemberVO">
+    <select id="listBankAccount" parameterType="String" resultType="memberVO">
         SELECT bank, account
         FROM member
         WHERE id = #{id}
     </select>
 
     <!-- 이번 주 새로 가입한 멤버 -->
-    <select id="newMemberThisWeek" resultType="MemberVO">
+    <select id="newMemberThisWeek" resultType="memberVO">
         SELECT *
         FROM member
         WHERE join_date BETWEEN DATE_ADD(NOW(), INTERVAL -1 WEEK ) AND NOW()
     </select>
 
     <!-- 최근 한달 간 가입한 멤버 -->
-    <select id="memberOfPastThirtyDays" resultType="MemberVO">
+    <select id="memberOfPastThirtyDays" resultType="memberVO">
         SELECT *
         FROM member
         WHERE join_date > DATE_SUB(NOW(), INTERVAL 30 DAY)
     </select>
 
     <!-- 제재 대상 회원 목록 (누적 신고 횟수가 3, 5, 7 이면서 상태가 '정상'인 회원) -->
-    <select id="needPenaltyList" resultType="MemberVO">
+    <select id="needPenaltyList" resultType="memberVO">
         SELECT *
         FROM member
         WHERE id IN (SELECT member_id
@@ -79,5 +86,4 @@
                      WHERE count IN (3, 5, 7))
           AND status = '정상';
     </select>
-
 </mapper>
