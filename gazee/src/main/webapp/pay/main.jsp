@@ -19,17 +19,26 @@ $(function() {
 	function numberFormat(amount) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	  }
+	}
+	function stringToNumber(amount) {
+		return Number(amount.replace(/[-,]/g, ""));
+	}
 	
 	function getRecord(transaction){
 		$.ajax({
-			url:"record",
+			url:"userInfo",
 			type: "post",
 			
-			success: function(x){
+			success: function(memberInfo){
 				console.log("불러오기 완료");
-				console.log("x값 : " + x)
-				balance=x;
-				$('.balance-amount').text(numberFormat(balance) + "원");
+				console.log("x값 : " + memberInfo)
+				balance = memberInfo.balance;
+				bank = memberInfo.bank;
+				account = memberInfo.account;
+				$('.balance-amount').text(numberToString(balance) + "원");
+				if(account!=""){
+					$('.account').text("등록된 계좌 : " + bank + " (" + account.slice(-4) + ")");
+				}
 			}
 		})
 		
@@ -103,17 +112,31 @@ $(function() {
 	})
 	//환급 실행
 	$('.btn-allow').click(function(){
-		var inputAmount = $('.input-withdraw').val();
-		$.ajax({
-			url:"withdraw",
-			data:{
-				amount : inputAmount
-			},
-			success : function(x) {
-				alert("출금이 완료됐습니다.")
-			}
-		})
-		window.location.reload();
+		if (bank==""){
+			alert ("계좌를 등록해주세요.")
+		}else{
+			msg = $('.account').text() + "로 환급하시겠습니까?";
+			confirm(msg);
+			var requestedAmount = stringToNumber($('.withdraw-amount').text());
+			console.log("requestedAmount : " + requestedAmount)
+			var commission = stringToNumber($('.commission').text());
+			var totalAmount = commission+requestedAmount;
+			$.ajax({
+				url:"withdraw",
+				type : "POST",
+				data:{
+					bank : bank,
+					account : account,
+					requestedAmount : requestedAmount,
+					commission : commission,
+					totalAmount : totalAmount	
+				},
+				success : function(x) {
+					alert("출금이 완료됐습니다." + x)
+				}
+			})
+			window.location.reload();
+		}
 	})
 })
 </script>
@@ -212,7 +235,7 @@ $(function() {
 				</div>
 				
 				<div class="account-box">
-					<div class="account">등록된 계좌 : 신한(0230)</div>
+					<div class="account"></div>
 					<div>
 						<button class="btn-allow"></button>
 					</div>
