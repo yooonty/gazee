@@ -14,7 +14,7 @@
         <div class="card">
             <div>
                 <div class="numbers">회원별 잔액</div>
-                <div class="cardName">&nbsp;</div>
+                <div class="cardName"></div>
             </div>
             <div class="iconBox">
                 <i class="fa fa-users" aria-hidden="true"></i>

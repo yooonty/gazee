@@ -45,6 +45,7 @@ public class ReportDAO {
         my.update("report.viewUpdate", no);
         return bag;
     }
+    
     public List<ReportVO> nonPagedList(){
         List<ReportVO> list = my.selectList("report.nonPagedList");
         return list;
