@@ -2,28 +2,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
+<!DOCTYPE html>
+<html>
 <script>
-    function penaltyComplete() {
-        var replyContent = $("#reply_content").val();
-        console.log(replyContent)
+    function penaltyComplete(index) {
+        var bag = ${needPenaltyList}[index];
+        var bagId = "${bag.id}";
+        console.log(bagId)
+        var id = ${needPenaltyList}[index].id;
+        console.log(id)
+        var selectedOption = $("#days-" + index).val();
+
         $.ajax({
             url: "penaltyComplete.do",
             type: "POST",
+            contentType: "application/json",
             data: {
-                reportId: ${reportOne.reportId},
-                replyContent: replyContent
+                id: id,
+                selectedOption: selectedOption
             },
-            success: function (result) {
-                alert("답변이 등록되었습니다.")
-                loadReport()
+            success: function (response) {
             },
             error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
             }
         });
     }
 </script>
-<!DOCTYPE html>
 <div class="details" id="details_container">
     <div class="recentOrders" id="reported_member">
         <div class="cardHeader">
@@ -52,7 +56,7 @@
                     <td>${countList[status.index]}회</td>
                     <td>${bag.status}</td>
                     <td>
-                        <select name="penalty" id="days">
+                        <select name="penalty" id="days-${status.index}">
                             <option value="seven">7일 정지</option>
                             <option value="thirty">30일 정지</option>
                             <option value="permanent">영구 정지</option>
@@ -60,7 +64,7 @@
                         </select>
                     </td>
                     <td>
-                        <a href="#" class="btn" onclick="penaltyComplete()">확인</a>
+                        <a href="#" class="btn" onclick="penaltyComplete(${status.index})">확인</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -94,3 +98,4 @@
         </table>
     </div>
 </div>
+</html>

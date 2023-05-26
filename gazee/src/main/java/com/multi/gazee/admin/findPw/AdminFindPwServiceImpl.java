@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 @PropertySource("classpath:application.properties")
 @Service
-public class FindPwServiceImpl implements FindPwService {
+public class AdminFindPwServiceImpl implements AdminFindPwService {
     @Autowired
     MemberDAO dao = new MemberDAO();
     @Autowired
