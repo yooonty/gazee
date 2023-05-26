@@ -23,5 +23,10 @@ public class ProductDAO {
 		ProductVO productOneById = my.selectOne("product.productOneById", id);
 		return productOneById;
 	}
+	
+	public int priceByOrderNo(int no) {
+		int price = my.selectOne("product.priceByOrderNo", no);
+		return price;
+	}
 }
 
