@@ -89,43 +89,47 @@ $(function() {
 			console.log(buyerId)
 			console.log(dealType)
 			
-			
-			$.ajax({
-				url: '../chat/chatRoomCheck',
-				data: {
-					productId : productId,
-					buyerId : buyerId,
-					dealType : dealType
-				},
-				success : function(roomId) {
-					/* 해당 상품에 대한 채팅방이 이미 있는 경우 */
-					if (roomId != 0) {
-						location.href = "../chat/gazeeChat.jsp?roomId="+roomId+"&dealType="+dealType;
-					} else {
-						/* 방이 없는 경우 */
-						$.ajax({
-							url: '../chat/chatRoomCreate',
-							data : {
-								ProductId : productId,
-								buyerId : buyerId,
-								dealType : dealType
-							}, success : function(roomId) {
-								console.log(roomId)
-								if (roomId != 0) {
-									location.href = "../chat/gazeeChat.jsp?roomId="+roomId+"&dealType="+dealType;
-								} else {
-									alert('실패')
-								}
+			if (dealType.trim().length === 0) {
+						alert("거래방식을 선택해주세요");
+			}else{
+				$.ajax({
+					url: '../chat/chatRoomCheck',
+					data: {
+						productId : productId,
+						buyerId : buyerId,
+						dealType : dealType
+					},
+					success : function(roomId) {
+						
+							/* 해당 상품에 대한 채팅방이 이미 있는 경우 */
+							if (roomId != 0) {
+								location.href = "../chat/gazeeChat.jsp?roomId="+roomId+"&dealType="+dealType;
+							} else {
+								/* 방이 없는 경우 */
+								$.ajax({
+									url: '../chat/chatRoomCreate',
+									data : {
+										ProductId : productId,
+										buyerId : buyerId,
+										dealType : dealType
+									}, success : function(roomId) {
+										console.log(roomId)
+										if (roomId != 0) {
+											location.href = "../chat/gazeeChat.jsp?roomId="+roomId+"&dealType="+dealType;
+										} else {
+											alert('실패')
+										}
+									}
+								})
 							}
-						})
-					}
+						}
+					})
 				}
-			})
-	  }); 
+	 	 }); 
 	});
 	
 	$(function() {
-		var memberId = "<%= session.getAttribute("id") %>"; //로그인 세션의 멤버 아이디
+		var memberId = "<%= session.getAttribute("id") %>"; /* 로그인 세션의 멤버 아이디 */
 		var productId = ${bag.productId};
 		$.ajax({
 			url : "checkLikes",
@@ -211,8 +215,11 @@ $(function() {
 			<td><div style="font-weight: 900; font-size: xx-large;"><fmt:formatNumber value="${bag.price}" pattern="#,###"/>원</td>
 		</tr>
 		<tr>
-			<td><button class="dealbtn" id="directChack">직거래</button>
-				<button class="dealbtn" id="deliveryChack">택배거래</button></td>
+			<td><c:if test="${bag.dealDirect == 1}">
+					<button class="dealbtn" id="directChack">직거래</button>
+				</c:if> <c:if test="${bag.dealDelivery == 1}">
+					<button class="dealbtn" id="deliveryChack">택배거래</button>
+				</c:if></td>
 		</tr>
 		<tr>
 			<td style="display: inline-block;">
