@@ -22,7 +22,7 @@
 </script>
 <!DOCTYPE html>
 <div class="details">
-    <div class="recentOrders" id="reported_member">
+    <%--<div class="recentOrders" id="reported_member">
         <div class="cardHeader">
             <span><h2>회원별 제재 현황</h2></span>
             <span style="text-align: right">
@@ -54,7 +54,7 @@
             </c:forEach>
             </tbody>
         </table>
-    </div>
+    </div>--%>
     <div class="recentOrders" id="cs_list">
         <div class="cardHeader">
             <span><h2>답변이 필요한 문의 목록</h2></span>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" type="text/css" href="../../resources/css/admincs.css"/>
+<link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
 <!DOCTYPE html>
 <script>
     function prev() {
@@ -16,7 +16,7 @@
             type: "POST",
             data: {
                 csId: ${csOne.csId},
-                replyContent : replyContent
+                replyContent: replyContent
             },
             success: function (result) {
                 alert("답변이 등록되었습니다.")
@@ -28,12 +28,14 @@
         });
     }
 </script>
-    <div class="cardHeader">
-        <span><h2>문의 상세 조회</h2></span>
-        <span style="text-align: right">
+<div class="recentOrders" id="report_one">
+    <div id="report_one_container">
+        <div class="cardHeader">
+            <span><h2>문의 상세 조회</h2></span>
+            <span style="text-align: right">
             <a href=# id="returnPrev" onclick="prev()">목록으로 돌아가기</a>
         </span>
-    </div>
+        </div>
         <table>
             <thead>
             <tr>
@@ -60,13 +62,16 @@
         <div>
             ${csOne.csContent}
         </div>
-        <div>
-            <span><h3>답변하기</h3></span>
+        <div id="report_reply_container">
+            <div>
+                <span><h3>답변하기</h3></span>
+            </div>
+            <div>
+                <textarea id="reply_content" style="width: 100%; height: 100px; font-size: 1.2rem"></textarea>
+            </div>
+            <div>
+                <a href=# id="reply_register_button" style="font-size: 1.0rem" onclick="replyResgister()">답변 등록하기</a>
+            </div>
         </div>
-        <div>
-            <textarea id="reply_content"></textarea>
-        </div>
-        <div>
-            <a href=# id="reply_register_button" onclick="replyResgister()">답변 등록하기</a>
-        </div>
-
+    </div>
+</div>
