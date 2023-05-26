@@ -15,4 +15,9 @@ public class SetDAO {
         return setList;
     }
     
+    public int insert(SetVO bag) {
+        int result = my.insert("set.create", bag);
+        return result;
+    }
+    
 }

@@ -2,8 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="set">
 
+    <!-- CREATE -->
+    <insert id="create" parameterType="setVO">
+        insert into tb_set values (null, #{transactionId}, #{orderTransactionId}, #{sellerId}, default, #{amount})
+    </insert>
+
     <!-- ALL -->
-    <select id="listSet" resultType="SetVO">
+    <select id="listSet" resultType="setVO">
         SELECT *
         FROM tb_set
     </select>
