@@ -37,10 +37,8 @@ public class AdminController {
     public CustomerServiceService customerServiceService;
     @Autowired
     public ReportService reportService;
-    
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
-    
     @Autowired
     public AdminLoginService adminLoginService;
     
