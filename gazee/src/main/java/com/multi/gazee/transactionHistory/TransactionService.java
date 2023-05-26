@@ -1,4 +1,4 @@
-package com.multi.gazee.service;
+package com.multi.gazee.transactionHistory;
 
 import java.sql.Timestamp;
 

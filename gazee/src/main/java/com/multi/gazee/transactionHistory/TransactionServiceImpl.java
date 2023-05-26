@@ -1,4 +1,4 @@
-package com.multi.gazee.service;
+package com.multi.gazee.transactionHistory;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -13,8 +13,6 @@ import com.multi.gazee.charge.ChargeVO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.order.OrderVO;
 import com.multi.gazee.set.SetVO;
-import com.multi.gazee.transactionHistory.TransactionHistoryDAO;
-import com.multi.gazee.transactionHistory.TransactionHistoryVO;
 import com.multi.gazee.withdraw.WithdrawVO;
 
 @Service
