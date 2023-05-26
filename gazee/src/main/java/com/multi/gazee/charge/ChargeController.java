@@ -28,6 +28,8 @@ public class ChargeController {
 	
 	@RequestMapping(value="pay/charge", method = {RequestMethod.POST})
 	public void payCharge(ChargeVO charge, HttpSession session, HttpServletResponse response) {
+		int transactionResult = 0;
+		int chargeResult = 0;
 		//1. 멤버 객체 가져오기
 		String memberId = String.valueOf(session.getAttribute("id"));
 		MemberVO member = memberDAO.selectOne(memberId);
@@ -39,8 +41,7 @@ public class ChargeController {
 		String identifier = transactionService.makeIdentifier("c", member, transactionTime);
 		charge.setTransactionId(identifier);
 		//4. 충전 테이블 삽입
-		int chargeResult = chargeDAO.charge(charge);
-		int transactionResult = 0;
+		chargeResult = chargeDAO.insert(charge);
 		//5. TransactionHistory 테이블 삽입
 		if (chargeResult==1) {
 			transactionResult = transactionService.chargeToTransactionHistory(charge, member.getId());

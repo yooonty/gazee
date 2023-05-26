@@ -10,7 +10,7 @@ public class ChargeDAO {
 	@Autowired
 	SqlSessionTemplate my;
 
-	public int charge(ChargeVO charge) {
+	public int insert(ChargeVO charge) {
 		return my.insert("charge.insert", charge);
 	}
 	
