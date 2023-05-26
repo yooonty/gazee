@@ -69,6 +69,18 @@ public class AdminController {
         adminFindPwService.findPw(response, email);
     }
     
+    /* Edit Admin Password */
+    
+    @RequestMapping(value = "infoEdit.do")
+    public String loadInfoEdit(Model model) throws Exception {
+        return adminSidebarService.loadinfoEdit(model);
+    }
+    
+    @RequestMapping(value = "adminPwEdit.do")
+    public @ResponseBody String editAdminPw(@ModelAttribute("currentPw") String currentPw, @ModelAttribute("newPw") String newPw, @ModelAttribute("newPwCheck") String newPwCheck, @ModelAttribute("resultMsg") String resultMsg, Model model) throws Exception {
+        return adminLoginService.editAdminPw(currentPw, newPw, newPwCheck, model);
+    }
+    
     /* Admin Sidebar */
     
     @RequestMapping(value = "main.do")
@@ -122,16 +134,6 @@ public class AdminController {
     }
     
     /* Member */
-    
-    @RequestMapping(value = "infoEdit.do")
-    public String loadInfoEdit(Model model) throws Exception {
-        return adminSidebarService.loadinfoEdit(model);
-    }
-    
-    @RequestMapping(value = "adminPwEdit.do")
-    public @ResponseBody String editAdminPw(@ModelAttribute("currentPw") String currentPw, @ModelAttribute("newPw") String newPw, @ModelAttribute("newPwCheck") String newPwCheck, @ModelAttribute("resultMsg") String resultMsg, Model model) throws Exception {
-        return adminLoginService.editAdminPw(currentPw, newPw, newPwCheck, model);
-    }
     
     @RequestMapping(value = "memberList.do")
     public String loadMemberList(Model model) throws Exception {

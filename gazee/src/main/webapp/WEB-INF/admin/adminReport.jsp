@@ -16,7 +16,6 @@
         $.ajax({
             url: "penaltyComplete.do",
             type: "POST",
-            contentType: "application/json",
             data: {
                 id: id,
                 selectedOption: selectedOption
