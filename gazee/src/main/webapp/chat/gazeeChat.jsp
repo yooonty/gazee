@@ -21,31 +21,14 @@
 	var roomId = urlParams.get('roomId');
 	var dealType = urlParams.get('dealType');
 	var memberId = '<%= session.getAttribute("id") %>';
-	var socketSession = '<%= session.getAttribute("subscribedRoomIds")%>';
 	var selectedRoomId = null;
 	
+	
 	$(function() {
-		/* 로드될 때 웹소켓 연결 */
-		if (socketSession != null) {
-			$(document).ready(function() {
-				$.ajax({
-					url: '../chat/getSubscribedRoomIds',
-					type: 'GET',
-			        dataType: 'json',
-			        success: function(response) {
-			            var roomIds = response;
-			            roomIds.forEach(function(roomId) {
-			            	allSocketConnect(roomId);
-			            });
-			        },
-			        error: function(error) {
-			            console.error('Failed to get subscribed roomIds from session');
-			            console.log(error);
-			        }
-				})
-			})
-		}
 		
+		if (memberId !== null) {
+			subscribeToUser(memberId);
+		}
 		/* 채팅 내역 불러오는 함수 */
 		function getChatHistory(roomId) {
 			$.ajax({
