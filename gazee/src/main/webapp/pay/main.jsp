@@ -18,9 +18,8 @@ $(function() {
 	var bank = "";
 	var account = "";
 	
-	function numberFormat(amount) {
+	function numberToString(amount) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-	  }
 	}
 	function stringToNumber(amount) {
 		return Number(amount.replace(/[-,]/g, ""));
@@ -49,7 +48,6 @@ $(function() {
 	$(document).ready(function() {
 		//세션-로그인 여부 확인 후, 정보 있으면 반환, 없으면 메인 페이지 보내기
 		getRecord('total');
-  		$('#total').addClass('clicked');
 	});
 	//거래기록 리스트 불러오기
 	$('.btn-record-group button').click(function(){
@@ -60,7 +58,6 @@ $(function() {
 		if (clicked){
 			$(this).addClass('not-clicked');
 			$(this).removeClass('clicked');
-			
 		}else {
 			$(this).addClass('clicked');
 			$(this).removeClass('not-clicked');
@@ -93,10 +90,10 @@ $(function() {
 			var commission = Math.floor(amount * 0.05);
 			var result = balance - (amount+commission);
 			
-			$('.now-amount').text(numberFormat(balance));
-			$('.withdraw-amount').text("-"+numberFormat(inputAmount));
-			$('.commission').text("-"+numberFormat(commission));
-			$('.result-amount').text(numberFormat(result));
+			$('.now-amount').text(numberToString(balance));
+			$('.withdraw-amount').text("-"+numberToString(inputAmount));
+			$('.commission').text("-"+numberToString(commission));
+			$('.result-amount').text(numberToString(result));
 			
 			$('.calculate').css('visibility', 'visible');
 			if (balance-amount-commission<0){
