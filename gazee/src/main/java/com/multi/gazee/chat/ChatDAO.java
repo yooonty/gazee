@@ -20,21 +20,21 @@ public class ChatDAO {
 	@Autowired
 	ProductDAO dao;
 
-	public int create(ChatVO bag) {
-		ProductVO bag2 = dao.productone(bag.getProductId());
-		bag.setSellerId(bag2.getMemberId());
-		int result = my.insert("chat.create", bag);
+	public int create(ChatVO chatVO) {
+		ProductVO bag2 = dao.productone(chatVO.getProductId());
+		chatVO.setSellerId(bag2.getMemberId());
+		int result = my.insert("chat.create", chatVO);
 		if (result > 0) {
-			int roomId = bag.getRoomId();
+			int roomId = chatVO.getRoomId();
 			return roomId;
 		} else {
 			return 0;
 		}
 	}
 	
-	public ChatVO chatRoomSearch(ChatVO bag) {
-		ChatVO bag2 = my.selectOne("chat.chatRoomSearch", bag);
-		return bag2;
+	public ChatVO chatRoomSearch(ChatVO chatVO) {
+		ChatVO result = my.selectOne("chat.chatRoomSearch", chatVO);
+		return result;
 	}
 	
 	public List<ChatVO> chatList(String memberId) {
@@ -43,12 +43,12 @@ public class ChatDAO {
 	}
 	
 	public ChatVO chatRoomOne(int roomId) {
-		ChatVO bag = my.selectOne("chat.chatRoomOne", roomId);
-		return bag;
+		ChatVO result = my.selectOne("chat.chatRoomOne", roomId);
+		return result;
 	}
 	
-	public int lastMessageTimeUpdate(ChatVO bag) {
-		int result = my.update("chat.lastMessageTimeUpdate", bag);
+	public int lastMessageTimeUpdate(ChatVO chatVO) {
+		int result = my.update("chat.lastMessageTimeUpdate", chatVO);
 		return result;
 	}
 	
@@ -57,8 +57,8 @@ public class ChatDAO {
 		return result;
 	}
 	
-	public int dealDirectDateUpdate(ChatVO bag) {
-		int result = my.update("chat.dealDateUpdate", bag);
+	public int dealDirectDateUpdate(ChatVO chatVO) {
+		int result = my.update("chat.dealDateUpdate", chatVO);
 		return result;
 	}
 	

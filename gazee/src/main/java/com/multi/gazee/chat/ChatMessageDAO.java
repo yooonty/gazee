@@ -26,8 +26,8 @@ public class ChatMessageDAO {
 	@Autowired
 	SqlSessionTemplate my;
 	
-	public void insert(ChatMessageVO vo) {
-		mongo.insert(vo, "chat_logs");
+	public void insert(ChatMessageVO chatMessageVO) {
+		mongo.insert(chatMessageVO, "chat_logs");
 	}
 	
 	public ArrayList<ChatOutputMessageVO> list(int roomId) {
@@ -36,16 +36,16 @@ public class ChatMessageDAO {
 		List<ChatMessageVO> list = mongo.find(query, ChatMessageVO.class, "chat_logs");
 		ArrayList<ChatOutputMessageVO> arrList = new ArrayList<ChatOutputMessageVO>();
 		for (ChatMessageVO x : list) {
-			ChatOutputMessageVO bag = new ChatOutputMessageVO();
-			bag.setRoomId(String.valueOf(x.getRoomId()));
-			bag.setSender(x.getSender());
-			bag.setContent(x.getContent());
+			ChatOutputMessageVO chatOutputMessageVO = new ChatOutputMessageVO();
+			chatOutputMessageVO.setRoomId(String.valueOf(x.getRoomId()));
+			chatOutputMessageVO.setSender(x.getSender());
+			chatOutputMessageVO.setContent(x.getContent());
 			//mongoDB의 timestamp는 BSON 타입이라 Date로 변환 후 String을 따로 저장하는게 낫다.
 			Date date = new Date(x.getDate().getTime() * 1000L);
 			SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 			String time = format.format(date);
-			bag.setTime(time);
-			arrList.add(bag);
+			chatOutputMessageVO.setTime(time);
+			arrList.add(chatOutputMessageVO);
 		}
 		Collections.reverse(arrList);
 		return arrList;
@@ -54,7 +54,7 @@ public class ChatMessageDAO {
 	public ChatMessageVO lastMessageList(int roomId) {
 		Query query = new Query(new Criteria("roomId").is(roomId)).limit(1);
 		query.with(new Sort(Sort.Direction.DESC, "date"));
-		ChatMessageVO bag = mongo.findOne(query, ChatMessageVO.class, "chat_logs");
-		return bag;
+		ChatMessageVO chatMessageVO = mongo.findOne(query, ChatMessageVO.class, "chat_logs");
+		return chatMessageVO;
 	}
 }
