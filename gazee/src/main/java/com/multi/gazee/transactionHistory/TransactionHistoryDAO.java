@@ -10,6 +10,16 @@ public class TransactionHistoryDAO {
     @Autowired
     SqlSessionTemplate my;
     
+    public int insert(TransactionHistoryVO bag) {
+        int result = my.insert("history.insert", bag);
+        return result;
+    }
+    
+    public int select(String id) {
+        int result = my.selectOne("history.select", id);
+        return result;
+    }
+    
     public List<TransactionHistoryVO> listTransactionHistory() {
         List<TransactionHistoryVO> transactionHistoryVo = my.selectList("history.all");
         return transactionHistoryVo;
