@@ -5,7 +5,7 @@
 		<div class="modal_productImg"></div>
 		<div class="modal_productInfo">
 			<div>
-				<p>${bag2.productName}</p>
+				<p>${productVO.productName}</p>
 			</div>
 			<div style="font-size: 30px; font-weight: bold; margin-bottom: 5px;">
 				<p>${priceDec}원</p>
@@ -13,7 +13,7 @@
 			<div
 				style="display: flex; justify-content: space-between; font-size: 14px; text-align: center; color: #808080;">
 				<div style="width: 20%; padding: 10px; border: 1px solid #A1A1A1; border-radius: 10px;">
-					<p>${bag.dealType}</p>
+					<p>${chatVO.dealType}</p>
 				</div>
 				<%
 					String dealType2 = (String)request.getAttribute("dealType");
@@ -54,7 +54,7 @@
 					String order = (String)request.getAttribute("order");
 					if (order.equals("null")) {
 				%>
-					<button id="btn_finalPayment" onclick="order(${bag.roomId}, '${dealType}')">결제하기</button>
+					<button id="btn_finalPayment" onclick="order(${chatVO.roomId}, '${dealType}')">결제하기</button>
 				<%
 					} else {
 				%>
@@ -77,7 +77,7 @@
 					String order = (String)request.getAttribute("order");
 					if (order.equals("null")) {
 				%>
-					<button id="btn_finalPayment" onclick="gazeepay('${bag.buyerId}', ${bag2.productId}, '${dealType}')">결제하기</button>
+					<button id="btn_finalPayment" onclick="gazeepay('${chatVO.buyerId}', ${productVO.productId}, '${dealType}')">결제하기</button>
 				<%
 					} else {
 				%>

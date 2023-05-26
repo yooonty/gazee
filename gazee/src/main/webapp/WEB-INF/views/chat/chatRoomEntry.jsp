@@ -27,7 +27,7 @@
 		%>
 			<!-- 판매자일 때 -->
 			<div class="chatRoomHeader">
-				<span style="display: none;" id="chatRoomNumber">${bag.roomId}</span>
+				<span style="display: none;" id="chatRoomNumber">${chatVO.roomId}</span>
 				<div style="display: flex; gap: 20px; align-items: center;">
 					<div style="display: flex; flex-flow: column;">
 					<%
@@ -50,14 +50,14 @@
 					</div>
 					<div class="chatRoomTitle_wrap">
 						<div style="display: flex; align-items: center;">
-							<span id="productTitle">${bag2.productName}</span>
+							<span id="productTitle">${productVO.productName}</span>
 						</div>
 						<span id="chatPartner">${buyerNickname}</span>
 					</div>
 				</div>
 				<div style="display: flex; align-items: center; gap: 14px;">
 					<div id="dealType">
-						<span>${bag.dealType}</span>
+						<span>${chatVO.dealType}</span>
 					</div>
 					<%
 						String order2 = (String)request.getAttribute("order");
@@ -95,7 +95,7 @@
 				String dealType = (String)request.getAttribute("dealType");
 				if(dealType.equals("직거래")) {
 			%>
-				<button id="btn_dealDirectDate" onclick="dealDirectDateUpdate(${bag.roomId})">입력</button>
+				<button id="btn_dealDirectDate" onclick="dealDirectDateUpdate(${chatVO.roomId})">입력</button>
 				<div id="dealDirectDate">
 					<input id="input_date" type="datetime-local" name="starttime" style="border: none; outline: none;" value="${dealDirectDate}">
 				</div>
@@ -103,7 +103,7 @@
 				}
 			%>
 			<div class="chatArea">
-				<div class="chatLog" id="chatLog${bag.roomId}">
+				<div class="chatLog" id="chatLog${chatVO.roomId}">
 				</div>
 			</div>
 			<div class="chatWrite_wrap">
@@ -119,7 +119,7 @@
 		%>
 			<!-- 구매자일 때 -->
 			<div class="chatRoomHeader">
-				<span style="display: none;" id="chatRoomNumber">${bag.roomId}</span>
+				<span style="display: none;" id="chatRoomNumber">${chatVO.roomId}</span>
 				<div style="display: flex; gap: 20px; align-items: center;">
 					<div style="display: flex; flex-flow: column;">
 					<%
@@ -141,13 +141,13 @@
 						<div class="productThumbnail"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
-						<span id="productTitle">${bag2.productName}</span>
+						<span id="productTitle">${chatVO2.productName}</span>
 						<span id="chatPartner">${sellerNickname}</span>
 					</div>
 				</div>
 				<div style="display: flex; align-items: center; gap: 14px;">
 					<div id="dealType">
-						<span>${bag.dealType}</span>
+						<span>${chatVO.dealType}</span>
 					</div>
 					<div id="productPrice_wrap">
 						<div style="font-size: 26px; font-weight: bold; color: #000; margin: 0 5px;">
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 			<div class="chatArea" id="chatArea">
-				<div class="chatLog" id="chatLog${bag.roomId}">
+				<div class="chatLog" id="chatLog${chatVO.roomId}">
 
 				</div>
 			</div>
