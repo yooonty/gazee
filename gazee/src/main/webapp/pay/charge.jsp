@@ -73,24 +73,29 @@ function requestPay(method) {
 	    	var msg = '결제가 취소 되었습니다.';
 	    	alert(msg);
 	    }
-	    window.location.reload();
+	    //window.location.reload();
 	}
 	    });
 	}
 	function charge(chargeAmount) {
 		console.log("결제 성공 : "+chargeAmount)
-		var msg = "결제가 처리되지 않았습니다. 다시 시도해주세요";
 		$.ajax({
-			url: 'charge',
-		    type: 'POST',
+			url: "charge",
+		    type: "POST",
 		    data: {
-		      amount: chargeAmount
+		      amount: chargeAmount,
+		      payMethod : method
 		    },
 		    success: function(x) {
-		      msg = '가지머니 충전이 완료 되었습니다.\n잔액을 확인해주세요!\n충전금액: ' + chargeAmount + '원';
+		      	var msg = '가지머니 충전이 완료 되었습니다.\n잔액을 확인해주세요!\n충전금액: ' + chargeAmount + '원';
+		    	alert(msg)
+		    },
+		    error: function(x){
+		      	var msg = "결제가 처리되지 않았습니다. 다시 시도해주세요"
+		    	alert(msg)	
 		    }
 		});
-		alert(msg);
+		window.location.reload();
 	}
 }
 </script>

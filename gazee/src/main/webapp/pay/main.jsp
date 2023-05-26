@@ -15,6 +15,8 @@
 $(function() {
 	var balance;
 	var memberId = 1;
+	var bank = "";
+	var account = "";
 	
 	function numberFormat(amount) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
