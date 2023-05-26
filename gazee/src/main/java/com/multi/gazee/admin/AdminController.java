@@ -10,6 +10,7 @@ import com.multi.gazee.customerService.CustomerServiceService;
 import com.multi.gazee.member.MemberService;
 import com.multi.gazee.order.OrderService;
 import com.multi.gazee.report.ReportService;
+import com.multi.gazee.set.SetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,25 +22,27 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminController {
     
     @Autowired
-    public AdminFindPwServiceImpl adminFindPwService;
+    AdminFindPwServiceImpl adminFindPwService;
     @Autowired
-    public AdminPwEditServiceImpl adminPwEditService;
+    AdminPwEditServiceImpl adminPwEditService;
     @Autowired
-    public AdminSidebarService adminSidebarService;
+    AdminSidebarService adminSidebarService;
     @Autowired
-    public MemberService memberService;
+    MemberService memberService;
     @Autowired
-    public OrderService orderService;
+    OrderService orderService;
     @Autowired
-    public ChargeService chargeService;
+    ChargeService chargeService;
     @Autowired
-    public CustomerServiceService customerServiceService;
+    CustomerServiceService customerServiceService;
     @Autowired
-    public ReportService reportService;
+    ReportService reportService;
+    @Autowired
+    SetService setService;
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
     @Autowired
-    public AdminLoginService adminLoginService;
+    AdminLoginService adminLoginService;
     
     /* Admin Login */
     
@@ -162,9 +165,15 @@ public class AdminController {
         return orderService.getOrderList(model);
     }
     
-    @RequestMapping(value = "set.do")
-    public String set(@ModelAttribute("productId") int productId, @ModelAttribute("sellerId") String sellerId, Model model) throws Exception {
-       return orderService.settlement(sellerId, model);
+    /* Set */
+    
+    @RequestMapping(value = "set.do", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String set(@ModelAttribute("productId") int productId, @ModelAttribute("sellerId") String sellerId, @ModelAttribute("orderTransactionId") String orderTransactionId) throws Exception {
+        System.out.println("productId : " + productId);
+        System.out.println("sellerId : " + sellerId);
+        System.out.println("orderTransactionId : " + orderTransactionId);
+        return setService.settlement(productId, sellerId, orderTransactionId);
     }
     
     /* Charge */

@@ -21,6 +21,10 @@ public class OrderDAO {
         return orderNeedToSetList;
     }
     
+    public void updateSetStatus(int productId) {
+        my.selectOne("order.updateSetStatus", productId);
+    }
+    
     public List<OrderVO> listOrderFinished() {
         List<OrderVO> orderFinishedList = my.selectList("order.listOrderFinished");
         return orderFinishedList;

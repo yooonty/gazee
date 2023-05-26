@@ -14,7 +14,15 @@
         FROM tb_order
         WHERE seller_confirm = 1
           AND buyer_confirm = 1
+          AND set_status = 0
     </select>
+
+    <!-- 정산 상태 업데이트 -->
+    <update id="updateSetStatus" parameterType="int">
+        UPDATE tb_order
+        SET set_status = 1
+        WHERE product_id = #{id}
+    </update>
 
     <!-- 정산 완료 된 거래 Read -->
     <select id="listOrderFinished" resultType="orderVO">

@@ -4,7 +4,7 @@
 
     <!-- CREATE -->
     <insert id="create" parameterType="setVO">
-        insert into tb_set values (null, #{transactionId}, #{orderTransactionId}, #{sellerId}, default, #{amount})
+        insert into tb_set values (null, #{transactionId}, #{orderTransactionId}, #{sellerId}, #{transactionTime}, #{amount})
     </insert>
 
     <!-- ALL -->

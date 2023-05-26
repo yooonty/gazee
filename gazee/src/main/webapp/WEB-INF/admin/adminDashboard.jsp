@@ -2,6 +2,46 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminDashboard.css"/>
+<script>
+    $("#settle_button").click(function () {
+
+        var str = ""
+        var pArr = new Array();
+        var settle_button = $(this);
+
+        var tr = settle_button.parent().parent();
+        var td = tr.children();
+        var p = td.children();
+
+        var productId = Number(p.eq(0).text());
+        var orderTransactionId = p.eq(1).text();
+        var sellerId = p.eq(2).text();
+
+        /*let sellerId = $("seller_id").text();
+        let productId = Number($("product_id").text());
+        let orderTransacionId = $("order_transaction_id").text();*/
+        console.log(typeof sellerId + "seller_id : " + sellerId);
+        console.log(typeof productId + "product_id : " + productId);
+        console.log(typeof orderTransactionId + "order_transaction_id : " + orderTransactionId);
+
+        $.ajax({
+            url: "set.do",
+            type: "POST",
+            data: {
+                sellerId: sellerId,
+                productId: productId,
+                orderTransactionId: orderTransactionId
+            },
+            success: function (result) {
+                alert(result);
+                loadDashboard();
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        });
+    });
+</script>
 <!DOCTYPE html>
 <html>
 <body>
@@ -43,7 +83,7 @@
         <div>
             <%--JSTL 사용, 세 자리 수마다 콤마(,) 삽입--%>
             <div class="numbers"><fmt:formatNumber value="${sum}" type="number" pattern="#,###"/>원</div>
-            <div class="cardName">수수료 수입</div>
+            <div class="cardName" id="입">수수료 수입</div>
         </div>
         <div class="iconBox">
             <i class="fa fa-usd" aria-hidden="true"></i>
@@ -68,10 +108,10 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${orderNeedToSetList}" var="setList" varStatus="loop">
+            <c:forEach items="${orderNeedToSetList}" var="bag" varStatus="loop">
                 <script>
                     $(function () {
-                        const buyerConfirm = ${setList.buyerConfirm};
+                        const buyerConfirm = ${bag.buyerConfirm};
                         if (buyerConfirm === 1) {
                             $("#buyer_confirm_${loop.index}").html('<span class="status confirm">확정</span>');
                         } else {
@@ -81,26 +121,28 @@
                 </script>
                 <tr>
                     <td>
-                            ${setList.no}
+                            ${bag.no}
                     </td>
                     <td>
-                            ${setList.sellerId}
+                        <p style="display:none;">${bag.productId}</p>
+                        <p style="display:none;">${bag.transactionId}</p>
+                        <p>${bag.sellerId}</p>
                     </td>
                     <td>
-                            ${setList.buyerId}
+                            ${bag.buyerId}
                     </td>
                     <td>
-                <span id="seller_confirm_${loop.index}">
-                    <span class="status confirm">확정</span>
-                </span>
+                        <span id="seller_confirm_${loop.index}">
+                            <span class="status confirm">확정</span>
+                        </span>
                     </td>
                     <td>
-                <span id="buyer_confirm_${loop.index}">
-                        ${setList.buyerConfirm}
-                </span>
+                        <span id="buyer_confirm_${loop.index}">
+                        ${bag.buyerConfirm}
+                        </span>
                     </td>
                     <td>
-                        <button onclick="set()" style="font-size: 1.0rem">정산</button>
+                        <button id="settle_button" style="font-size: 1.0rem">정산</button>
                     </td>
                 </tr>
             </c:forEach>

@@ -23,9 +23,9 @@
 
     <!-- Order의 order_id로 해당 주문의 판매상품 가격 Read -->
     <select id="priceByOrderNo" parameterType="int" resultType="int">
-    SELECT price
-    FROM product
-    WHERE product_id = (SELECT product_id FROM `order` WHERE no = {no});
+        SELECT price
+        FROM tb_order o JOIN product p ON o.product_id = p.product_id
+        WHERE p.product_id = #{productId};
     </select>
 
 </mapper>

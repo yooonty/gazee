@@ -83,25 +83,6 @@
         })
     };
 
-    function set() {
-        var sellerId = $("seller_id").text();
-        const productId = $("product_id").text();
-        $.ajax({
-            url: "set.do",
-            type: "POST",
-            data: {
-                sellerId: sellerId,
-                productId: productId
-            },
-            success: function (result) {
-                alert(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        });
-    }
-
     function loadReportOne() {
         const bagReportId = $("#bag_report_id").text();
         $.ajax({
@@ -228,7 +209,7 @@
         toggle.classList.toggle("active");
         navigation.classList.toggle("active");
         main.classList.toggle("active");
-        if ($('#logo').css('visibility') == 'hidden' && $('#footer_container').css('visibility') == 'hidden')  {
+        if ($('#logo').css('visibility') == 'hidden' && $('#footer_container').css('visibility') == 'hidden') {
             $('#logo').css('visibility', 'visible');
             $('#footer_container').css('visibility', 'visible');
         } else {

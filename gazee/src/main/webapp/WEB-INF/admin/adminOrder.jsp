@@ -6,6 +6,45 @@
     function orderList() {
         $("#order_container").load("orderList.do");
     }
+
+    $("#settle_button").click(function () {
+
+        var str = ""
+        var pArr = new Array();
+        var settle_button = $(this);
+
+        var tr = settle_button.parent().parent();
+        var td = tr.children();
+        var p = td.children();
+
+        var productId = Number(p.eq(0).text());
+        var orderTransactionId = p.eq(1).text();
+        var sellerId = p.eq(2).text();
+
+        /*let sellerId = $("seller_id").text();
+        let productId = Number($("product_id").text());
+        let orderTransacionId = $("order_transaction_id").text();*/
+        console.log(typeof sellerId + "seller_id : " + sellerId);
+        console.log(typeof productId + "product_id : " + productId);
+        console.log(typeof orderTransactionId + "order_transaction_id : " + orderTransactionId);
+
+        $.ajax({
+            url: "set.do",
+            type: "POST",
+            data: {
+                sellerId: sellerId,
+                productId: productId,
+                orderTransactionId: orderTransactionId
+            },
+            success: function (result) {
+                alert(result);
+                loadOrder();
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        });
+    });
 </script>
 <html>
 <body>
@@ -89,6 +128,7 @@
                     </td>
                     <td>
                         <p id="product_id" style="display:none;">${bag.productId}</p>
+                        <p id="order_transaction_id" style="display:none;">${bag.transactionId}</p>
                         <p id="seller_id">${bag.sellerId}</p>
                     </td>
                     <td>
@@ -105,7 +145,7 @@
                 </span>
                     </td>
                     <td>
-                        <button onclick="set()" style="font-size: 1.0rem">정산</button>
+                        <button id="settle_button" style="font-size: 1.0rem">정산</button>
                     </td>
                 </tr>
             </c:forEach>
