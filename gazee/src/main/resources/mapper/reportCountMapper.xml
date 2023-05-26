@@ -15,7 +15,7 @@
     </select>
 
     <!-- 신고 누적 횟수 Read -->
-    <select id="listCount" parameterType="String" resultType="MemberVO">
+    <select id="listCount" parameterType="String" resultType="memberVO">
         SELECT count
         FROM report_count
         WHERE member_id = #{id}

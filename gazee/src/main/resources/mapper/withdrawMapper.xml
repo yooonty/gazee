@@ -3,13 +3,13 @@
 <mapper namespace="withdraw">
 
     <!-- ALL -->
-    <select id="listWithdraw" resultType="WithdrawVO">
+    <select id="listWithdraw" resultType="withdrawVO">
         SELECT *
         FROM withdraw
     </select>
 
     <!-- Transaction ID로 출금내역 Read -->
-    <select id="oneWithdrawById" parameterType="String" resultType="WithdrawVO">
+    <select id="oneWithdrawById" parameterType="String" resultType="withdrawVO">
         SELECT *
         FROM withdraw
         WHERE transaction_id = #{id}

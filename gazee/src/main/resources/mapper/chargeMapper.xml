@@ -3,7 +3,7 @@
 <mapper namespace="charge">
 
     <!-- ALL -->
-    <select id="listCharge" resultType="ChargeVO">
+    <select id="listCharge" resultType="chargeVO">
         SELECT *
         FROM charge
     </select>

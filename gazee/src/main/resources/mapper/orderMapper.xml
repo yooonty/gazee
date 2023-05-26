@@ -3,13 +3,13 @@
 <mapper namespace="order">
 
     <!-- ALL -->
-    <select id="listOrder" resultType="OrderVO">
+    <select id="listOrder" resultType="orderVO">
         SELECT *
         FROM tb_order
     </select>
 
     <!-- 정산이 필요한 거래 Read -->
-    <select id="listOrderNeedToSet" resultType="OrderVO">
+    <select id="listOrderNeedToSet" resultType="orderVO">
         SELECT *
         FROM tb_order
         WHERE seller_confirm = 1
@@ -17,7 +17,7 @@
     </select>
 
     <!-- 정산 완료 된 거래 Read -->
-    <select id="listOrderFinished" resultType="OrderVO">
+    <select id="listOrderFinished" resultType="orderVO">
         SELECT *
         FROM tb_order
         WHERE set_status = 1
