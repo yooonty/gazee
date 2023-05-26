@@ -1,6 +1,5 @@
 package com.multi.gazee.order;
 
-import com.multi.gazee.set.SetVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

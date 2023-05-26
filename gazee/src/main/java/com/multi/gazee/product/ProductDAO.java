@@ -1,6 +1,5 @@
 package com.multi.gazee.product;
 
-import com.multi.gazee.member.MemberVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

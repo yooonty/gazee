@@ -3,10 +3,7 @@ package com.multi.gazee.member;
 import java.sql.Timestamp;
 import java.util.Date;
 
-//RAM에 만드는 저장공간을 만든다.
 public class MemberVO {
-	// MemberVO가방에 넣은 데이터는 Member테이블에 들어갈 예정
-	// 각 컬럼과 일치시켜 줌.
 	private int no;
 	private String id;
 	private String pw;
