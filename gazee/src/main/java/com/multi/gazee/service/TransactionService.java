@@ -6,7 +6,6 @@ import com.multi.gazee.charge.ChargeVO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.order.OrderVO;
 import com.multi.gazee.set.SetVO;
-import com.multi.gazee.transactionHistory.TransactionHistoryVO;
 import com.multi.gazee.withdraw.WithdrawVO;
 
 public interface TransactionService {
