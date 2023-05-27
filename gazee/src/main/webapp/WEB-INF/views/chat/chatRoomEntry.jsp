@@ -141,7 +141,7 @@
 						<div class="productThumbnail"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
-						<span id="productTitle">${chatVO2.productName}</span>
+						<span id="productTitle">${productVO.productName}</span>
 						<span id="chatPartner">${sellerNickname}</span>
 					</div>
 				</div>
