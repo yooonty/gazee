@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.gazee.service.ChatService;
@@ -82,6 +83,13 @@ public class ChatController {
 		ChatService.saveSubscribedRoomIds(session, roomIds);
     }
 
+	/* 새로운 채팅방 세션 업데이트 */
+	@PostMapping("chat/addChatRoomIdToSession")
+	@ResponseBody
+	public List<Integer> addChatRoomIdToSession(HttpSession session, @RequestParam("roomId")String roomId) {
+		return ChatService.addChatRoomIdToSession(session, roomId);
+	}
+	
 	/* 로그인 제외 모든 페이지에서의 roomIds 세션 가져오기 */
 	@GetMapping("chat/getSubscribedRoomIds")
 	@ResponseBody
