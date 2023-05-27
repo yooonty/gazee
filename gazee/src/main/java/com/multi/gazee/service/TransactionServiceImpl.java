@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService{
 	@Override
 	public String makeIdentifier(String transactionType, MemberVO memberVO, Timestamp transactionTime) {
 		String identifier = transactionType + String.format("%010d", memberVO.getNo()) + memberVO.getId().substring(0, 2) 
-				+ new SimpleDateFormat("yyyyMMddHHmmss").format(transactionTime);
+				+ new SimpleDateFormat("yyMMddHHmmss").format(transactionTime);
 		return identifier;
 	}
 
@@ -51,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setMemberId(chargeVO.getMemberId());
 		transactionHistoryVO.setTransactionTime(chargeVO.getTransactionTime());
 		transactionHistoryVO.setAmount(chargeVO.getAmount());
-		transactionHistoryVO.setBalance(historyDAO.select(id));
+		transactionHistoryVO.setBalance(historyDAO.select(id)+chargeVO.getAmount());
 		return historyDAO.insert(transactionHistoryVO);
 //		return transactionHistoryVO;
 	}
@@ -64,7 +64,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setMemberId(withdrawVO.getMemberId());
 		transactionHistoryVO.setTransactionTime(withdrawVO.getTransactionTime());
 		transactionHistoryVO.setAmount(withdrawVO.getTotalAmount());
-		transactionHistoryVO.setBalance(balance);
+		transactionHistoryVO.setBalance(balance-withdrawVO.getTotalAmount());
 		return historyDAO.insert(transactionHistoryVO);
 	};
 	
@@ -76,7 +76,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setMemberId(orderVO.getBuyerId());
 		transactionHistoryVO.setTransactionTime(orderVO.getPaymentTime());
 		transactionHistoryVO.setAmount(paid_amount);
-		transactionHistoryVO.setBalance(balance);
+		transactionHistoryVO.setBalance(balance-paid_amount);
 		return historyDAO.insert(transactionHistoryVO);
 	};
 	
@@ -88,7 +88,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setMemberId(setVO.getSellerId());
 		transactionHistoryVO.setTransactionTime(setVO.getTransactionTime());
 		transactionHistoryVO.setAmount(setVO.getAmount());
-		transactionHistoryVO.setBalance(historyDAO.select(id));
+		transactionHistoryVO.setBalance(historyDAO.select(id)+setVO.getAmount());
 		return historyDAO.insert(transactionHistoryVO);
 	};
 	
