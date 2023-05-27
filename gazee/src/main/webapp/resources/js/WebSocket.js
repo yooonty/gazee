@@ -9,22 +9,19 @@
 		});
 		
 		if (connectedRoomIds != null) {
-			$(document).ready(function() {
-				$.ajax({
-					url: '../chat/getSubscribedRoomIds',
-					type: 'GET',
-			        dataType: 'json',
-			        success: function(response) {
-			            var roomIds = response;
-			            roomIds.forEach(function(roomId) {
-			            	allSocketConnect(roomId);
-			            });
-			        },
-			        error: function(error) {
-			            console.error('Failed to get subscribed roomIds from session');
-			            console.log(error);
-			        }
-				})
+			$.ajax({
+				url: '../chat/getSubscribedRoomIds',
+				type: 'GET',
+			    dataType: 'json',
+			    success: function(response) {
+					var roomIds = response;
+					roomIds.forEach(function(roomId) {
+					allSocketConnect(roomId);
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
 			})
 		}
 	
@@ -47,8 +44,7 @@
 			stompClient2.connect({}, function(frame) {
 				stompClient2.subscribe('/topic/' + memberId, function(message) {
 					let chatRoomInfo = JSON.parse(message.body);
-        			connectedRoomIds.push(chatRoomInfo);
-        			allSocketConnect(chatRoomInfo);
+        			addChatRoomIdToSession(chatRoomInfo);
 				}, function(error) {
 					console.error('ERROR', error);
 					reconnectUserWebSocket(memberId);
@@ -111,6 +107,20 @@
 			});
 		}
 		
+		function addChatRoomIdToSession(roomId) {
+			$.ajax({
+				url: '../chat/addChatRoomIdToSession',
+				type: 'POST',
+				data: {
+					roomId: roomId
+				},
+				success: function(roomIds) {
+					console.log(roomIds);
+					subscribeToChatRooms(roomIds);
+				}
+			})
+		}
+		
 		function disconnectWebSocket() {
 		    if (stompClient !== null) {
 		        stompClient.disconnect();
@@ -153,7 +163,7 @@
 						} else if (messageOutput.content == '결제완료') {
 							direct_paymentCompleteMyChat(messageOutput);
 						} else if (messageOutput.content == '운송장번호') {
-							console.log('운송장번호 입력해주세요')
+							delivery_paymentCompleteMyChat(messageOutput)
 						} else {
 							myChat(messageOutput);
 						}
@@ -163,7 +173,7 @@
 						} else if (messageOutput.content == '결제완료') {
 							direct_paymentCompletePartnerChat(messageOutput);
 						} else if (messageOutput.content == '운송장번호') {
-							console.log('운송장번호 입력해주세요')
+							delivery_paymentCompletePartnerChat(messageOutput)
 						} else {
 							partnerChat(messageOutput);
 						}
@@ -488,6 +498,7 @@
 		/* 새로운 메세지 Push알람 */
 		function newChatMessagePush(messageOutput) {
 			var x = document.getElementById("newMessagePushAlarm");
+			x.value = messageOutput.roomId;
 			let memberId = messageOutput.sender;
 			
 			if (x.innerHTML !== null) {
@@ -508,6 +519,11 @@
 					let contentDiv = document.createElement('div');
 					contentDiv.textContent = "새로운 메세지가 도착했습니다.";
 					x.append(contentDiv);
+					
+					x.addEventListener("click", function() {
+						var roomId = x.value;
+						location.href = "../chat/gazeeChat.jsp?roomId="+roomId;
+					});
 				}
 			})
 			x.className = "show";
