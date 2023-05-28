@@ -19,6 +19,7 @@ public class MemberVO {
 	private String gender;
 	private Timestamp joinDate;
 	private String profileImg;
+	private Timestamp logoutTime;
 	
 	public String getGender() {
 		return gender;
@@ -94,14 +95,12 @@ public class MemberVO {
 	public void setUserLevel(int userLevel) {
 		this.userLevel = userLevel;
 	}
-	
 	public Date getBirth() {
 		return birth;
 	}
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
-	
 	public Timestamp getJoinDate() {
 		return joinDate;
 	}
@@ -114,18 +113,10 @@ public class MemberVO {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
-	
-	@Override
-	public String toString() {
-		return "MemberVO [no=" + no + ", id=" + id + ", pw=" + pw + ", name=" + name + ", tel=" + tel + ", nickname="
-				+ nickname + ", email=" + email + ", userLevel=" + userLevel + ", account=" + account + ", bank=" + bank
-				+ ", status=" + status + ", birth=" + birth + ", gender=" + gender + ", joinDate=" + joinDate
-				+ ", profileImg=" + profileImg + "]";
+	public Timestamp getLogoutTime() {
+		return logoutTime;
 	}
-	
-
-
-
-	
-	
+	public void setLogoutTime(Timestamp logoutTime) {
+		this.logoutTime = logoutTime;
+	}
 }
