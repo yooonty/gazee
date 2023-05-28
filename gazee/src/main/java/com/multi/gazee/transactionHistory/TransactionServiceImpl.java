@@ -22,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService{
 	@Override
 	public String makeIdentifier(String transactionType, MemberVO memberVO, Timestamp transactionTime) {
 		String identifier = transactionType + String.format("%010d", memberVO.getNo()) + memberVO.getId().substring(0, 2) 
-				+ new SimpleDateFormat("yyyyMMddHHmmss").format(transactionTime);
+				+ new SimpleDateFormat("yyMMddHHmmss").format(transactionTime);
 		return identifier;
 	}
 
@@ -79,12 +79,18 @@ public class TransactionServiceImpl implements TransactionService{
 	@Override
 	public int setToTransactionHistory(SetVO setVO, String id) {
 		TransactionHistoryVO transactionHistoryVO = new TransactionHistoryVO();
-
 		transactionHistoryVO.setTransactionId(setVO.getTransactionId());
 		transactionHistoryVO.setMemberId(setVO.getSellerId());
 		transactionHistoryVO.setTransactionTime(setVO.getTransactionTime());
-		transactionHistoryVO.setAmount(setVO.getAmount());
-		transactionHistoryVO.setBalance(historyDAO.select(id));
+		
+		int setAmount = setVO.getAmount();
+		
+		transactionHistoryVO.setAmount(setAmount);
+		
+		int currentBalance = historyDAO.select(id);
+		int updatedBalance = currentBalance + setAmount;
+		
+		transactionHistoryVO.setBalance(updatedBalance);
 		return historyDAO.insert(transactionHistoryVO);
 	};
 	
