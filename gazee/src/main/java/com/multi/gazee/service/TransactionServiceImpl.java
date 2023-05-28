@@ -63,7 +63,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setTransactionId(withdrawVO.getTransactionId());
 		transactionHistoryVO.setMemberId(withdrawVO.getMemberId());
 		transactionHistoryVO.setTransactionTime(withdrawVO.getTransactionTime());
-		transactionHistoryVO.setAmount(withdrawVO.getTotalAmount());
+		transactionHistoryVO.setAmount(-(withdrawVO.getTotalAmount()));
 		transactionHistoryVO.setBalance(balance-withdrawVO.getTotalAmount());
 		return historyDAO.insert(transactionHistoryVO);
 	};
@@ -75,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setTransactionId(orderVO.getTransactionId());
 		transactionHistoryVO.setMemberId(orderVO.getBuyerId());
 		transactionHistoryVO.setTransactionTime(orderVO.getPaymentTime());
-		transactionHistoryVO.setAmount(paid_amount);
+		transactionHistoryVO.setAmount(-(paid_amount));
 		transactionHistoryVO.setBalance(balance-paid_amount);
 		return historyDAO.insert(transactionHistoryVO);
 	};
