@@ -54,7 +54,8 @@ public class SetServiceImpl implements SetService {
         Odao.updateSetStatus(productId);
     
         //4. TransactionHistory 테이블 넣기
-        /*transactionService.setToTransactionHistory(setVo, memberVo.getId());*/
+        String setMember = memberVo.getId();
+        transactionService.setToTransactionHistory(setVo, setMember);
         
         return "정산이 완료되었습니다.";
     }

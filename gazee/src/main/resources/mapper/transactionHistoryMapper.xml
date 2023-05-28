@@ -16,7 +16,7 @@
     </select>
 
     <!-- 잔액 조회 -->
-    <select id="select" parameterType="String" resultType="_int">
+    <select id="getBalance" parameterType="String" resultType="_int">
         SELECT COALESCE(balance, 0)
         FROM transaction_history
         WHERE member_id = #{id}

@@ -21,8 +21,8 @@ public class TransactionHistoryDAO {
         return bag;
     }
     
-    public int select(String id) {
-        int result = my.selectOne("history.select", id);
+    public int getBalance(String id) {
+        int result = my.selectOne("history.getBalance", id);
         return result;
     }
     
