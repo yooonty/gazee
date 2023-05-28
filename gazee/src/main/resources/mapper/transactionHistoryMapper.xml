@@ -8,6 +8,13 @@
         FROM transaction_history
     </select>
 
+    <!-- ONE -->
+    <select id="one" parameterType="String" resultType="historyVO">
+        select *
+        from transaction_history
+        where member_id = #{id}
+    </select>
+
     <!-- 잔액 조회 -->
     <select id="select" parameterType="String" resultType="_int">
         SELECT COALESCE(balance, 0)
