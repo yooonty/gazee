@@ -6,7 +6,7 @@
     <title>관리자 메인 페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../resources/css/adminMain.css"/>
+    <link rel="stylesheet" type="text/css" href="../../resources/css/adminSidebar.css"/>
 </head>
 <body>
 <script>
@@ -46,8 +46,8 @@
         $("#contents_container").load("order.do");
     }
 
-    function loadPay() {
-        $("#contents_container").load("pay.do");
+    function loadMoney() {
+        $("#contents_container").load("money.do");
     }
 
     function loadCs() {
@@ -146,9 +146,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href=# id="nav_pay" onclick="loadPay()">
+                    <a href=# id="nav_money" onclick="loadMoney()">
                         <span class="icon"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
-                        <span class="title">가지페이 관리</span>
+                        <span class="title">가지머니 관리</span>
                     </a>
                 </li>
                 <li>

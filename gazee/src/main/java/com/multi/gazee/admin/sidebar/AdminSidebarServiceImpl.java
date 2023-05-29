@@ -82,12 +82,14 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
         List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
+        List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
         
         model.addAttribute("memberList", memberList);
         model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         model.addAttribute("reportList", nonPagedReportList);
+        model.addAttribute("memberListToShow", memberExceptAdminList);
         return "../admin/adminMember";
     }
     
@@ -107,6 +109,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("orderInProgress", orderInProgress);
         model.addAttribute("sum", sum);
         model.addAttribute("setList", setList);
+        
         return "../admin/adminOrder";
     }
     
@@ -125,7 +128,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         return "../admin/adminProduct";
     }
     
-    public String loadPay(Model model) {
+    public String loadMoney(Model model) {
         List<TransactionHistoryVO> transactionList = Tdao.listTransactionHistory();
         List<WithdrawVO> withdrawList = Wdao.listWithdraw();
         List<MemberVO> bankAccountList = new ArrayList<>(); // 사용자 계좌 목록 담을 리스트
@@ -145,7 +148,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("bankAccountList", bankAccountList); // 사용자 계좌 목록
         model.addAttribute("sum", sum);
         
-        return "../admin/adminPay";
+        return "../admin/adminMoney";
     }
     
     public String loadCs(Model model) {
