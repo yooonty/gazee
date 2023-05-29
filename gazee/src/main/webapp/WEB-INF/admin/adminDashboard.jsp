@@ -173,6 +173,111 @@
             </tbody>
         </table>
     </div>
+    <div class="recentOrders" id="cs_list">
+        <div class="cardHeader">
+            <span><h2>답변이 필요한 문의 목록</h2></span>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <td>카테고리</td>
+                <td>ID</td>
+                <td>제목</td>
+                <td>날짜</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${nonPagedNeedCsReplyList}" var="bag">
+                <tr>
+                    <p style="display: none" id="bag_cs_id">${bag.csId}</p>
+                    <td>${bag.csCategory}</td>
+                    <td>${bag.csWriter}</td>
+                    <td><a href=# id="cs_list_title" onclick="loadCsOne()">${bag.csTitle} </a></td>
+                    <td>${bag.csDate}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <div class="recentCustomers">
+        <div class="cardHeader">
+            <h2>정산 완료 내역</h2>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <td>정산일시</td>
+                <td>판매자</td>
+                <td>정산금액</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${setList}" var="bag">
+                <tr>
+                    <td>
+                        <fmt:formatDate value="${bag.transactionTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </td>
+                    <td>${bag.sellerId}</td>
+                    <td>
+                        <fmt:formatNumber value="${bag.amount}" type="number" pattern="#,###"/>원
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <div class="recentOrders" id="report_list">
+        <div class="cardHeader">
+            <span><h2>답변이 필요한 신고 목록</h2></span>
+            <a href="#" class="btn" onclick="getReportList()">전체목록 조회</a>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <td>카테고리</td>
+                <td>ID</td>
+                <td>제목</td>
+                <td>날짜</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${nonPagedNeedReportReplyList}" var="bag">
+                <tr>
+                    <p style="display: none" id="bag_report_id">${bag.reportId}</p>
+                    <td>${bag.reportCategory}</td>
+                    <td>${bag.reportWriter}</td>
+                    <td><a href=# id="report_list_title" onclick="loadReportOne()">${bag.reportTitle} </a></td>
+                    <td>${bag.reportDate}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <div class="recentCustomers">
+        <div class="cardHeader">
+            <h2>최근 결제 된 상품</h2>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <td>상품 ID</td>
+                <td>결제 시각</td>
+                <td>구매자</td>
+                <td>판매자</td>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${orderList}" var="bag">
+                <tr>
+                    <td>${bag.productId}</td>
+                    <td><fmt:formatDate value="${bag.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>${bag.buyerId}</td>
+                    <td>${bag.sellerId}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

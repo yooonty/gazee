@@ -54,12 +54,20 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         List<OrderVO> orderNeedToSetList = Odao.listOrderNeedToSet();
         List<OrderVO> orderList = Odao.listOrder();
+        List<CustomerServiceVO> nonPagedNeedCsReplyList = CSdao.nonPagedNeedReply();
+        List<ReportVO> nonPagedNeedReportReplyList = Rdao.nonPagedNeedReply();
+        List<SetVO> setList = Sdao.listSet();
         int sum = Wdao.sumCommission();
+        
         model.addAttribute("memberList", memberList);
         model.addAttribute("productList", productList);
         model.addAttribute("reportList", nonPagedReportList);
         model.addAttribute("orderNeedToSetList", orderNeedToSetList);
         model.addAttribute("orderList", orderList);
+        model.addAttribute("nonPagedNeedCsReplyList", nonPagedNeedCsReplyList);
+        model.addAttribute("nonPagedNeedReportReplyList", nonPagedNeedReportReplyList);
+        model.addAttribute("setList", setList);
+    
         model.addAttribute("sum", sum);
         return "../admin/adminDashboard";
     }
