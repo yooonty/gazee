@@ -390,7 +390,7 @@ p {
 }
 
 /* 결제 요청 버튼 */
-#btn_payment, #btn_myPage, #btn_trackingNo {
+#btn_payment, #btn_myPage, #btn_trackingNo, #btn_trackingNoCheck {
 	border: none;
 	background: #693FAA;
     color: #fff;
