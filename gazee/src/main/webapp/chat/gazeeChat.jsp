@@ -23,12 +23,10 @@
 	var memberId = '<%= session.getAttribute("id") %>';
 	var selectedRoomId = null;
 	
-	
 	$(function() {
+		handlePageLoad(memberId);
+		checkAndStartTimer();
 		
-		if (memberId !== null) {
-			subscribeToUser(memberId);
-		}
 		/* 채팅 내역 불러오는 함수 */
 		function getChatHistory(roomId) {
 			$.ajax({
@@ -43,78 +41,6 @@
 				}, 
 				error: function(e) {
 					console.log("---" + e)
-				}
-			})
-		}
-		
-		/* 결제요청 메세지 */
-		function paymentMessage(roomId) {
-			let sender = memberId;
-			let content = "결제요청";
-			
-			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
-				'sender' : sender,
-				'content' : content
-			}));
-		}
-		
-		/* 거래약속 메세지 */
-		function dealDateMessage(roomId, dealDate) {
-			let sender = memberId;
-			let content = "[" + dealDate + "]로 약속을 만들었어요. 꼭 지켜주세요!"
-			console.log(content)
-			
-			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
-				'sender' : sender,
-				'content' : content
-			}));
-		}
-		
-		/* 메세지 보내는 함수 */
-		function sendMessage(roomId) {
-			lastMessageTime(roomId)
-			let sender = memberId;
-			let content = document.getElementById('chatMessageText').value;
-			
-			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
-				'sender' : sender,
-				'content' : content
-			}));
-		}
-		
-		/* 마지막 채팅이 이루어진 시간 업데이트 함수 */
-		function lastMessageTime(roomId) {
-			$.ajax({
-				url: 'lastMessageTimeUpdate',
-				data: {
-					roomId: roomId
-				},
-				success: function() {
-					console.log('업데이트 성공')
-				},
-				error: function(e) {
-					console.log(e)
-				}
-			})
-		}
-		
-		/* 자동 스크롤 */
-		function scrollToBottom() {
-			let chatArea = $('.chatArea');
-			if (chatArea.length > 0) {
-			    chatArea.scrollTop(chatArea.prop("scrollHeight"));
-			}
-		}
-		
-		/* 채팅방 나가기 함수 */
-		function roomLeave(roomId) {
-			$.ajax({
-				url: 'roomLeave',
-				data: {
-					roomId
-				},
-				success: function() {
-					alert('채팅방을 나갔습니다.')
 				}
 			})
 		}
@@ -211,9 +137,57 @@
 									})
 									
 									/* [판매자]일 때 [판매하기] 버튼을 눌러 결제요청 */
+									/* [판매자]가 중복으로 [판매하기]를 누르지 못하도록 */
 									let btn_sell = $("#btn_sell");
 									btn_sell.on('click', function() {
-										paymentMessage(roomId);
+										$.ajax({
+											url: 'chatSelectOne',
+											data: {
+												roomId : roomId
+											},
+											success: function(result) {
+												productId = result.productId
+												/* 1. 결제까지 된 상품인지 체크 */
+												$.ajax({
+													url: '../order/orderCheck',
+													data: {
+														productId : productId
+													},
+													success: function(result) {
+														if (result) {
+															alert('이미 판매한 상품입니다.')
+															location.reload();
+														} else {
+															/* [판매자]가 [판매하기]를 누른 이력이 있는지 - 1번 누른 후 10분동안 선점 */
+															$.ajax({
+																url: '../product/sellTimeCheck',
+																data: {
+																	productId : productId
+																},
+																success: function(result) {
+																	if (result.sellTime) {
+																		alert('거래 중인 상품입니다.')
+																	} else{
+																		/* [판매하기]를 누른 시간 업데이트 */
+																		$.ajax({
+																			url: '../product/sellTimeUpdate',
+																			data: {
+																				productId: productId
+																			},
+																			success: function(result) {
+																				paymentMessage(roomId);
+																				/* 10분 후 null값으로 변경 */
+																				setTimerExpiration(productId, 10 * 60 * 1000);
+																			}
+																		})
+																	}
+																}
+															})
+														}
+													}
+												})
+											}
+										})
 									})
 									
 									/* [판매자]가 직거래 시간을 등록했을 때 전송 메세지 */
@@ -349,7 +323,7 @@
 	}
 	
 	/* 결제가 완료되었을 때 */
-	function order(roomId, dealType) {
+	function order(roomId, productId, dealType) {
 		if (dealType == '직거래') { /* 직거래일 때 */
 			$.ajax({
 				url: '../order/orderComplete',
@@ -359,7 +333,7 @@
 				success: function(result) {
 					if (result == 1) {
 						dealDirectComplete(roomId);
-						location.href = "../order/orderComplete.jsp"
+						location.href = "../order/orderComplete.jsp?productId=" + productId + "&dealType=" + dealType;
 					}
 				}
 			})
@@ -377,7 +351,7 @@
 				success: function(result) {
 					if (result == 1) {
 						dealDeliveryComplete(roomId);
-						location.href = "../order/orderComplete.jsp"
+						location.href = "../order/orderComplete.jsp?productId=" + productId + "&dealType=" + dealType;
 					}
 				}
 			})
@@ -389,32 +363,6 @@
 		alert('이미 결제되었습니다.')
 	}
 	
-	/* 직거래 거래완료 메세지 */
-	function dealDirectComplete(roomId) {
-		let sender = memberId;
-		let content = "결제완료";
-		
-		stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
-			'sender' : sender,
-			'content' : content
-		}));
-	}
-	
-	/* 택배거래 거래완료 메세지 */
-	function dealDeliveryComplete(roomId) {
-		let sender = memberId;
-		let content = "운송장번호";
-		
-		stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
-			'sender' : sender,
-			'content' : content
-		}));
-	}
-	
-	/* 숫자 쉼표 */
-	function formatNumber(number) {
-		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
 </script>
 <style>
 	body {
@@ -456,7 +404,7 @@
 				<hr style="border: 1px solid #e1e1e1; width: 100%;">
 				<div class="amount">
 					<span>부족한 가지씨앗</span>
-					<span id="lackBalance" class="input_charge"></span>
+					<span id="lackBalance" class="input-charge"></span>
 				</div>
 			</div>
 			<div>
