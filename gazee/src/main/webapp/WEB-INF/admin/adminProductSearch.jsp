@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${memberListToShow}" var="bag" varStatus="status">
+    <c:forEach items="${searchList}" var="bag" varStatus="status">
         <tr>
             <td>
                     ${bag.productId}

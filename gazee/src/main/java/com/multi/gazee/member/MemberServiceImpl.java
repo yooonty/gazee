@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
         parameterMap.put("searchType", searchType);
         parameterMap.put("searchIndex", searchIndex);
         List<MemberVO> oneWhereList = Mdao.oneWhere(parameterMap);
-        model.addAttribute("memberListToShow", oneWhereList);
+        model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminMemberSearch";
     }

@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
         
         List<ProductVO> oneWhereList = Pdao.oneWhere(parameterMap);
         System.out.println("ProductVO : " + oneWhereList);
-        model.addAttribute("memberListToShow", oneWhereList);
+        model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminProductSearch";
     }

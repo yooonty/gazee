@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
         
         List<OrderVO> oneWhereList = Odao.oneWhere(parameterMap);
         System.out.println("OrderVO : " + oneWhereList);
-        model.addAttribute("memberListToShow", oneWhereList);
+        model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminOrderSearch";
     }

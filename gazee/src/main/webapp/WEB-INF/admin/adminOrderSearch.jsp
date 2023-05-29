@@ -15,7 +15,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${memberListToShow}" var="bag" varStatus="loop">
+    <c:forEach items="${searchList}" var="bag" varStatus="loop">
         <script>
             $(function () {
                 const buyerConfirm = ${bag.buyerConfirm};
