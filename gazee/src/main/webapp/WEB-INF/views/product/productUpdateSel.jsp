@@ -155,6 +155,7 @@ $(function() {
    
 </script>
 <span id="map"></span>
+
 <table>
 	<tr class="each-row">
 		<td class="attribute">제목</td>
@@ -206,7 +207,7 @@ $(function() {
 			</div>
 
 			<div class="address">
-				직거래 장소 정하기<br> <input class="search" placeholder="직거래 장소 입력">
+				직거래 장소 정하기<br> <input class="search" placeholder="직거래 장소 입력" id="addressInput">
 				<button onclick="getXY()">
 					<span class="material-symbols-outlined">search</span>
 				</button>
@@ -241,6 +242,12 @@ $(function() {
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 
+	// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+	searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+	
+	var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
+    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+	
 	function getXY(){
 	    var address = $('.search').val(); // address-search 입력 필드의 값 가져오기
 	    console.log('주소 값 : ' + address)
@@ -263,10 +270,16 @@ $(function() {
 			           map: map,
 			           position: coords
 			       });
-			
+			       
+			       var detailAddr = '';
+			       if (result[0].road_address) {
+			           detailAddr += '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>';
+			       } else if (result[0].address) {
+			           detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+			       }
 			       // 인포윈도우로 장소에 대한 설명을 표시합니다
 			       var infowindow = new kakao.maps.InfoWindow({
-			           content: '<div style="width:150px;text-align:center;padding:6px 0;">여기서 만나기</div>'
+			           content: '<div class="bAddr">' + detailAddr +  '</div>'
 			       });
 			       infowindow.open(map, marker);
 			
@@ -275,5 +288,47 @@ $(function() {
     		}else{console.log("검색 안됨")}
 			})
 	    }
+	}
+	
+	function searchAddrFromCoords(coords, callback) {
+	    // 좌표로 행정동 주소 정보를 요청합니다
+	    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+	}
+
+	function searchDetailAddrFromCoords(coords, callback) {
+	    // 좌표로 법정동 상세 주소 정보를 요청합니다
+	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	}
+	
+	searchDetailAddrFromCoords(map.getCenter(), function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+        	var detailAddr = '';
+        	if (result[0].road_address) {
+        	    detailAddr += '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>';
+        		document.getElementById('addressInput').value = result[0].road_address.address_name;
+        	} else if (result[0].address) {
+        	    detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        		document.getElementById('addressInput').value = result[0].address.address_name;
+        	}
+        	
+            var content = '<div class="bAddr">' + detailAddr + '</div>';
+
+            // 중심 위치에 표시합니다 
+            marker.setPosition(map.getCenter());
+            marker.setMap(map);
+
+            // 중심 위치에 대한 법정동 상세 주소정보를 표시합니다
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+        }   
+    });
+	
+
+	// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+	function displayCenterInfo(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+	        var infoDiv = document.getElementById('centerAddr');
+
+	    }    
 	}
 	</script>
