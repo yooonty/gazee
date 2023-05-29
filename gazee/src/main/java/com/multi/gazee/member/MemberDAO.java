@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class MemberDAO {
@@ -65,6 +66,11 @@ public class MemberDAO {
 	public MemberVO one(String id) {
 		MemberVO oneById = my.selectOne("member.one", id);
 		return oneById;
+	}
+	
+	public List<MemberVO> oneWhere(Map parameterMap) {
+		List<MemberVO> oneWhere = my.selectList("member.oneWhere", parameterMap);
+		return oneWhere;
 	}
 }
 

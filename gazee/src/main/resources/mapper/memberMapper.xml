@@ -49,6 +49,13 @@
         WHERE id = #{id}
     </select>
 
+    <!-- 검색 기능 -->
+    <select id="oneWhere" parameterType="java.util.Map" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+
     <!-- 정지 회원 검색 -->
     <select id="suspended" resultType="memberVO">
         SELECT *

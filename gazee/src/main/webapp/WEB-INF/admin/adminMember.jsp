@@ -6,8 +6,6 @@
 <html>
 <script>
     $(function () {
-        $("#details_container").load("memberList.do");
-
         var memberThirty = ${memberOfPastThirtyDaysList.size()};
         var element = document.getElementById("newMemberPastThirtyDays");
 
@@ -19,6 +17,18 @@
             element.textContent = "-${memberOfPastThirtyDaysList.size()}명"
         }
     });
+
+    function getSearchList() {
+        $.ajax({
+            type: 'GET',
+            url: "/searchMember.do",
+            data: $("form[name=search-form]").serialize(),
+            success: function (result) {
+                console.log(result)
+                $("#table_container").html(result);
+            }
+        })
+    }
 </script>
 <body>
 <div class="cardBox">
@@ -68,6 +78,55 @@
     </a>
 </div>
 <div class="details" id="details_container">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <span><h2>회원 목록</h2></span>
+            <form name="search-form" autocomplete="off">
+            <span style="text-align: right">
+                <select name="search_type" style="font-size: 1.0rem">
+                    <option value="no">No</option>
+                    <option value="id">ID</option>
+                    <option value="name">이름</option>
+                    <option value="nickname">닉네임</option>
+                </select>
+                <input name="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">
+                <input class="btn" type="button" onclick="getSearchList()" value="검색"></input>
+             </span>
+            </form>
+        </div>
+        <div id="table_container">
+            <table id="boardtable">
+                <thead>
+                <tr>
+                    <td>No</td>
+                    <td>ID</td>
+                    <td>이름</td>
+                    <td>닉네임</td>
+                    <td>Email</td>
+                    <td>가지씨앗 잔액</td>
+                    <td>판매 중 물품</td>
+                    <td>가입일시</td>
+                    <td>회원상태</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${memberListToShow}" var="bag" varStatus="status">
+                    <tr>
+                        <td>${bag.no}</td>
+                        <td>${bag.id}</td>
+                        <td>${bag.name}</td>
+                        <td>${bag.nickname}</td>
+                        <td>${bag.email}</td>
+                        <td>60,000</td>
+                        <td>3개</td>
+                        <td><fmt:formatDate value="${bag.joinDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                        <td>${bag.status}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>
