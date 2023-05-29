@@ -14,6 +14,8 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class AdminLoginServiceImpl implements AdminLoginService {
@@ -57,6 +59,12 @@ public class AdminLoginServiceImpl implements AdminLoginService {
                 // 세션 저장 (세션 ID, 사용자 정보)
                 // 세션은 브라우저 당 1개 생성(시크릿 모드도 동일, 같은 브라우저에서 새탭 or 새창 띄워도 로그인 유지) / 쿠키는 시크릿 모드시 없어짐
                 request.getSession().setAttribute("username", adminVo.getId());
+                
+                //로그인 시간 저장
+                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss");
+                Date loginTime = new Date();
+                String formattedTime = dateFormat.format(loginTime);
+                request.getSession().setAttribute("login_time", formattedTime);
                 
                 // 쿠키 전달 (세션 ID)
                 response.addCookie(new Cookie("AUTH", request.getSession().getId()) {{
