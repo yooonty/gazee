@@ -4,32 +4,35 @@
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminOrder.css"/>
 <html>
 <div class="cardHeader">
-    <h2>전체 거래 목록</h2>
-    <a href=# class="btn" onclick="returnToSetList()">정산 대상 조회</a>
+    <h2>완료된 거래 목록</h2>
 </div>
 <table>
     <thead>
     <tr>
-        <td>거래 No</td>
+        <td>거래 NO</td>
+        <td>상품 ID</td>
         <td>판매자</td>
         <td>구매자</td>
         <td>결제시간</td>
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${orderList}" var="orderList">
+    <c:forEach items="${orderFinishedList}" var="bag">
         <tr>
             <td>
-                    ${orderList.no}
+                    ${bag.no}
             </td>
             <td>
-                    ${orderList.sellerId}
+                    ${bag.productId}
             </td>
             <td>
-                    ${orderList.buyerId}
+                    ${bag.sellerId}
             </td>
             <td>
-                    ${orderList.paymentTime}
+                    ${bag.buyerId}
+            </td>
+            <td>
+                    ${bag.paymentTime}
             </td>
         </tr>
     </c:forEach>

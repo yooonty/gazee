@@ -20,6 +20,18 @@ public class OrderServiceImpl implements OrderService {
         model.addAttribute("orderList", orderList);
         return "../admin/adminOrderList";
     }
+
+    public String getloadOrderInProgressList(Model model) {
+        List<OrderVO> orderInProgressList = Odao.listOrderInProgress();
+        model.addAttribute("orderInProgressList", orderInProgressList);
+        return "../admin/adminOrderInProgressList";
+    }
+    
+    public String getOrderFinishedList(Model model) {
+        List<OrderVO> orderFinishedList = Odao.listOrderFinished();
+        model.addAttribute("orderFinishedList", orderFinishedList);
+        return "../admin/adminOrderFinishedList";
+    }
     
     public String searchOrder(String searchType, String searchIndex, Model model) throws Exception {
         Map<String, Object> parameterMap = new HashMap<>();

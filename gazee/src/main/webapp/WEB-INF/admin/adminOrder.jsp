@@ -7,6 +7,14 @@
         $("#order_container").load("orderList.do");
     }
 
+    function loadOrderInProgress() {
+        $("#order_container").load("loadOrderInProgress.do");
+    }
+
+    function loadOrderFinished() {
+        $("#order_container").load("loadOrderFinished.do");
+    }
+
     $("#settle_button").click(function () {
 
         var str = ""
@@ -61,7 +69,7 @@
 <html>
 <body>
 <div class="cardBox">
-    <a href=# onclick="loadProduct()">
+    <a href=# onclick="orderList()">
         <div class="card">
             <div>
                 <div class="numbers">${orderList.size()}건</div>
@@ -72,7 +80,7 @@
             </div>
         </div>
     </a>
-    <a href=# onclick="loadMember()">
+    <a href=# onclick="loadOrderInProgress()">
         <div class="card">
             <div>
                 <div class="numbers">${orderInProgress}건</div>
@@ -83,7 +91,7 @@
             </div>
         </div>
     </a>
-    <a href=# onclick="loadProduct()">
+    <a href=# onclick="loadOrderFinished()">
         <div class="card">
             <div>
                 <div class="numbers">${orderFinishedList.size()}건</div>
@@ -126,7 +134,7 @@
             <table>
                 <thead>
                 <tr>
-                    <td>거래 NO</td>
+                    <td>거래 No</td>
                     <td>판매자</td>
                     <td>구매자</td>
                     <td>판매자확정</td>

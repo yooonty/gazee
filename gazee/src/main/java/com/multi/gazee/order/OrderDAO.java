@@ -22,6 +22,11 @@ public class OrderDAO {
         return orderNeedToSetList;
     }
     
+    public List<OrderVO> listOrderInProgress() {
+        List<OrderVO> orderInProgressList = my.selectList("order.listOrderInProgress");
+        return orderInProgressList;
+    }
+    
     public void updateSetStatus(int productId) {
         my.selectOne("order.updateSetStatus", productId);
     }
