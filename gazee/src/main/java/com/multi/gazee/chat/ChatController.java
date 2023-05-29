@@ -96,4 +96,10 @@ public class ChatController {
 	public List<Integer> getSubscribedRoomIds(HttpSession session) {
 		return ChatService.getSubscribedRoomIds(session);
 	}
+	
+	@RequestMapping("chat/chatSelectOne")
+	@ResponseBody
+	public ChatVO chatSelectOne(int roomId) {
+		return ChatService.chatSelectOne(roomId);
+	}
 }
