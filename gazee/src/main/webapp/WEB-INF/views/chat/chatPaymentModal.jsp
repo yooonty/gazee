@@ -54,7 +54,7 @@
 					String order = (String)request.getAttribute("order");
 					if (order.equals("null")) {
 				%>
-					<button id="btn_finalPayment" onclick="order(${chatVO.roomId}, '${dealType}')">결제하기</button>
+					<button id="btn_finalPayment" onclick="order(${chatVO.roomId}, ${productVO.productId}, '${dealType}')">결제하기</button>
 				<%
 					} else {
 				%>
