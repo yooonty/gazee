@@ -245,8 +245,8 @@ $(function() {
 	// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
 	searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 	
-	var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
-    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+	var marker = new kakao.maps.Marker(), // 중심 위치를 표시할 마커입니다
+    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 중심 위치에 대한 주소를 표시할 인포윈도우입니다
 	
 	function getXY(){
 	    var address = $('.search').val(); // address-search 입력 필드의 값 가져오기
@@ -273,13 +273,13 @@ $(function() {
 			       
 			       var detailAddr = '';
 			       if (result[0].road_address) {
-			           detailAddr += '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>';
+			           detailAddr += result[0].road_address.address_name;
 			       } else if (result[0].address) {
-			           detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+			           detailAddr +=  result[0].address.address_name;
 			       }
 			       // 인포윈도우로 장소에 대한 설명을 표시합니다
 			       var infowindow = new kakao.maps.InfoWindow({
-			           content: '<div class="bAddr">' + detailAddr +  '</div>'
+			           content: '<div class="bAddr">' + detailAddr +'</div>'
 			       });
 			       infowindow.open(map, marker);
 			
@@ -304,10 +304,10 @@ $(function() {
         if (status === kakao.maps.services.Status.OK) {
         	var detailAddr = '';
         	if (result[0].road_address) {
-        	    detailAddr += '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>';
+        	    detailAddr += result[0].road_address.address_name ;
         		document.getElementById('addressInput').value = result[0].road_address.address_name;
         	} else if (result[0].address) {
-        	    detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        	    detailAddr +=  result[0].address.address_name ;
         		document.getElementById('addressInput').value = result[0].address.address_name;
         	}
         	
