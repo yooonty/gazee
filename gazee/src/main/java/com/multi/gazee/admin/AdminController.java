@@ -236,20 +236,25 @@ public class AdminController {
     }
     
     /* Report */
-
+    
+    @RequestMapping(value = "reportList.do")
+    public String loadReportList(Model model) throws Exception {
+        return reportService.getReportList(model);
+    }
+    
     @RequestMapping(value = "report_one.do")
     public String report_one(@ModelAttribute("reportId") int id, Model model) throws Exception {
         return reportService.reportOne(id, model);
     }
     
-    @RequestMapping(value = "replyRegisterComplete.do")
+    @RequestMapping(value = "reportReplyRegisterComplete.do")
     public String replyRegister(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent, Model model) throws Exception {
         return reportService.reportReply(reportId, replyContent, model);
     }
     
-/*    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
+    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
     @ResponseBody
     public String penaltyComplete(@ModelAttribute("reporteeId") String reporteeId, @ModelAttribute("penaltyType") String penaltyType) {
         return reportService.penalty(reporteeId, penaltyType);
-    }*/
+    }
 }
