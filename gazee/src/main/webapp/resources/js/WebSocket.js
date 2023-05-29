@@ -3,12 +3,16 @@
 		var connectedRoomIds = [];
 		var sessionId = "";
 		
-		window.addEventListener("beforeunload", function() {
-			console.log("소켓삭제");
-			disconnectWebSocket();
-		});
+		/* 페이지로드시 재연결 */
+		function handlePageLoad(memberId) {
+			if (memberId !== null) {
+				subscribeToUser(memberId);
+				reSubscribed();
+			}
+		}
 		
-		if (connectedRoomIds != null) {
+		/* 재연결 함수 */
+		function reSubscribed() {
 			$.ajax({
 				url: '../chat/getSubscribedRoomIds',
 				type: 'GET',
@@ -16,7 +20,7 @@
 			    success: function(response) {
 					var roomIds = response;
 					roomIds.forEach(function(roomId) {
-					allSocketConnect(roomId);
+						allSocketConnect(roomId);
 					});
 				},
 				error: function(error) {
@@ -24,18 +28,21 @@
 				}
 			})
 		}
-	
+		
 		function isWebSocketConnected(roomId) {
 			return connectedRoomIds.includes(roomId);
 		}
 
+		/* 로그인시 받은 기존 roomIds로 구독 */
 		function subscribeToChatRooms(roomIds) {
 			roomIds.forEach(function(roomId) {
 				allSocketConnect(roomId);
+				connectedRoomIds.push(roomId);
 			});
 			saveSubscribedRoomIdsToSession(connectedRoomIds);
 		}
 		
+		/* 유저 구독 */
 		function subscribeToUser(memberId) {
 			let socket = new SockJS('/gazee/user/' + memberId);
 			stompClient2 = Stomp.over(socket);
@@ -55,11 +62,11 @@
 			});
 		}
 		
+		/* 방 구독 */
 		function allSocketConnect(roomId) {
 			if (!isWebSocketConnected(roomId)) {
 				let socket = new SockJS('/gazee/chat/' + roomId);
 				stompClient = Stomp.over(socket);
-				connectedRoomIds.push(roomId);
 				
 				stompClient.connect({}, function(frame) {
 					stompClient.subscribe('/topic/' + roomId, function(messageOutput) {
@@ -76,6 +83,7 @@
 			}
 		}
 		
+		/* 방 재연결 */
 		function reconnectWebSocket(roomId) {
 			setTimeout(function() {
 				console.log('WebSocket 재연결 시도');
@@ -83,6 +91,7 @@
 			}, 3000);
 		}
 		
+		/* 유저 재연결 */
 		function reconnectUserWebSocket(memberId) {
 			setTimeout(function() {
 				console.log('WebSocket 재연결 시도');
@@ -90,6 +99,7 @@
 			}, 3000);
 		}
 		
+		/* 내 세션에 저장된 roomId로 구독 */
 		function saveSubscribedRoomIdsToSession(roomIds) {
 			// Ajax를 사용하여 서버에 세션에 저장하는 요청을 보냄
 			$.ajax({
@@ -107,6 +117,7 @@
 			});
 		}
 		
+		/* 추가된 방 roomId 세션 저장 */
 		function addChatRoomIdToSession(roomId) {
 			$.ajax({
 				url: '../chat/addChatRoomIdToSession',
@@ -121,6 +132,7 @@
 			})
 		}
 		
+		/* 웹소켓 끊기 */
 		function disconnectWebSocket() {
 		    if (stompClient !== null) {
 		        stompClient.disconnect();
@@ -157,13 +169,15 @@
 				let roomId = responseId.substring(7);
 			
 				if (String(messageOutput.roomId) == roomId) { 
-					if (messageOutput.sender == memberId) {
+					if (messageOutput.sender == sessionId) {
 						if (messageOutput.content == '결제요청') {
 							paymentMyChat(messageOutput);
 						} else if (messageOutput.content == '결제완료') {
 							direct_paymentCompleteMyChat(messageOutput);
 						} else if (messageOutput.content == '운송장번호') {
 							delivery_paymentCompleteMyChat(messageOutput)
+						} else if (messageOutput.content == '운송장번호 등록완료') {
+							trackingNoMyChat(messageOutput)
 						} else {
 							myChat(messageOutput);
 						}
@@ -174,6 +188,8 @@
 							direct_paymentCompletePartnerChat(messageOutput);
 						} else if (messageOutput.content == '운송장번호') {
 							delivery_paymentCompletePartnerChat(messageOutput)
+						} else if (messageOutput.content == '운송장번호 등록완료') {
+							trackingNoPartnerChat(messageOutput)
 						} else {
 							partnerChat(messageOutput);
 						}
@@ -388,11 +404,89 @@
 			btn_trackingNo.id = 'btn_trackingNo';
 			btn_trackingNo.textContent = '입력하러가기';
 			btn_trackingNo.style.cursor = 'pointer';
-			btn_trackingNo.addEventListener('click', payment);
+			btn_trackingNo.addEventListener('click', myPage);
 							
 			innerDiv.appendChild(span);
 			innerDiv.appendChild(span2);
 			innerDiv.appendChild(btn_trackingNo);
+			temp.appendChild(innerDiv);
+							
+			let timeDiv = document.createElement('div');
+			timeDiv.classList.add('messageTime');
+			timeDiv.textContent = messageOutput.time;
+							
+			temp.appendChild(timeDiv)
+			response.appendChild(temp);
+			scrollToBottom();
+		}
+		
+		/* 택배거래일 때 운송장번호 확인 메세지 - 내가 보낸 메세지 */
+		function trackingNoMyChat(messageOutput) {
+			let response = document.getElementById('chatLog'+messageOutput.roomId)
+		
+			let temp = document.createElement('div');
+			temp.classList.add('message');
+			temp.classList.add('chat_me');
+							
+			let innerDiv = document.createElement('div');
+			innerDiv.id = 'paymentMessage_wrap';
+							
+			let span = document.createElement('span');
+			span.textContent = '판매자가 운송장번호를 등록했어요!';
+			
+			let span2 = document.createElement('span');
+			span2.textContent = '마이페이지에서 운송장번호를 확인해 주세요!';
+							
+			let btn_trackingNoCheck = document.createElement('button');
+			btn_trackingNoCheck.id = 'btn_trackingNoCheck';
+			btn_trackingNoCheck.textContent = '마이페이지';
+			btn_trackingNoCheck.style.cursor = 'pointer';
+			btn_trackingNoCheck.addEventListener('click', myPage);
+							
+			innerDiv.appendChild(span);
+			innerDiv.appendChild(span2);
+			innerDiv.appendChild(btn_trackingNoCheck);
+			temp.appendChild(innerDiv);
+							
+			let timeDiv = document.createElement('div');
+			timeDiv.classList.add('messageTime');
+			timeDiv.textContent = messageOutput.time;
+							
+			temp.appendChild(timeDiv)
+			response.appendChild(temp);
+			scrollToBottom();
+		}
+		
+		/* 택배거래일 때 운송장번호 확인 메세지 - 내가 받은 메세지 */
+		function trackingNoPartnerChat(messageOutput) {
+			let response = document.getElementById('chatLog'+messageOutput.roomId)	
+	
+			let temp = document.createElement('div');
+			temp.classList.add('message');
+			temp.classList.add('chat_partner');
+							
+			let profileDiv = document.createElement('div');
+			profileDiv.classList.add('chatPartnerProfile');
+			temp.appendChild(profileDiv);
+							
+			let innerDiv = document.createElement('div');
+			innerDiv.id = 'paymentMessage_wrap';
+							
+			let span = document.createElement('span');
+			span.textContent = '판매자가 운송장번호를 등록했어요!';
+			
+			let span2 = document.createElement('span');
+			span2.textContent = '마이페이지에서 운송장번호를 확인해 주세요!';
+							
+			let btn_trackingNoCheck = document.createElement('button');
+			btn_trackingNoCheck.id = 'btn_trackingNoCheck';
+			btn_trackingNoCheck.textContent = '마이페이지';
+			btn_trackingNoCheck.style.cursor = 'pointer';
+			btn_trackingNoCheck.addEventListener('click', myPage);
+							
+			innerDiv.appendChild(span);
+			innerDiv.appendChild(span2);
+			innerDiv.appendChild(btn_trackingNoCheck);
 			temp.appendChild(innerDiv);
 							
 			let timeDiv = document.createElement('div');
@@ -533,4 +627,149 @@
 		/* 결제내역 확인하러 마이페이지로 이동 */
 		function myPage() {
 			location.href = "../home/gazeeMain.jsp";
+		}
+		
+		/* 결제 후 채팅방으로 이동 */
+		function chatRoom(roomId) {
+			location.href = "../chat/gazeeChat.jsp?roomId=" +roomId;
+		}
+		
+		/* 숫자 쉼표 */
+		function formatNumber(number) {
+			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		/* 결제요청 메세지 */
+		function paymentMessage(roomId) {
+			let sender = memberId;
+			let content = "결제요청";
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+		
+		/* 거래약속 메세지 */
+		function dealDateMessage(roomId, dealDate) {
+			let sender = memberId;
+			let content = "[" + dealDate + "]로 약속을 만들었어요. 꼭 지켜주세요!"
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+		
+		/* 직거래 거래완료 메세지 */
+		function dealDirectComplete(roomId) {
+			let sender = memberId;
+			let content = "결제완료";
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+	
+		/* 택배거래 거래완료 메세지 */
+		function dealDeliveryComplete(roomId) {
+			let sender = memberId;
+			let content = "운송장번호";
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+		
+		/* 운송장번호 입력완료 메세지 */
+		function trackingNoFinished(memberId, roomId) {
+			let sender = memberId;
+			let content = "운송장번호 등록완료";
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+		
+		/* 메세지 보내는 함수 */
+		function sendMessage(roomId) {
+			lastMessageTime(roomId)
+			let sender = memberId;
+			let content = document.getElementById('chatMessageText').value;
+			
+			stompClient.send('/app/chat/'+roomId, {}, JSON.stringify({
+				'sender' : sender,
+				'content' : content
+			}));
+		}
+		
+		/* 마지막 채팅이 이루어진 시간 업데이트 함수 */
+		function lastMessageTime(roomId) {
+			$.ajax({
+				url: 'lastMessageTimeUpdate',
+				data: {
+					roomId: roomId
+				},
+				success: function() {
+					console.log('업데이트 성공')
+				},
+				error: function(e) {
+					console.log(e)
+				}
+			})
+		}
+		
+		/* 채팅방 나가기 함수 */
+		function roomLeave(roomId) {
+			$.ajax({
+				url: 'roomLeave',
+				data: {
+					roomId: roomId
+				},
+				success: function() {
+					alert('채팅방을 나갔습니다.')
+				}
+			})
+		}
+		
+		function setTimerExpiration(productId, duration) {
+			const expiration = Date.now() + duration; // 만료 시간 계산
+			localStorage.setItem('timerExpiration', JSON.stringify({ productId, expiration })); // 만료 시간을 localStorage에 저장
+		}
+		
+		function checkAndStartTimer() {
+			const timerData = localStorage.getItem('timerExpiration'); // 저장된 만료 시간 확인
+
+			if (timerData) {
+				const { productId, expiration } = JSON.parse(timerData);
+				const remainingTime = expiration - Date.now(); // 남은 시간 계산
+				console.log(remainingTime);
+
+				if (remainingTime > 0) {
+					setTimeout(() => disabled(productId), remainingTime); // 남은 시간만큼 타이머 설정
+				} else {
+					clearTimer(); // 타이머 만료 시간이 지났으면 초기화
+				}
+			}
+		}
+		
+		// 타이머 초기화 함수
+		function clearTimer() {
+			localStorage.removeItem('timerExpiration'); // localStorage에서 타이머 정보 제거
+		}
+		
+		/* 10분 동안 다른 사용자에게 판매하지 못하도록 */
+		function disabled(productId) {
+			$.ajax({
+				url: '../product/sellTimeDelete',
+				data: {
+					productId : productId
+				},
+				success: function(result) {
+					console.log("업데이트 완료")
+				}
+			})
 		}
