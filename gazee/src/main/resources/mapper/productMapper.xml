@@ -21,6 +21,13 @@
         WHERE product_id = #{productId}
     </select>
 
+    <!-- 검색 기능 -->
+    <select id="oneWhere" parameterType="java.util.Map" resultType="productVO">
+        SELECT *
+        FROM product
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+
     <!-- Order의 order_id로 해당 주문의 판매상품 가격 Read -->
     <select id="priceByOrderNo" parameterType="int" resultType="int">
         SELECT price
