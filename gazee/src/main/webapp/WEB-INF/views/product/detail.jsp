@@ -46,6 +46,64 @@ table {
 .clicked {
 	background-color: #f7e3fc;
 }
+
+.modal {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	height: 400px;
+	padding: 40px;
+	text-align: center;
+	background-color: rgb(255, 255, 255);
+	border-radius: 10px;
+	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+
+#map {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+}
+
+
+.bAddr {
+	padding: 5px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 300px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -139,7 +197,7 @@ $(function() {
 				productId : productId
 			},
 			success : function(x) {
-				if(x === 1){
+				if(x == 1){
 					$('#productlike').css('color', 'red');
 				}else{
 					$('#productlike').css('color', 'gray');
@@ -177,10 +235,46 @@ $(function() {
 			});
 		});
 	});
+	// 이미지 클릭 시 모달 창 열기
+	var mapTrigger = document.getElementsByClassName("map-trigger");
+	var mapModal = document.getElementById("mapModal");
+	var closeModal = document.getElementsByClassName("close")[0];
+	for (var i = 0; i < mapTrigger.length; i++) {
+	    mapTrigger[i].addEventListener("click", function() {
+	        mapModal.style.display = "block";
+
+	     // 지도 크기 재조정
+	        map.relayout();
+	        var newCenter = new kakao.maps.LatLng(${bag.directAddressy}, ${bag.directAddressx});
+	        map.setCenter(newCenter);
+	        
+	    });
+	}
+
+	// 모달 창 닫기
+	closeModal.addEventListener("click", function() {
+	    mapModal.style.display = "none";
+	});
+	window.addEventListener("click", function(event) {
+	    if (event.target === mapModal) {
+	        mapModal.style.display = "none";
+	        
+	    }
+	});
+	
 </script>
 
 </head>
 <body>
+<!-- 맵을 포함한 모달 창 -->
+<div id="mapModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+			<div class="map_wrap">
+				<div id="map"></div>
+			</div>
+		</div>
+</div>
 	<table>
 		<tr>
 			<td colspan="2" style="text-align: right;"><i
@@ -200,11 +294,12 @@ $(function() {
 		<tr>
 			<td><div>
 					<c:if test="${bag.dealDirect == 1}">
-						<img height="30px" src="../resources/img/direct.png">
+						<img height="30px" src="../resources/img/direct.png" class="map-trigger">
 					</c:if>
 					<c:if test="${bag.dealDelivery == 1}">
 						<img height="30px" src="../resources/img/delivery.png">
 					</c:if>
+					
 				</div></td>
 		</tr>
 
@@ -237,4 +332,55 @@ $(function() {
 		</tr>
 	</table>
 </body>
+<script type="text/javascript">
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+
+mapOption = {
+    center: new kakao.maps.LatLng(${bag.directAddressy}, ${bag.directAddressx}), // 지도의 중심좌표
+    level: 3 // 지도의 확대 레벨
+};  
+
+
+//지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+//주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+var marker = new kakao.maps.Marker(), // 중심 위치를 표시할 마커입니다
+infowindow = new kakao.maps.InfoWindow({zindex:1}); // 중심 위치에 대한 주소를 표시할 인포윈도우입니다
+searchDetailAddrFromCoords(map.getCenter(), function(result, status) {
+ if (status === kakao.maps.services.Status.OK) {
+ 	var detailAddr = '';
+ 	if (result[0].road_address) {
+ 	    detailAddr += result[0].road_address.address_name ;
+ 	} else if (result[0].address) {
+ 	    detailAddr += result[0].address.address_name ;
+ 	}
+ 	
+     var content = '<div class="bAddr">' + detailAddr + '</div>';
+
+     // 중심 위치에 표시합니다 
+     marker.setPosition(map.getCenter());
+     marker.setMap(map);
+
+     // 중심 위치에 대한 법정동 상세 주소정보를 표시합니다
+     infowindow.setContent(content);
+     infowindow.open(map, marker);
+ }   
+});
+
+
+function searchAddrFromCoords(coords, callback) {
+ // 좌표로 행정동 주소 정보를 요청합니다
+ geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+}
+
+function searchDetailAddrFromCoords(coords, callback) {
+ // 좌표로 법정동 상세 주소 정보를 요청합니다
+ geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+}
+
+</script>
 </html>
+
