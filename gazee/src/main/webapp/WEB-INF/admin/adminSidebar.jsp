@@ -196,12 +196,15 @@
                   </label>
               </div>--%>
             <span class="adminInfo" style="font-size: 1.2rem; width: 20%; text-align: right; display: flex;
-  align-items: center; justify-content: center; padding-right: 20px;">
-                <%=request.getSession().getAttribute("username")%>님, 안녕하세요!
-                <span id="top_bar_icons" style="margin-left: 10px">
-                    <span class="icon" style="font-size: 2.0rem">
-                        <i class="fa fa-cog" aria-hidden="true" onclick="loadSetting()"></i>
-                        <a href="logout.do" style="margin-left: 5px">
+  align-items: center; justify-content: center; margin-right: 3%;">
+                <span>
+                    <div style="font-size: 1.0rem"><%=request.getSession().getAttribute("username")%>님, 안녕하세요!</div>
+                    <span style="font-size: 0.8rem">로그인 시각 : <%=request.getSession().getAttribute("login_time")%></span>
+                </span>
+                <span id="top_bar_icons" style="margin-left: 15px">
+                    <span class="icon" style="font-size: 1.7rem; color: #333333">
+                        <i class="fa fa-user-circle-o" aria-hidden="true" onclick="loadSetting()"></i>
+                        <a href="logout.do" style="margin-left: 10px; font-size: 1.8rem; color: #333333">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>
                         </a>
                     </span>
