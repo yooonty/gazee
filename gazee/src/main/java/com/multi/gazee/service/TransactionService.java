@@ -20,4 +20,13 @@ public interface TransactionService {
 	int orderToTransactionHistory(OrderVO orderVO, int paid_amount, int balance);
 	
 	int setToTransactionHistory(SetVO setVO, String id);
+	boolean checkRefundAvailable(ChargeVO charge, HttpSession session);
+	
+	boolean checkCanceled(ChargeVO charge);
+
+	boolean checkUser(ChargeVO charge, HttpSession session);
+
+	boolean checkTransactionTime(ChargeVO charge);
+	
+	String timestampToString(Timestamp timestamp);
 }
