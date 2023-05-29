@@ -22,39 +22,6 @@
 </script>
 <!DOCTYPE html>
 <div class="details">
-    <%--<div class="recentOrders" id="reported_member">
-        <div class="cardHeader">
-            <span><h2>회원별 제재 현황</h2></span>
-            <span style="text-align: right">
-            <input id="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">
-            <a href="#" class="btn">검색</a>
-            </span>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <td>No</td>
-                <td>ID</td>
-                <td>이름</td>
-                <td>닉네임</td>
-                <td>회원상태</td>
-                <td>제재횟수</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${memberList}" var="bag">
-                <tr>
-                    <td>${bag.no}</td>
-                    <td>${bag.id}</td>
-                    <td>${bag.name}</td>
-                    <td>${bag.nickname}</td>
-                    <td>${bag.status}</td>
-                    <td>1회</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>--%>
     <div class="recentOrders" id="cs_list">
         <div class="cardHeader">
             <span><h2>답변이 필요한 문의 목록</h2></span>
