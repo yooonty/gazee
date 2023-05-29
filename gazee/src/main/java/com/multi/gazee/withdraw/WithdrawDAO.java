@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class WithdrawDAO {
@@ -23,5 +24,10 @@ public class WithdrawDAO {
     public int sumCommission() {
         int totalCommission = my.selectOne("withdraw.sumCommission");
         return totalCommission;
+    }
+    
+    public List<WithdrawVO> oneWhere(Map parameterMap) {
+        List<WithdrawVO> oneWhere = my.selectList("withdraw.oneWhere", parameterMap);
+        return oneWhere;
     }
 }

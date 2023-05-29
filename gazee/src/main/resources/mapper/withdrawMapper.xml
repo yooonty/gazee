@@ -21,4 +21,12 @@
         FROM withdraw
     </select>
 
+    <!-- 검색 기능 -->
+    <select id="oneWhere" parameterType="java.util.Map" resultType="withdrawVO">
+        SELECT *
+        FROM withdraw
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+
+
 </mapper>
