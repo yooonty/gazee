@@ -9,8 +9,10 @@ import com.multi.gazee.charge.ChargeService;
 import com.multi.gazee.customerService.CustomerServiceService;
 import com.multi.gazee.member.MemberService;
 import com.multi.gazee.order.OrderService;
+import com.multi.gazee.product.ProductService;
 import com.multi.gazee.report.ReportService;
 import com.multi.gazee.set.SetService;
+import com.multi.gazee.withdraw.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +32,13 @@ public class AdminController {
     @Autowired
     MemberService memberService;
     @Autowired
+    ProductService productService;
+    @Autowired
     OrderService orderService;
     @Autowired
     ChargeService chargeService;
+    @Autowired
+    WithdrawService withdrawService;
     @Autowired
     CustomerServiceService customerServiceService;
     @Autowired
@@ -121,9 +127,9 @@ public class AdminController {
         return adminSidebarService.loadProduct(model);
     }
     
-    @RequestMapping(value = "pay.do")
-    public String loadPay(Model model) throws Exception {
-        return adminSidebarService.loadPay(model);
+    @RequestMapping(value = "money.do")
+    public String loadMoney(Model model) throws Exception {
+        return adminSidebarService.loadMoney(model);
     }
     
     @RequestMapping(value = "cs.do")
@@ -158,6 +164,18 @@ public class AdminController {
         return memberService.getMemberSuspendedList(model);
     }
     
+    @RequestMapping(value = "searchMember.do")
+    public String searchMember(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
+        return memberService.searchMember(searchType, searchIndex, model);
+    }
+    
+    /* Product */
+    
+    @RequestMapping(value = "searchProduct.do")
+    public String searchProduct(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
+       return productService.searchProduct(searchType, searchIndex, model);
+    }
+    
     /* Order */
     
     @RequestMapping(value = "orderList.do")
@@ -165,25 +183,45 @@ public class AdminController {
         return orderService.getOrderList(model);
     }
     
+    @RequestMapping(value = "loadOrderInProgress.do")
+    public String loadOrderInProgressList(Model model) throws Exception {
+        return orderService.getloadOrderInProgressList(model);
+    }
+    
+    @RequestMapping(value = "loadOrderFinished.do")
+    public String loadOrderFinishedList(Model model) throws Exception {
+        return orderService.getOrderFinishedList(model);
+    }
+    
+    @RequestMapping(value = "searchOrder.do")
+    public String searchOrder(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
+        return orderService.searchOrder(searchType, searchIndex, model);
+    }
+    
     /* Set */
     
     @RequestMapping(value = "set.do", produces = "application/text; charset=utf8")
     @ResponseBody
     public String set(@ModelAttribute("productId") int productId, @ModelAttribute("sellerId") String sellerId, @ModelAttribute("orderTransactionId") String orderTransactionId) throws Exception {
-        System.out.println("productId : " + productId);
-        System.out.println("sellerId : " + sellerId);
-        System.out.println("orderTransactionId : " + orderTransactionId);
         return setService.settlement(productId, sellerId, orderTransactionId);
     }
     
-    /* Charge */
+    /* Money */
+    
+    @RequestMapping(value = "searchWithdraw.do")
+    public String searchWithdraw(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
+        return withdrawService.searchWithdraw(searchType, searchIndex, model);
+    }
     
     @RequestMapping(value = "chargeList.do")
     public String loadChargeList(Model model) throws Exception {
         return chargeService.getChargeList(model);
     }
     
-    /* Pay */
+    @RequestMapping(value = "withdrawList.do")
+    public String loadWithdrawList(Model model) throws Exception {
+        return withdrawService.getWithdrawList(model);
+    }
     
     /* CS */
     
@@ -209,9 +247,9 @@ public class AdminController {
         return reportService.reportReply(reportId, replyContent, model);
     }
     
-    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
+/*    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
     @ResponseBody
     public String penaltyComplete(@ModelAttribute("reporteeId") String reporteeId, @ModelAttribute("penaltyType") String penaltyType) {
         return reportService.penalty(reporteeId, penaltyType);
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" type="text/css" href="../../resources/css/adminCharge.css"/>
+<link rel="stylesheet" type="text/css" href="../../resources/css/adminMoney.css"/>
 <html>
 <div class="recentOrders">
     <div class="cardHeader">

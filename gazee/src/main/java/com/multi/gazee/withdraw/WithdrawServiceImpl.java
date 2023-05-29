@@ -1,5 +1,6 @@
 package com.multi.gazee.withdraw;
 
+import com.multi.gazee.order.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -25,6 +26,12 @@ public class WithdrawServiceImpl implements WithdrawService {
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminMoneyWithdrawSearch";
+    }
+    
+    public String getWithdrawList(Model model) {
+        List<WithdrawVO> withdrawList = Wdao.listWithdraw();
+        model.addAttribute("withdrawList", withdrawList);
+        return "../admin/adminMoneyWithdrawList";
     }
 }
 
