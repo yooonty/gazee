@@ -97,13 +97,13 @@
 					<div style="display: flex; justify-content: space-between;">
 						<div id="customerServiceSideBar">
 							<table>
-								<tr>
+								<tr height="75">
 									<td><a href="../faq/faqlist?page=1&mode=1">FAQ게시판 목록</a></td>
 								</tr>
-								<tr>
+								<tr height="75">
 									<td><a href="../cs/csList?page=1&mode=1">질문게시판 목록</a></td>
 								</tr>
-								<tr>
+								<tr height="75">
 									<td><a href="../report/reportList?page=1&mode=1">신고게시판
 											목록</a></td>
 								</tr>

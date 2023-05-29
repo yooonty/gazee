@@ -18,81 +18,31 @@ public class FaqController {
 
 	@Autowired
 	FaqDAO dao;
+	
+	@Autowired
+	FaqService service;
 
 	@RequestMapping("customerService/faq/faqlist")
-	public String list(PageVO vo, Model model, int mode) {
-		vo.setStartEnd(vo.getPage());
-		List<FaqVO> list = dao.list(vo);
-		int count = dao.count();
-		int pages = count / 10 +1;
-		model.addAttribute("list", list);
-		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
-		
-		if(mode==2) {
-			return "customerService/faq/faqlist2";
-		}
-		else {
-			return "customerService/faq/faqlist";
-			}
+	public String faqList(PageVO vo, Model model, int mode) throws Exception {
+		return service.faqList(vo, model, mode);
 	}
-
 
 	@RequestMapping("customerService/faq/faqCategory")
-	public String category(PageVO vo, Model model, String category1, int mode) {
+	public String faqCategory(PageVO vo, Model model, String category1, int mode) throws Exception {
 		
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("category1", category1);
-		System.out.println(map);
-		List<FaqVO> faqCategory = dao.category(map);
-		System.out.println(faqCategory);
-		int count = dao.countCategory(category1);
-		System.out.println(count);
-		int pages1 = count / 10 +1;
-		System.out.println(pages1);
-		model.addAttribute("category", faqCategory);
-		model.addAttribute("count", count);
-		model.addAttribute("pages1", pages1);
-		model.addAttribute("categoryValue",category1);
-		if(mode==2) {
-			return "customerService/faq/faqCategory2";
-		}
-		else {
-			return "customerService/faq/faqCategory";
-			}
+		return service.faqCategory(vo, model, category1, mode);
 	}
-
 	
 	@RequestMapping("customerService/faq/faqOne")
-	public void one(int id, Model model) {
-		FaqVO bag = dao.one(id);
-		model.addAttribute("bag",bag);
+	public void faqOne(int id, Model model) {
+		service.faqOne(id, model);
 	}
 	
 	@RequestMapping("customerService/faq/faqSearch")
-	public String search(PageVO vo, String search1, Model model, int mode) {
-		vo.setStartEnd(vo.getPage());
-		System.out.println(vo);
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("search1", search1);
-		List<FaqVO> faqSearch = dao.search(map); 
-		int count = dao.countSearch(search1);
-		int pages1 = count / 10 +1;
-		model.addAttribute("search", faqSearch);
-		model.addAttribute("count", count);
-		model.addAttribute("pages1", pages1);
-		model.addAttribute("searchValue",search1);
-		if(mode==2) {
-			return "customerService/faq/faqSearch2";
-		}
-		else {
-			return "customerService/faq/faqSearch";
-			}
+	public String faqSearch(PageVO vo, String search1, Model model, int mode) throws Exception {
+		return service.faqSearch(vo, search1, model, mode);
 		
 	}
+
+	
 }
