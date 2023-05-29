@@ -93,6 +93,7 @@ $(function() {
 			</div>
 		</div>
 		<jsp:include page="../home/Footer.jsp" flush="true" />
+		<jsp:include page="kakaomap.jsp" flush="true"/>
 	</div>
 </body>
 </html>
