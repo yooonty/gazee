@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class OrderDAO {
@@ -34,4 +35,10 @@ public class OrderDAO {
         int totalTrading = my.selectOne("order.sumTotalTrading");
         return totalTrading;
     }
+    
+    public List<OrderVO> oneWhere(Map parameterMap) {
+        List<OrderVO> oneWhere = my.selectList("order.oneWhere", parameterMap);
+        return oneWhere;
+    }
+    
 }

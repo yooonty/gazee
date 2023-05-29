@@ -38,5 +38,10 @@
         WHERE o.set_status = 1;
     </select>
 
-
+    <!-- 검색 기능 -->
+    <select id="oneWhere" parameterType="java.util.Map" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+        WHERE ${searchType} = #{searchIndex}
+    </select>
 </mapper>

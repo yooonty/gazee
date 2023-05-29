@@ -45,6 +45,18 @@
             }
         });
     });
+
+    function getSearchList() {
+        $.ajax({
+            type: 'GET',
+            url: "/searchOrder.do",
+            data: $("form[name=search-form]").serialize(),
+            success: function (result) {
+                console.log(result)
+                $("#table_container").html(result);
+            }
+        })
+    }
 </script>
 <html>
 <body>
@@ -97,60 +109,73 @@
     <div class="recentOrders" id="order_container">
         <div class="cardHeader">
             <h2>정산이 필요한 거래 : ${orderNeedToSetList.size()}건</h2>
-            <a href="#" class="btn" onclick="orderList()">전체목록 조회</a>
+            <form name="search-form" autocomplete="off">
+            <span style="text-align: right">
+                <select name="search_type" style="font-size: 1.0rem">
+                    <option value="no">No</option>
+                    <option value="seller_id">판매자</option>
+                    <option value="buyer_id">구매자</option>
+                </select>
+                <input name="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">
+                <input class="btn" type="button" onclick="getSearchList()" value="검색"></input>
+             </span>
+                <a href="#" class="btn" onclick="orderList()">전체목록 조회</a>
+            </form>
         </div>
-        <table>
-            <thead>
-            <tr>
-                <td>거래 NO</td>
-                <td>판매자</td>
-                <td>구매자</td>
-                <td>판매자확정</td>
-                <td>구매자확정</td>
-                <td>정산하기</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${orderNeedToSetList}" var="bag" varStatus="loop">
-                <script>
-                    $(function () {
-                        const buyerConfirm = ${bag.buyerConfirm};
-                        if (buyerConfirm === 1) {
-                            $("#buyer_confirm_${loop.index}").html('<span class="status confirm">확정</span>');
-                        } else {
-                            $("#buyer_confirm_${loop.index}").html('<span class="status cancel">미확정</span>');
-                        }
-                    });
-                </script>
+        <div id="table_container">
+            <table>
+                <thead>
                 <tr>
-                    <td>
-                            ${bag.no}
-                    </td>
-                    <td>
-                        <p id="product_id" style="display:none;">${bag.productId}</p>
-                        <p id="order_transaction_id" style="display:none;">${bag.transactionId}</p>
-                        <p id="seller_id">${bag.sellerId}</p>
-                    </td>
-                    <td>
-                            ${bag.buyerId}
-                    </td>
-                    <td>
+                    <td>거래 NO</td>
+                    <td>판매자</td>
+                    <td>구매자</td>
+                    <td>판매자확정</td>
+                    <td>구매자확정</td>
+                    <td>정산하기</td>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${orderNeedToSetList}" var="bag" varStatus="loop">
+                    <script>
+                        $(function () {
+                            const buyerConfirm = ${bag.buyerConfirm};
+                            if (buyerConfirm === 1) {
+                                $("#buyer_confirm_${loop.index}").html('<span class="status confirm">확정</span>');
+                            } else {
+                                $("#buyer_confirm_${loop.index}").html('<span class="status cancel">미확정</span>');
+                            }
+                        });
+                    </script>
+                    <tr>
+                        <td>
+                                ${bag.no}
+                        </td>
+                        <td>
+                            <p id="product_id" style="display:none;">${bag.productId}</p>
+                            <p id="order_transaction_id" style="display:none;">${bag.transactionId}</p>
+                            <p id="seller_id">${bag.sellerId}</p>
+                        </td>
+                        <td>
+                                ${bag.buyerId}
+                        </td>
+                        <td>
                 <span id="seller_confirm_${loop.index}">
                     <span class="status confirm">확정</span>
                 </span>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
                 <span id="buyer_confirm_${loop.index}">
                         ${bag.buyerConfirm}
                 </span>
-                    </td>
-                    <td>
-                        <button id="settle_button" style="font-size: 1.0rem">정산</button>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <button id="settle_button" style="font-size: 1.0rem">정산</button>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="recentCustomers">
         <div class="cardHeader">
@@ -167,7 +192,9 @@
             <tbody>
             <c:forEach items="${setList}" var="bag">
                 <tr>
-                    <td>${bag.transactionTime}</td>
+                    <td>
+                        <fmt:formatDate value="${bag.transactionTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                    </td>
                     <td>${bag.sellerId}</td>
                     <td>
                         <fmt:formatNumber value="${bag.amount}" type="number" pattern="#,###"/>원
