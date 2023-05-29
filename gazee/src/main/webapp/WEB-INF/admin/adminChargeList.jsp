@@ -19,7 +19,7 @@
         <tbody>
         <c:forEach items="${chargeList}" var="bag">
             <tr>
-                <td>${bag.transactionTime}</td>
+                <td><fmt:formatDate value="${bag.transactionTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                 <td>${bag.memberId}</td>
                 <td>
                     <fmt:formatNumber value="${bag.amount}" type="number" pattern="#,###"/>원
