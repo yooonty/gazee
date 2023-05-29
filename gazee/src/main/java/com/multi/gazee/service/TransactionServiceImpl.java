@@ -50,10 +50,14 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setTransactionId(chargeVO.getTransactionId());
 		transactionHistoryVO.setMemberId(chargeVO.getMemberId());
 		transactionHistoryVO.setTransactionTime(chargeVO.getTransactionTime());
-		transactionHistoryVO.setAmount(chargeVO.getAmount());
-		transactionHistoryVO.setBalance(historyDAO.select(id)+chargeVO.getAmount());
+		if(chargeVO.getTransactionId().substring(0, 1).equals("r")) {
+			transactionHistoryVO.setAmount(-(chargeVO.getAmount()));
+			transactionHistoryVO.setBalance(historyDAO.select(id)-chargeVO.getAmount());
+		}else {
+			transactionHistoryVO.setAmount(chargeVO.getAmount());
+			transactionHistoryVO.setBalance(historyDAO.select(id)+chargeVO.getAmount());
+		}
 		return historyDAO.insert(transactionHistoryVO);
-//		return transactionHistoryVO;
 	}
 	
 	@Override
