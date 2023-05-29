@@ -195,6 +195,18 @@
                       <i class="fa fa-search" aria-hidden="true"></i>
                   </label>
               </div>--%>
+            <span class="adminInfo" style="font-size: 1.2rem; width: 20%; text-align: right; display: flex;
+  align-items: center; justify-content: center; padding-right: 20px;">
+                <%=request.getSession().getAttribute("username")%>님, 안녕하세요!
+                <span id="top_bar_icons" style="margin-left: 10px">
+                    <span class="icon" style="font-size: 2.0rem">
+                        <i class="fa fa-cog" aria-hidden="true" onclick="loadSetting()"></i>
+                        <a href="logout.do" style="margin-left: 5px">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                </span>
+            </span>
         </div>
         <div class="contents" id="contents_container">
         </div>
