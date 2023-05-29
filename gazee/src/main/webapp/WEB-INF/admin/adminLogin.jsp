@@ -53,4 +53,11 @@
     </div>
 </div>
 </body>
+<div id="footer" style="text-align: center; width: 100vw; background-color: #363636;
+	color: #fff; height: 8%; position: absolute !important; bottom: 0 !important; display: flex;
+  align-items: center; justify-content: center;">
+    <div>
+        <p style="margin: 0; font-size: 12px;">Copyrightⓒ 2023. gazee. All rights reserved.</p>
+    </div>
+</div>
 </html>
