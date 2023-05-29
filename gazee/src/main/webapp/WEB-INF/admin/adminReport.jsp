@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
 <script>
     // 테이블의 Row 클릭시 값 가져오기
-    $(".btn").click(function () {
+    $(".penalty").click(function () {
 
         var str = ""
         var tdArr = new Array();	// 배열 선언
@@ -37,6 +37,10 @@
             }
         });
     });
+
+    function getReportList() {
+        $("#report_list").load("reportList.do");
+    }
 </script>
 <!DOCTYPE html>
 <html>
@@ -76,7 +80,7 @@
                         </select>
                     </td>
                     <td>
-                        <a href="#" class="btn">확인</a>
+                        <a href="#" class="penalty">확인</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -86,6 +90,7 @@
     <div class="recentOrders" id="report_list">
         <div class="cardHeader">
             <span><h2>답변이 필요한 신고 목록</h2></span>
+            <a href="#" class="btn" onclick="getReportList()">전체목록 조회</a>
         </div>
         <table>
             <thead>

@@ -60,7 +60,7 @@
         <div class="cardHeader">
             <span><h2>신고 상세 조회</h2></span>
             <span style="text-align: right">
-            <a href=# id="returnPrev" onclick="prev()">목록으로 돌아가기</a>
+            <a href=# id="returnPrev" class="btn" onclick="prev()">목록으로 돌아가기</a>
         </span>
         </div>
         <table>

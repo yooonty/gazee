@@ -4,6 +4,7 @@ import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.reportCount.ReportCountDAO;
 import com.multi.gazee.reportCount.ReportCountVO;
+import com.multi.gazee.withdraw.WithdrawVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -18,6 +19,12 @@ public class ReportServiceImpl implements ReportService {
     ReportCountDAO RCdao;
     @Autowired
     MemberDAO Mdao;
+    
+    public String getReportList(Model model) {
+        List<ReportVO> reportList = Rdao.nonPagedList();
+        model.addAttribute("reportList", reportList);
+        return "../admin/adminReportList";
+    }
     
     public String reportOne(int id, Model model) {
         ReportVO reportOne = Rdao.one(id);
