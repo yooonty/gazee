@@ -22,6 +22,7 @@
 				url : "../product/productList",
 				data : {
 					page : $(this).text(),
+					num : 20, 
 					search : '${search}'
 				},
 				success : function(res) {
@@ -37,13 +38,13 @@
 		/* 검색창을 이용한 검색 */
 		$('#searchButton').click(function() {
 			var search = $('#searchBar').val()
-			location.href = "../product/searchList?page=1&search=" + search
+			location.href = "../product/searchList?page=1&num=20&search=" + search
 		})
 		
 		/* 카테고리를 이용한 검색 */
 		$('.categoryMenu').click(function() {
 			var category = $(this).text()
-			location.href = "../product/categoryList?page=1&category=" + category
+			location.href = "../product/categoryList?page=1&num=20&category=" + category
 		})
 		
 		/* 상품 상세페이지로 이동 */
@@ -73,9 +74,7 @@
 				</div>
 				<div>
 					<ul id="searchOrder">
-						<li>조회순</li>
-						<li class= "line">|</li>
-						<li>가격순</li>
+						<li><a href="../product/searchListOnSale?page=1&num=20&search=${search}">판매중인 상품보기</a></li>
 					</ul>
 				</div>
 			</div>
