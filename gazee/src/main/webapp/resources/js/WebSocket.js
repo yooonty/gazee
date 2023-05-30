@@ -5,7 +5,7 @@
 		
 		/* 페이지로드시 재연결 */
 		function handlePageLoad(memberId) {
-			if (memberId !== null) {
+			if (memberId) {
 				subscribeToUser(memberId);
 				reSubscribed();
 			}
@@ -23,9 +23,6 @@
 						allSocketConnect(roomId);
 					});
 				},
-				error: function(error) {
-					console.log(error);
-				}
 			})
 		}
 		
@@ -239,6 +236,13 @@
 							
 			let profileDiv = document.createElement('div');
 			profileDiv.classList.add('chatPartnerProfile');
+			profile(messageOutput.sender)
+			.then((profileName) => {
+				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+			})
+ 			.catch((error) => {
+				console.error('Error fetching profile:', error);
+			});
 			temp.appendChild(profileDiv);
 							
 			let innerDiv = document.createElement('div');
@@ -313,6 +317,13 @@
 							
 			let profileDiv = document.createElement('div');
 			profileDiv.classList.add('chatPartnerProfile');
+			profile(messageOutput.sender)
+			.then((profileName) => {
+				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+			})
+ 			.catch((error) => {
+				console.error('Error fetching profile:', error);
+			});
 			temp.appendChild(profileDiv);
 							
 			let innerDiv = document.createElement('div');
@@ -389,6 +400,13 @@
 							
 			let profileDiv = document.createElement('div');
 			profileDiv.classList.add('chatPartnerProfile');
+			profile(messageOutput.sender)
+			.then((profileName) => {
+				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+			})
+ 			.catch((error) => {
+				console.error('Error fetching profile:', error);
+			});
 			temp.appendChild(profileDiv);
 							
 			let innerDiv = document.createElement('div');
@@ -467,6 +485,13 @@
 							
 			let profileDiv = document.createElement('div');
 			profileDiv.classList.add('chatPartnerProfile');
+			profile(messageOutput.sender)
+			.then((profileName) => {
+				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+			})
+ 			.catch((error) => {
+				console.error('Error fetching profile:', error);
+			});
 			temp.appendChild(profileDiv);
 							
 			let innerDiv = document.createElement('div');
@@ -532,6 +557,13 @@
 							
 			let profileDiv = document.createElement('div');
 			profileDiv.classList.add('chatPartnerProfile');
+			profile(messageOutput.sender)
+			.then((profileName) => {
+				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+			})
+ 			.catch((error) => {
+				console.error('Error fetching profile:', error);
+			});
 			temp.appendChild(profileDiv);
 							
 			let innerDiv = document.createElement('div');
@@ -772,4 +804,64 @@
 					console.log("업데이트 완료")
 				}
 			})
+		}
+		
+		/* 메인페이지 - 안 읽은 메세지 확인 뱃지 */
+		function unreadMessageCheck(memberId) {
+			if (memberId !== null) {
+				if(isFirstLoad()) {
+					$.ajax({
+						url: '../chat/unreadMessageCheck',
+						data: {
+							memberId: memberId
+						},
+						success: function(result) {
+						console.log(result)
+						let newMessageBadge = document.getElementById('newMessageBadge');
+						if (newMessageBadge && result.length > 0) {
+							newMessageBadge.style.visibility = 'visible';
+						}
+						}
+					})
+				}
+			}
+		}
+		
+		function isFirstLoad() {
+			var isFirstLoad = localStorage.getItem('isFirstLoad');
+			
+			if (isFirstLoad) {
+				return false;
+			} else {
+				let btn_myChatlist = document.getElementById('btn_myChatlist')
+				if (btn_myChatlist !== null) {
+					btn_myChatlist.addEventListener('click', function() {
+						localStorage.setItem('isFirstLoad', 'true');
+					})
+				}
+				return true;
+			}
+		}
+		
+		/* 프로필 사진 */ 
+		function profile(sender) {
+			return new Promise((resolve, reject) => {
+				$.ajax({
+					url: '../member/searchOne',
+					data: {
+						memberId: sender
+					},
+					success: function(result) {
+						let profile = result.profileImg;
+						resolve(profile);
+					},
+					error: function(error) {
+						reject(error);
+					}
+				});
+			});
+		}
+		
+		function LocalStorageClear() {
+			localStorage.clear();
 		}
