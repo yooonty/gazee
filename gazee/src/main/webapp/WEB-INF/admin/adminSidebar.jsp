@@ -15,7 +15,7 @@
     });
 
     $(function() {
-        checkLogin(1800000);
+        checkLogin(3600000);
 
         function checkLogin(delay) {
             setTimeout(function() {
@@ -36,14 +36,14 @@
                 else {
                     if (hasCookie || hasSession) {
                         // 둘 중 하나만 존재하는 경우 로그아웃 페이지로 이동시킴
-                        alert("로그인 후 30분이 지나 자동으로 로그아웃 됩니다.")
+                        alert("로그인 후 60분이 지나 자동으로 로그아웃 됩니다.")
                         location.href="logout.do"
                     }
                     else {
                         return false;
                     }
                 }
-                checkLogin(1800000); // 재귀함수를 사용하여 반복수행
+                checkLogin(3600000); // 재귀함수를 사용하여 반복수행
             }, delay);
         }
 

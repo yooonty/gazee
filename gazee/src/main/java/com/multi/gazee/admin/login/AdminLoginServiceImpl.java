@@ -68,7 +68,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
                 
                 // 쿠키 전달 (세션 ID)
                 response.addCookie(new Cookie("AUTH", request.getSession().getId()) {{
-                    setMaxAge(60 * 30); // 자동 로그인 30분 유지
+                    setMaxAge(60 * 60); // 자동 로그인 60분 유지
                     setPath("/");
                 }});
                 
