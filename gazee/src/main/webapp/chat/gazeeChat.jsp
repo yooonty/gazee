@@ -362,16 +362,10 @@
 	function orderDone() {
 		alert('이미 결제되었습니다.')
 	}
-	
 </script>
 <style>
 	body {
 		background-color: #fafafa;
-	}
-	
-	.chatPartnerProfile {
-		background-image: url("https://github.com/JJ2uu/JJ2uu/blob/main/images/profile.jpg?raw=true");
-		background-size: 40px;
 	}
 </style>
 <title>가지가지</title>
