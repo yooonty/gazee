@@ -30,6 +30,12 @@
 		update chat set deal_direct_date = #{dealDirectDate} where room_id = #{roomId}
 	</update>
 	
+	<select id="unreadMessage" parameterType="String" resultType="chatVO">
+		SELECT distinct c.* FROM chat c
+		INNER JOIN member m ON m.id = #{memberId}
+		WHERE c.last_message_time > m.logout_time
+	</select>
+	
 </mapper>
 
 
