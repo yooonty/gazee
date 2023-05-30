@@ -68,7 +68,7 @@ p {
 	width: 40px;
 	height: 40px;
 	border-radius: 50px;
-	background-image: url("http://erxtjrehmojx17106475.cdn.ntruss.com/person2.svg?type=f&w=30&h=30");
+	background-image: url("http://erxtjrehmojx17106475.cdn.ntruss.com/person2.png?type=f&w=30&h=30");
 	background-repeat: no-repeat;
     background-position: center center;
 	background-color: #d9d9d9;
@@ -438,6 +438,7 @@ p {
 	height:360px;
 	background: #f7f7f7;
 	border-radius: 50px;
+	background-repeat: no-repeat;
 }
 
 /* 모달 - 상품 정보 */
