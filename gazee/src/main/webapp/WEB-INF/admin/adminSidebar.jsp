@@ -14,6 +14,41 @@
         $("#contents_container").load("dashboard.do");
     });
 
+    $(function() {
+        checkLogin(60000);
+
+        function checkLogin(delay) {
+            setTimeout(function() {
+                var hasCookie, hasSession;
+
+                var loginCookie = document.cookie.indexOf("AUTH");
+                if ((loginCookie > 0) && (typeof loginCookie === "number")) {
+                    hasCookie = true;
+                }
+
+                if (document.getElementsByClassName("fa fa-sign-out") !== null) {
+                    hasSession = true;
+                }
+
+                if (hasCookie && hasSession) {
+                    console.log("isLogin: true");
+                }
+                else {
+                    if (hasCookie || hasSession) {
+                        // 둘 중 하나만 존재하는 경우 로그아웃 페이지로 이동시킴
+                        alert("로그인 후 30분이 지나 자동으로 로그아웃 됩니다.")
+                        location.href="logout.do"
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                checkLogin(60000); // 재귀함수를 사용하여 반복수행
+            }, delay);
+        }
+
+    })
+
     function loadDashboard() {
         $("#contents_container").load("dashboard.do");
     }
