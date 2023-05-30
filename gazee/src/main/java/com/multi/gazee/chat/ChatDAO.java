@@ -62,4 +62,8 @@ public class ChatDAO {
 		return result;
 	}
 	
+	public List<ChatVO> unreadMessageCheck(String memberId) {
+		List<ChatVO> list = my.selectList("chat.unreadMessage", memberId);
+		return list;
+	}
 }
