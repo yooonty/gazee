@@ -19,12 +19,17 @@
             }
         });
     }
+
+    function getCsList() {
+        $("#cs_list").load("csList.do");
+    }
 </script>
 <!DOCTYPE html>
 <div class="details">
     <div class="recentOrders" id="cs_list">
         <div class="cardHeader">
             <span><h2>답변이 필요한 문의 목록</h2></span>
+            <a href="#" class="btn" onclick="getCsList()">전체목록 조회</a>
         </div>
         <table>
             <thead>
