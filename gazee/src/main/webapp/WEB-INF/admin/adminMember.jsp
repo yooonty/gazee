@@ -119,12 +119,17 @@
                         <td>${bag.email}</td>
                         <td><fmt:formatNumber value="${balanceList[status.index]}" type="number" pattern="#,###"/>원</td>
                         <td>${sellingProductQtyList[status.index]}개</td>
-                        <td><fmt:formatDate value="${bag.joinDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+                        <td><fmt:formatDate value="${bag.joinDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>${bag.status}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+            <div style="text-align: right">
+                <form action="excelMember.do" method="get">
+                    <button class="btn" type="submit">엑셀 다운로드</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

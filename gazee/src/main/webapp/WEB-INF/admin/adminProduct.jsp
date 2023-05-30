@@ -114,6 +114,11 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <div style="text-align: right">
+                <form action="excelProduct.do" method="get">
+                    <button class="btn" type="submit">엑셀 다운로드</button>
+                </form>
+            </div>
         </div>
     </div>
     <div class="recentCustomers">

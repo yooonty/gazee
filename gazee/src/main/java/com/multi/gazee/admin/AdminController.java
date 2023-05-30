@@ -7,6 +7,7 @@ import com.multi.gazee.admin.sidebar.AdminSidebarService;
 import com.multi.gazee.brcypt.BcryptServiceImpl;
 import com.multi.gazee.charge.ChargeService;
 import com.multi.gazee.customerService.CustomerServiceService;
+import com.multi.gazee.excel.ExcelService;
 import com.multi.gazee.member.MemberService;
 import com.multi.gazee.order.OrderService;
 import com.multi.gazee.product.ProductService;
@@ -14,9 +15,12 @@ import com.multi.gazee.report.ReportService;
 import com.multi.gazee.set.SetService;
 import com.multi.gazee.withdraw.WithdrawService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +53,8 @@ public class AdminController {
     BcryptServiceImpl bcry = new BcryptServiceImpl();
     @Autowired
     AdminLoginService adminLoginService;
+    @Autowired
+    ExcelService excelService;
     
     /* Admin Login */
     
@@ -70,11 +76,12 @@ public class AdminController {
     /* Reset Admin Password */
     
     @RequestMapping(value = "findPwForm.do")
-    public String findPwForm() throws Exception{
+    public String findPwForm() throws Exception {
         return "../admin/findPwForm";
     }
+    
     @RequestMapping(value = "findPw.do", method = RequestMethod.POST)
-    public void findPw(@ModelAttribute("email") String email, HttpServletResponse response) throws Exception{
+    public void findPw(@ModelAttribute("email") String email, HttpServletResponse response) throws Exception {
         adminFindPwService.findPw(response, email);
     }
     
@@ -173,7 +180,7 @@ public class AdminController {
     
     @RequestMapping(value = "searchProduct.do")
     public String searchProduct(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
-       return productService.searchProduct(searchType, searchIndex, model);
+        return productService.searchProduct(searchType, searchIndex, model);
     }
     
     /* Order */
@@ -213,6 +220,16 @@ public class AdminController {
         return withdrawService.searchWithdraw(searchType, searchIndex, model);
     }
     
+    @RequestMapping(value = "searchBalance.do")
+    public String searchBalacne(@RequestParam("search_index") String memberId, Model model) throws Exception {
+        return withdrawService.searchBalance(memberId, model);
+    }
+    
+    @RequestMapping(value = "balanceList.do")
+    public String loadBalanceList(Model model) throws Exception {
+        return withdrawService.getBalanceList(model);
+    }
+    
     @RequestMapping(value = "chargeList.do")
     public String loadChargeList(Model model) throws Exception {
         return chargeService.getChargeList(model);
@@ -224,6 +241,11 @@ public class AdminController {
     }
     
     /* CS */
+    
+    @RequestMapping(value = "csList.do")
+    public String loadCsList(Model model) throws Exception {
+        return customerServiceService.getCsList(model);
+    }
     
     @RequestMapping(value = "cs_one.do")
     public String csOne(@ModelAttribute("csId") int id, Model model) throws Exception {
@@ -257,4 +279,32 @@ public class AdminController {
     public String penaltyComplete(@ModelAttribute("reporteeId") String reporteeId, @ModelAttribute("penaltyType") String penaltyType) {
         return reportService.penalty(reporteeId, penaltyType);
     }
+    
+    /* Export XLSX */
+    @GetMapping("excelMember.do")
+    public ResponseEntity<InputStreamResource> excelMember(HttpServletResponse response) throws Exception {
+        return excelService.memberExcel();
+    }
+    
+    @GetMapping("excelProduct.do")
+    public ResponseEntity<InputStreamResource> excelProduct(HttpServletResponse response) throws Exception {
+        return excelService.productExcel();
+    }
+    
+    @GetMapping("excelOrder.do")
+    public ResponseEntity<InputStreamResource> excelOrder(HttpServletResponse response) throws Exception {
+        return excelService.orderExcel();
+    }
+    
+    @GetMapping("excelWithdraw.do")
+    public ResponseEntity<InputStreamResource> excelWithdraw(HttpServletResponse response) throws Exception {
+        return excelService.withdrawExcel();
+    }
+    
+    @GetMapping("excelCharge.do")
+    public ResponseEntity<InputStreamResource> excelCharge(HttpServletResponse response) throws Exception {
+        return excelService.chargeExcel();
+    }
 }
+
+
