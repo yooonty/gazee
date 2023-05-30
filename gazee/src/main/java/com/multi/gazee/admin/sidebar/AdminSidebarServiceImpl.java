@@ -91,6 +91,21 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
+    
+        List<Integer> balanceList = new ArrayList<>(); // 회원 별 잔액을 담을 리스트
+        List<Integer> sellingProductQtyList = new ArrayList<>(); // 회원 별 판매갯수를 담을 리스트
+        for (MemberVO vo : memberExceptAdminList) {
+            // 회원별 잔액 조회
+            String id = vo.getId();
+            System.out.println("member : " + id);
+            Integer balance = Tdao.getBalance(id);
+            System.out.println("13" + id);
+            int qty = Pdao.productOneById(id).size();
+        
+            // 조회한 잔액을 리스트에 추가
+            balanceList.add(balance);
+            sellingProductQtyList.add(qty);
+        }
         
         model.addAttribute("memberList", memberList);
         model.addAttribute("newMemberThisWeekList", newMemberThisWeekList);
@@ -98,6 +113,8 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("suspendedList", suspendedList);
         model.addAttribute("reportList", nonPagedReportList);
         model.addAttribute("memberListToShow", memberExceptAdminList);
+        model.addAttribute("balanceList", balanceList);
+        model.addAttribute("sellingProductQtyList", sellingProductQtyList);
         return "../admin/adminMember";
     }
     

@@ -14,11 +14,11 @@
         FROM product WHERE DATE(saved_time) = CURDATE();
     </select>
 
-    <!-- Product ID로 상품 정보 Read -->
-    <select id="productOneById" parameterType="int" resultType="productVO">
+    <!-- Member ID로 상품 정보 Read -->
+    <select id="productOneById" parameterType="String" resultType="productVO">
         SELECT *
         FROM product
-        WHERE product_id = #{productId}
+        WHERE member_id = #{id}
     </select>
 
     <!-- 검색 기능 -->

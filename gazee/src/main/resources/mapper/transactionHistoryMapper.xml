@@ -16,7 +16,7 @@
     </select>
 
     <!-- 잔액 조회 -->
-    <select id="getBalance" parameterType="String" resultType="_int">
+    <select id="getBalance" parameterType="String" resultType="int">
         SELECT COALESCE(balance, 0)
         FROM transaction_history
         WHERE member_id = #{id}
@@ -30,9 +30,4 @@
         VALUES (#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
     </insert>
 
-    <insert id="insertTest" parameterType="historyVO">
-        INSERT INTO gazee.transaction_history
-            (`no`, transaction_id, member_id, transaction_time, amount, balance)
-        VALUES (1, 'c0000000001ye2305221228', 'testuser', '2023-05-11 11:00:00', 50000, 50000);
-    </insert>
 </mapper>

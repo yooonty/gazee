@@ -117,8 +117,8 @@
                         <td>${bag.name}</td>
                         <td>${bag.nickname}</td>
                         <td>${bag.email}</td>
-                        <td>60,000</td>
-                        <td>3개</td>
+                        <td><fmt:formatNumber value="${balanceList[status.index]}" type="number" pattern="#,###"/>원</td>
+                        <td>${sellingProductQtyList[status.index]}개</td>
                         <td><fmt:formatDate value="${bag.joinDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                         <td>${bag.status}</td>
                     </tr>

@@ -21,8 +21,8 @@ public class ProductDAO {
 		return productTodayList;
 	}
 	
-	public ProductVO productOneById(int id) {
-		ProductVO productOneById = my.selectOne("product.productOneById", id);
+	public List<ProductVO> productOneById(String id) {
+		List<ProductVO> productOneById = my.selectList("product.productOneById", id);
 		return productOneById;
 	}
 	

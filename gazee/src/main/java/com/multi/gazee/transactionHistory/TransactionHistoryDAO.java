@@ -22,24 +22,17 @@ public class TransactionHistoryDAO {
     }
     
     public int getBalance(String id) {
-        int result = my.selectOne("history.getBalance", id);
-        return result;
+        int balance;
+        try {
+            balance = my.selectOne("history.getBalance", id);
+        } catch (Exception e) {
+            balance = 0;
+        }
+        return balance;
     }
     
     public List<TransactionHistoryVO> listTransactionHistory() {
         List<TransactionHistoryVO> transactionHistoryVo = my.selectList("history.all");
         return transactionHistoryVo;
-    }
-    
-    public int checkBalance(String id) {
-        int balance;
-        
-        try {
-            balance = my.selectOne("history.select", id);
-        } catch (Exception e) {
-            balance = 0;
-        }
-        
-        return balance;
     }
 }
