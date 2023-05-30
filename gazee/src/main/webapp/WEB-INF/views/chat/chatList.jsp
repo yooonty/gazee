@@ -8,6 +8,9 @@
         List<String> nickname = (List<String>) request.getAttribute("nickname");
 	
 		@SuppressWarnings("unchecked")
+        List<String> profile = (List<String>) request.getAttribute("profile");
+	
+		@SuppressWarnings("unchecked")
         List<String> lastMessage = (List<String>) request.getAttribute("lastMessage");
 		
 		@SuppressWarnings("unchecked")
@@ -16,8 +19,7 @@
 	<li class="chat_list" id="chat${bag.roomId}" value="${bag.roomId}">
 		<div class="chatList">
 			<div class="newMessage"></div>
-			<div class="chatPartnerProfile">
-				<img src="../resources/img/profile.jpg" width="40px;">
+			<div class="chatPartnerProfile" style="background-image: url('http://erxtjrehmojx17106475.cdn.ntruss.com/${profile[status.index]}?type=f&w=40&h=40')">
 			</div>
 			<div style="width: 160px;">
 				<div style="display: flex; justify-content: space-between; align-items: center;">
