@@ -695,7 +695,7 @@
 		}
 		
 		/* 메세지 보내는 함수 */
-		function sendMessage(roomId) {
+		function sendChatMessage(roomId) {
 			lastMessageTime(roomId)
 			let sender = memberId;
 			let content = document.getElementById('chatMessageText').value;
