@@ -35,6 +35,26 @@ let dealDirect = 0;
 let dealDelivery = 0;
 var socketSession = '<%= session.getAttribute("subscribedRoomIds")%>';
 $(function() {
+	function uploadFiles() {
+		var formData = new FormData($("#uploadForm")[0]);
+
+		$.ajax({
+			url: "uploadMultipleFile",
+			type: "POST",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(response) {
+				// Handle success response
+				console.log("Upload successful!");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				// Handle error response
+				console.error("Upload failed: " + errorThrown);
+			}
+		});
+	}
 	
 	if (socketSession != null) {
 		$(document).ready(function() {
@@ -86,12 +106,14 @@ $(function() {
 	})
 	$('.save').click(function(){
 		var memberId = "<%= session.getAttribute("id") %>";
+		var productId = "<%= session.getAttribute("productId") %>";
 		var category = $('.category').val();
 		var productName = $('.name').val();
 		var productContent = $('.product-content').val();
 		var price = $('.price').val();
 		var save = $(this).val(); // 버튼의 value 값 가져오기
 		console.log("sessionId" + memberId);
+		console.log("productId" + productId);
 		console.log("latitude" + latitude);
 		console.log("longitude" + longitude);
 		if(save == 1 && dealDirect==1 && longitude<1){
@@ -117,7 +139,9 @@ $(function() {
 					temporary : save,
 				},
 				success : function(x) {
+					
 					if(save==1) {
+						uploadFiles();
 						alert("판매글을 등록했습니다.")
 					}else if(save==0) {
 						alert("글을 임시저장했습니다.")
@@ -191,7 +215,9 @@ $(function() {
 					</tr>
 					<tr class="each-row">
 						<td class="attribute">사진첨부</td>
-						<td><input type="file"></td>
+						<td><form id="uploadForm" enctype="multipart/form-data">
+								<input type="file" name="file" multiple>
+							</form></td>
 					</tr>
 				</table>
 			</div>
