@@ -102,4 +102,10 @@ public class ChatController {
 	public ChatVO chatSelectOne(int roomId) {
 		return ChatService.chatSelectOne(roomId);
 	}
+	
+	@RequestMapping("chat/unreadMessageCheck")
+	@ResponseBody
+	public List<ChatVO> unreadMessageCheck(String memberId) {
+		return ChatService.unreadMessageCheck(memberId);
+	}
 }
