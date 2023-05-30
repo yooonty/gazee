@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <div>
 	<div style="display: flex;">
-		<div class="modal_productImg"></div>
+		<div class="modal_productImg" style="background-image: url('${thumbnailAddr}')"></div>
 		<div class="modal_productInfo">
 			<div>
 				<p>${productVO.productName}</p>
