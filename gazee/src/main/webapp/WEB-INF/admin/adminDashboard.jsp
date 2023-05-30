@@ -164,9 +164,9 @@
             </thead>
             <tbody>
             <c:forEach items="${reportList}" var="bag">
-                <p style="display: none" id="bag_report_id">${bag.reportId}</p>
+                <p style="display: none" class="bag_report_id">${bag.reportId}</p>
                 <tr>
-                    <td><a href=# id="report_list_title" onclick="loadReportOneDash()">${bag.reportTitle}</a></td>
+                    <td><a href=# class="report_list_title" onclick="loadReportOneDash()">${bag.reportTitle}</a></td>
                     <td>${bag.reportWriter}</td>
                 </tr>
             </c:forEach>
@@ -243,10 +243,10 @@
             <tbody>
             <c:forEach items="${nonPagedNeedReportReplyList}" var="bag">
                 <tr>
-                    <p style="display: none" id="bag_report_id">${bag.reportId}</p>
+                    <p style="display: none" class="bag_report_id">${bag.reportId}</p>
                     <td>${bag.reportCategory}</td>
                     <td>${bag.reportWriter}</td>
-                    <td><a href=# id="report_list_title" onclick="loadReportOne()">${bag.reportTitle} </a></td>
+                    <td><a href=# class="report_list_title" onclick="loadReportOne()">${bag.reportTitle} </a></td>
                     <td>${bag.reportDate}</td>
                 </tr>
             </c:forEach>
