@@ -15,7 +15,7 @@
     });
 
     $(function() {
-        checkLogin(60000);
+        checkLogin(1800000);
 
         function checkLogin(delay) {
             setTimeout(function() {
@@ -43,7 +43,7 @@
                         return false;
                     }
                 }
-                checkLogin(60000); // 재귀함수를 사용하여 반복수행
+                checkLogin(1800000); // 재귀함수를 사용하여 반복수행
             }, delay);
         }
 
