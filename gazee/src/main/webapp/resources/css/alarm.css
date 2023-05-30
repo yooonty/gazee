@@ -42,3 +42,14 @@
   from {bottom: 100px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
 }
+
+#newMessageBadge {
+	width: 8px;
+    height: 8px;
+    border-radius: 50px;
+    background: #ce0000;
+    left: 5px;
+    top: 160px;
+    position: absolute;
+    visibility: hidden;
+}
