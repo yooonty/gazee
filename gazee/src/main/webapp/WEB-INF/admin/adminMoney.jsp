@@ -3,6 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminMoney.css"/>
 <script>
+    function getBalanceList() {
+        $(".details").load("balanceList.do");
+    }
+
     function getChargeList() {
         $(".details").load("chargeList.do");
     }
@@ -10,22 +14,11 @@
     function getWithdrawList() {
         $(".details").load("withdrawList.do");
     }
-    function getSearchList() {
-        $.ajax({
-            type: 'GET',
-            url: "/searchWithdraw.do",
-            data: $("form[name=search-form]").serialize(),
-            success: function (result) {
-                console.log(result)
-                $("#table_container").html(result);
-            }
-        })
-    }
 </script>
 <html>
 <body>
 <div class="cardBox">
-    <a href=# onclick="loadMember()">
+    <a href=# onclick="getBalanceList()">
         <div class="card">
             <div>
                 <div class="numbers">회원별 잔액</div>
