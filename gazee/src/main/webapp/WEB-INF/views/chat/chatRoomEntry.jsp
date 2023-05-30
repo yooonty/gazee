@@ -46,7 +46,7 @@
 					<%
 						}
 					%>
-						<div class="productThumbnail"></div>
+						<div class="productThumbnail" style="background-image: url('${thumbnailAddr}')"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
 						<div style="display: flex; align-items: center;">
@@ -138,7 +138,7 @@
 					<%
 						}
 					%>
-						<div class="productThumbnail"></div>
+						<div class="productThumbnail" style="background-image: url('${thumbnailAddr}')"></div>
 					</div>
 					<div class="chatRoomTitle_wrap">
 						<span id="productTitle">${productVO.productName}</span>
