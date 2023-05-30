@@ -95,14 +95,9 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         List<Integer> balanceList = new ArrayList<>(); // 회원 별 잔액을 담을 리스트
         List<Integer> sellingProductQtyList = new ArrayList<>(); // 회원 별 판매갯수를 담을 리스트
         for (MemberVO vo : memberExceptAdminList) {
-            // 회원별 잔액 조회
             String id = vo.getId();
-            System.out.println("member : " + id);
             Integer balance = Tdao.getBalance(id);
-            System.out.println("13" + id);
             int qty = Pdao.productOneById(id).size();
-        
-            // 조회한 잔액을 리스트에 추가
             balanceList.add(balance);
             sellingProductQtyList.add(qty);
         }
@@ -157,9 +152,14 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         List<TransactionHistoryVO> transactionList = Tdao.listTransactionHistory();
         List<WithdrawVO> withdrawList = Wdao.listWithdraw();
         List<MemberVO> bankAccountList = new ArrayList<>(); // 사용자 계좌 목록 담을 리스트
-        // withdrawList에서 user 값을 하나씩 꺼내서 Adao.listBankAccount()의 파라미터로 사용
-        List<MemberVO> memberList = Mdao.list();
+        List<MemberVO> memberList = Mdao.listExceptAdmin();
         int sum = Wdao.sumCommission();
+        List<Integer> balanceList = new ArrayList<>();
+        for (MemberVO vo : memberList) {
+            String id = vo.getId();
+            Integer balance = Tdao.getBalance(id);
+            balanceList.add(balance);
+        }
         
         for (WithdrawVO withdraw : withdrawList) {
             String user = withdraw.getMemberId();
@@ -171,6 +171,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("withdrawList", withdrawList);
         model.addAttribute("memberList", memberList);
         model.addAttribute("bankAccountList", bankAccountList); // 사용자 계좌 목록
+        model.addAttribute("balanceList", balanceList);
         model.addAttribute("sum", sum);
         
         return "../admin/adminMoney";
