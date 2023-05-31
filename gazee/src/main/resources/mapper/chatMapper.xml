@@ -2,37 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
 	
+	<!-- 채팅방 생성 -->
 	<insert id="create" parameterType="chatVO" useGeneratedKeys="true" keyProperty="roomId">
 		insert into chat values (null, #{productId}, #{sellerId}, #{buyerId}, #{dealType}, null, null);
 	</insert>
 	
+	<!-- 마지막 메세지 시간 업데이트 -->
 	<update id="lastMessageTimeUpdate" parameterType="chatVO">
 		update chat set last_message_time = #{lastMessageDate} where room_id = ${roomId}
 	</update>
 	
+	<!-- 기존 채팅방 존재 여부 확인 -->
 	<select id="chatRoomSearch" parameterType="chatVO" resultType="chatVO">
 		select * from chat where buyer_id = #{buyerId} AND product_id = #{productId}
 	</select>
 	
+	<!-- 내가 가진 채팅방 리스트 -->
 	<select id="chatList" parameterType="String" resultType="chatVO">
 		select * from chat where buyer_id = #{memberId} OR seller_id = #{memberId} order by last_message_time DESC;
 	</select>
 	
+	<!-- 해당 채팅방 정보 -->
 	<select id="chatRoomOne" parameterType="Integer" resultType="chatVO">
 		select * from chat where room_id = #{roomId};
 	</select>
 	
+	<!-- 채팅방 나가기 -->
 	<delete id="roomLeave" parameterType="Integer">
 		delete from chat where room_id = #{roomId}
 	</delete>
 	
+	<!-- 거래시간 업데이트 -->
 	<update id="dealDateUpdate" parameterType="chatVO">
 		update chat set deal_direct_date = #{dealDirectDate} where room_id = #{roomId}
 	</update>
 	
+	<!-- 안읽은 메세지가 있는 채팅방 -->
 	<select id="unreadMessage" parameterType="String" resultType="chatVO">
 		SELECT distinct c.* FROM chat c
-		INNER JOIN member m ON m.id = #{memberId}
+		INNER JOIN member m ON (seller_id = #{memberId} or buyer_id = #{memberId}) and m.id = #{memberId}
 		WHERE c.last_message_time > m.logout_time
 	</select>
 	
