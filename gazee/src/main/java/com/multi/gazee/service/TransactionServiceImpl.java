@@ -1,10 +1,14 @@
 package com.multi.gazee.service;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +46,6 @@ public class TransactionServiceImpl implements TransactionService{
 		// 표준 시간대에 맞는 현재 시간 생성
 		ZonedDateTime zonedDateTime = LocalDateTime.now().atZone(zoneId);
 		LocalDateTime currentDateTime = zonedDateTime.toLocalDateTime();
-
 		// 표준 시간대에 맞는 Timestamp 생성
 		Timestamp transactionTime = Timestamp.valueOf(currentDateTime);
 		return transactionTime;
@@ -99,6 +102,54 @@ public class TransactionServiceImpl implements TransactionService{
 		transactionHistoryVO.setAmount(setVO.getAmount());
 		transactionHistoryVO.setBalance(historyDAO.select(id)+setVO.getAmount());
 		return historyDAO.insert(transactionHistoryVO);
+	}
+
+	@Override
+	public List<TransactionRecordVO> changeFormat(List<TransactionHistoryVO> transactionRecord, HttpSession session) {
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		List<TransactionRecordVO> modifiedTransactionRecord = new ArrayList<>();
+		
+		int sumSpent = 0;
+
+		for (int i = 0; i < transactionRecord.size(); i++) {
+			TransactionHistoryVO historyVO = transactionRecord.get(i);
+			TransactionRecordVO record = new TransactionRecordVO();
+			
+			record.setTransactionId(historyVO.getTransactionId());
+			record.setAmount(decFormat.format(historyVO.getAmount()));
+			record.setBalance(decFormat.format(historyVO.getBalance()));
+			record.setTransactionDate(timestampToString(historyVO.getTransactionTime()));
+			
+			String type = historyVO.getTransactionId().substring(0, 1);
+			
+			record.setRefund(0);
+			
+			if(type.equals("c")) {
+				record.setTransactionType("충전");
+				int balanceBeforeCharge =historyVO.getBalance()-historyVO.getAmount();
+				
+				if(-sumSpent<=balanceBeforeCharge && checkRefundAvailable(chargeDAO.select(historyVO.getTransactionId()), session)==true){
+					record.setRefund(1);
+				}
+				if(checkCanceled(chargeDAO.select(historyVO.getTransactionId()))==false) {
+					record.setTransactionType("충전(취소됨)");
+				}
+			}else if(type.equals("w")) {
+				sumSpent += transactionRecord.get(i).getAmount();
+				record.setTransactionType("환급");
+			}else if(type.equals("o")) {
+				sumSpent += transactionRecord.get(i).getAmount();
+				record.setTransactionType("구매");
+			}else if(type.equals("s")) {
+				record.setTransactionType("정산");
+			}else if(type.equals("r")) {
+				record.setTransactionType("충전취소");
+			}
+			
+			modifiedTransactionRecord.add(record);
+		}
+		return modifiedTransactionRecord;
+	}
 
 	@Override
 	public boolean checkRefundAvailable(ChargeVO charge, HttpSession session) {
