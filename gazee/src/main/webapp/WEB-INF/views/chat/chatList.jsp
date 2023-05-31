@@ -19,7 +19,7 @@
 	<li class="chat_list" id="chat${bag.roomId}" value="${bag.roomId}">
 		<div class="chatList">
 			<div class="newMessage"></div>
-			<div class="chatPartnerProfile" style="background-image: url('http://erxtjrehmojx17106475.cdn.ntruss.com/${profile[status.index]}?type=f&w=40&h=40')">
+			<div class="chatPartnerProfile" style="background-image: url('http://zurvmfyklzsa17604146.cdn.ntruss.com/${profile[status.index]}?type=f&w=40&h=40')">
 			</div>
 			<div style="width: 160px;">
 				<div style="display: flex; justify-content: space-between; align-items: center;">
