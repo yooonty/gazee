@@ -69,10 +69,14 @@
 					
 					let li = document.querySelectorAll('.chat_list');
 					let select = null;
+					
+					$(document).ready(function() {
+						chatUnreadMessageCheck(memberId);
+					})
 
 					for (let i = 0; i < li.length; i++) {
 						li[i].addEventListener('click', function() {
-							
+						
 						/* 해당 채팅방 클릭시 빨간 뱃지 삭제 */
 						const liId = li[i].getAttribute('id');
 						let liElement = document.getElementById(liId);
@@ -176,8 +180,6 @@
 																			},
 																			success: function(result) {
 																				paymentMessage(roomId);
-																				/* 10분 후 null값으로 변경 */
-																				setTimerExpiration(productId, 10 * 60 * 1000);
 																			}
 																		})
 																	}
@@ -362,6 +364,37 @@
 	function orderDone() {
 		alert('이미 결제되었습니다.')
 	}
+	
+	/* 채팅페이지 - 안 읽은 메세지 확인 뱃지 */
+	function chatUnreadMessageCheck(memberId) {
+		if (memberId !== null) {
+			$.ajax({
+				url: '../chat/unreadMessageCheck',
+				data: {
+					memberId: memberId
+				},
+				success: function(result) {
+					let roomIds = result.map(item => item.roomId);
+					let li = document.querySelectorAll('.chat_list');
+					for (let i = 0; i < li.length; i++) {
+						const liValue = li[i].getAttribute('value');
+						if (roomIds.includes(parseInt(liValue))) {
+							const alreadyChecked = localStorage.getItem('checkedChatListId'+liValue);
+							if (liValue !== alreadyChecked) {
+								newChatMessageBadge(liValue);
+								li[i].addEventListener('click', function() {
+									localStorage.setItem('checkedChatListId'+liValue, liValue);
+								});
+							}
+						}
+					}
+				},
+				error: function(e) {
+					console.log(e)
+				}
+			})
+		}
+	}
 </script>
 <style>
 	body {
@@ -380,7 +413,7 @@
 	<div id="gazeepay_modal">
 		<div class="gazeepay_modal_body">
 			<div class="btn_gazeepay_modal_close">
-				<img src="../resources/img/cancle_icon.svg" width="20px" height="20px">
+				<img src="../resources/img/cancel_icon.svg" width="20px" height="20px">
 			</div>
 			<div>
 				<span>가지씨앗 부족합니다.</span><br>
@@ -410,7 +443,7 @@
 	<div id="payment_modal">
 		<div class="payment_modal_body">
 			<div class="btn_payment_modal_close">
-				<img src="../resources/img/cancle_icon.svg" width="25px" height="25px">
+				<img src="../resources/img/cancel_icon.svg" width="25px" height="25px">
 			</div>
 			<div class="modal_content"></div>
 		</div>
