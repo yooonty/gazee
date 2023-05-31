@@ -288,7 +288,7 @@ p {
 .chat_me > div:nth-child(1) {
 	max-width: 400px;
 	word-wrap: break-word;
-	background: #FAF0FF;
+	background: rgb(226, 218, 237 , 0.41);
 	border-radius: 5px;
 	padding: 15px 20px;
 	text-align: left;
