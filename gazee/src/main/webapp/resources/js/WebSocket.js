@@ -159,7 +159,7 @@
 			let response = document.getElementById('chatLog'+messageOutput.roomId)
 			
 			if (response == null) {
-				newChatMessageBadge(messageOutput);
+				newChatMessageBadge(messageOutput.roomId);
 				newChatMessagePush(messageOutput);
 			} else {
 				let responseId = response.id;
@@ -238,7 +238,7 @@
 			profileDiv.classList.add('chatPartnerProfile');
 			profile(messageOutput.sender)
 			.then((profileName) => {
-				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+				profileDiv.style.backgroundImage = `url(http://zurvmfyklzsa17604146.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
 			})
  			.catch((error) => {
 				console.error('Error fetching profile:', error);
@@ -319,7 +319,7 @@
 			profileDiv.classList.add('chatPartnerProfile');
 			profile(messageOutput.sender)
 			.then((profileName) => {
-				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+				profileDiv.style.backgroundImage = `url(http://zurvmfyklzsa17604146.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
 			})
  			.catch((error) => {
 				console.error('Error fetching profile:', error);
@@ -402,7 +402,7 @@
 			profileDiv.classList.add('chatPartnerProfile');
 			profile(messageOutput.sender)
 			.then((profileName) => {
-				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+				profileDiv.style.backgroundImage = `url(http://zurvmfyklzsa17604146.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
 			})
  			.catch((error) => {
 				console.error('Error fetching profile:', error);
@@ -487,7 +487,7 @@
 			profileDiv.classList.add('chatPartnerProfile');
 			profile(messageOutput.sender)
 			.then((profileName) => {
-				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+				profileDiv.style.backgroundImage = `url(http://zurvmfyklzsa17604146.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
 			})
  			.catch((error) => {
 				console.error('Error fetching profile:', error);
@@ -559,7 +559,7 @@
 			profileDiv.classList.add('chatPartnerProfile');
 			profile(messageOutput.sender)
 			.then((profileName) => {
-				profileDiv.style.backgroundImage = `url(http://erxtjrehmojx17106475.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
+				profileDiv.style.backgroundImage = `url(http://zurvmfyklzsa17604146.cdn.ntruss.com/${profileName}?type=f&w=40&h=40)`;
 			})
  			.catch((error) => {
 				console.error('Error fetching profile:', error);
@@ -607,11 +607,11 @@
 		}
 		
 		/* 새로운 메세지 뱃지 알람 */
-		function newChatMessageBadge(messageOutput) {
+		function newChatMessageBadge(roomId) {
 			let li = document.querySelectorAll('.chat_list');
 			for (var i = 0; i < li.length; i++) {
 				const liValue = li[i].getAttribute('value');
-				if (messageOutput.roomId == liValue) {
+				if (roomId == liValue) {
 					const liId = li[i].getAttribute('id');
 					let liElement = document.getElementById(liId);
 					let chatListElement = liElement.querySelector('.chatList');
@@ -763,45 +763,6 @@
 				},
 				success: function() {
 					alert('채팅방을 나갔습니다.')
-				}
-			})
-		}
-		
-		function setTimerExpiration(productId, duration) {
-			const expiration = Date.now() + duration; // 만료 시간 계산
-			localStorage.setItem('timerExpiration', JSON.stringify({ productId, expiration })); // 만료 시간을 localStorage에 저장
-		}
-		
-		function checkAndStartTimer() {
-			const timerData = localStorage.getItem('timerExpiration'); // 저장된 만료 시간 확인
-
-			if (timerData) {
-				const { productId, expiration } = JSON.parse(timerData);
-				const remainingTime = expiration - Date.now(); // 남은 시간 계산
-				console.log(remainingTime);
-
-				if (remainingTime > 0) {
-					setTimeout(() => disabled(productId), remainingTime); // 남은 시간만큼 타이머 설정
-				} else {
-					clearTimer(); // 타이머 만료 시간이 지났으면 초기화
-				}
-			}
-		}
-		
-		// 타이머 초기화 함수
-		function clearTimer() {
-			localStorage.removeItem('timerExpiration'); // localStorage에서 타이머 정보 제거
-		}
-		
-		/* 10분 동안 다른 사용자에게 판매하지 못하도록 */
-		function disabled(productId) {
-			$.ajax({
-				url: '../product/sellTimeDelete',
-				data: {
-					productId : productId
-				},
-				success: function(result) {
-					console.log("업데이트 완료")
 				}
 			})
 		}
