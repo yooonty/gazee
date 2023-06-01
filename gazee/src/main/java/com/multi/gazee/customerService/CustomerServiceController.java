@@ -8,12 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.multi.gazee.customerServiceImg.CustomerServiceImgDAO;
+
 
 @Controller
 public class CustomerServiceController {
 
 	@Autowired
 	CustomerServiceService service;
+	
+	@Autowired
+	CustomerServiceImgDAO dao2;
 	
 	@Autowired
 	CustomerServiceDAO dao;
@@ -67,4 +72,5 @@ public class CustomerServiceController {
 	public void checkTemporaryCs(HttpSession session, Model model, CustomerServiceVO bag) {
 		service.checkTemporaryCs(model, bag);
 	}
+	
 }

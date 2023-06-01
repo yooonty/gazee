@@ -6,22 +6,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="../../resources/css/style2.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../resources/css/product-register.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../resources/css/product-register.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
+		function uploadFiles() {
+			var formData = new FormData($("#uploadForm")[0]);
+			
+			
+			$.ajax({
+				url: "../../customerServiceImg/csUploadMultipleFile",
+				type: "POST",
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					// Handle success response
+					console.log("Upload successful!");
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					// Handle error response
+					console.error("Upload failed: " + errorThrown);
+				}
+			});
+		}
 		
 		$('.save')
 				.click(
@@ -30,31 +44,32 @@
 							var csCategory = $('.csCategory').val();
 							var csTitle = $('.csTitle').val();
 							var csContent = $('.csContent').val();
-							var save= $(this).val();
-								
-							if (save == 1 && (csCategory == null || csTitle == null || csContent == null)) {
+							var save = $(this).val();
+							if (save == 1
+									&& (csCategory == null || csTitle == null || csContent == null)) {
 								alert("필수값을 입력해주세요");
 							} else {
 								$.ajax({
-									url : "csWrite",
-									data : {
-										csWriter : sessionId,
-										csCategory : csCategory,
-										csTitle : csTitle,
-										csContent : csContent,
-										csSecrete : 1,
-										temporary : save
-									},
-									success : function(x) {
-										if (save == 1) {
-											alert("1:1 질문 글을 등록했습니다.");
-											location.href="../../customerService/cs/csList?page=1&mode=1"
-										} else if (save == 0) {
-											alert("글을 저장했습니다.");
-											location.href="../../customerService/cs/csList?page=1&mode=1"
-										}
-									}
-								})
+											url : "csWrite",
+											data : {
+												csWriter : sessionId,
+												csCategory : csCategory,
+												csTitle : csTitle,
+												csContent : csContent,
+												csSecrete : 1,
+												temporary : save
+											},
+											success : function(x) {
+												if (save == 1) {
+													uploadFiles();
+													alert("1:1 질문 글을 등록했습니다.");
+													location.href = "../../customerService/cs/csList?page=1&mode=1"
+												} else if (save == 0) {
+													alert("글을 저장했습니다.");
+													location.href = "../../customerService/cs/csList?page=1&mode=1"
+												}
+											}
+										})
 							}
 
 						})
@@ -116,11 +131,13 @@
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">사진첨부</td>
-									<td><input type="file"></td>
+									<td><form id="uploadForm" enctype="multipart/form-data">
+											<input type="file" name="file" multiple>
+										</form></td>
 								</tr>
 							</table>
 						</div>
-						<div>
+						<div style="display: flex; justify-content: flex-end; gap:15px">
 							<button class="save" value="1">저장</button>
 							<button class="save" value="0">임시저장</button>
 						</div>

@@ -47,7 +47,6 @@ public class CustomerServiceDAO {
 	
 	public List<CustomerServiceVO> search(HashMap<String, Object> map){
 		List<CustomerServiceVO> search = my.selectList("cs.searchAll", map);
-		System.out.println(search.size());
 		return search;
 	}
 	

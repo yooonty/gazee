@@ -3,7 +3,7 @@
 <mapper namespace="cs">
 
 
-    <insert id="register" parameterType="csVO">
+    <insert id="register" parameterType="csVO" useGeneratedKeys="true" keyProperty= "csId">
 		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary) 
 		values (#{csTitle}, 
 				#{csContent},
@@ -62,7 +62,7 @@
 	
 	<select id="countSearch" parameterType="String" resultType="Integer">
 		select count(*) from customer_service
-		where cs_title like concat('%', #{search1}, '%') and temporary=1
+		where cs_writer = #{search1} and temporary=1
 	</select>
 	
 	<select id="list2" resultType="csVO" parameterType="PageVO">
@@ -78,7 +78,7 @@
 		select * from (
 		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
 		from customer_service cs
-		where cs.cs_title like concat('%', #{search1}, '%') and cs.temporary=1) cs2
+		where cs.cs_writer = #{search1} and cs.temporary=1) cs2
 		where cs2.cs_no between #{start} and #{end}
 	</select>
 

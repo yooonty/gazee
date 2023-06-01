@@ -6,19 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="../../resources/css/style2.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../resources/css/product-register.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../resources/css/product-register.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var sessionId = "<%=session.getAttribute("id")%>";
@@ -69,20 +63,16 @@
 						<h1 style="color: #693FAA">고객센터</h1>
 					</div>
 					<div id="customerMenu1" style="margin-top: 30px">
-
 						<div class="FAQ">
 							<div style="display: flex; justify-content: space-between;">
-
 								<h3 style="color: #693FAA">
 									<a href="csList?page=1&mode=1"
 										style="color: #693FAA !important;">1:1 질문 게시판(QnA)</a>
 								</h3>
-
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<div id=result>
 					<div id="main">
 						<div id="title">1:1 질문 게시글 쓰기</div>
@@ -91,9 +81,7 @@
 							<table>
 								<tr class="each-row">
 									<td class="attribute">제목</td>
-									<td><input class="prd-info csTitle" type="text"
-										value="${bag.csTitle}"></td>
-
+									<td><input class="prd-info csTitle" type="text"	value="${bag.csTitle}"></td>
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">카테고리</td>
@@ -112,7 +100,6 @@
 												관련</option>
 									</select></td>
 									<td></td>
-
 								</tr>
 								<tr class="content-row">
 									<td class="attribute">내용</td>
@@ -120,7 +107,7 @@
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">사진첨부</td>
-									<td><input type="file"></td>
+									<td style="color:red; font-size: 20px">문의 및 신고 게시판에서 사진 수정은 불가합니다.</td>
 								</tr>
 							</table>
 						</div>
@@ -129,10 +116,7 @@
 						</div>
 					</div>
 				</div>
-
 				<div id="csButtom" style="margin-top: 10px; text-align: center">
-
-
 				</div>
 			</div>
 		</div>

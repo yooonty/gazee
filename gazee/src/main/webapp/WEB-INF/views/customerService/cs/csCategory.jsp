@@ -1,22 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="../../resources/css/style2.css" rel="stylesheet" />
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -75,7 +71,21 @@
 
 	})
 </script>
-
+<style>
+.pages {
+	width: 34px;
+	height: 34px;
+	background-color: white;
+	border: 1px solid rgb(204, 204, 204);
+	color: rgb(155, 153, 169);
+	cursor: pointer;
+}
+.pages:active {
+	background-color: #693FAA;
+	color: white;
+	border:1px solid #693FAA;
+}
+</style>
 </head>
 <body>
 	<div id="alert"></div>
@@ -93,13 +103,10 @@
 
 						<div class="FAQ">
 							<div style="display: flex; justify-content: space-between;">
-
 								<h3 style="color: #693FAA">
-									<a href="csList?page=1&mode=1"
-										style="color: #693FAA !important;">1:1 질문 게시판(QnA)</a>
+									<a href="csList?page=1&mode=1" style="color: #693FAA !important;">1:1 질문 게시판(QnA)</a>
 								</h3>
-								<div
-									style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+								<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
 									<form method="get">
 										<label for="category">카테고리</label> <select id="category"
 											name="category" size="1">
@@ -132,7 +139,6 @@
 							</table>
 						</div>
 						<div style="width: 80%;">
-
 							<div id=result>
 								<table class="table table-striped"
 									style="margin: 0 auto;">
@@ -143,11 +149,25 @@
 										<td class="top">작성날짜</td>
 										<td class="top">조회수</td>
 									</tr>
-									<c:forEach items="${category}" var="bag">
+									<c:forEach items="${category}" var="bag" varStatus="status">
+										<%
+											@SuppressWarnings("unchecked")
+											List<String> nickname = (List<String>) request.getAttribute("nickname");
+										%>
 										<tr>
 											<td class="down">${bag.csNo}</td>
-											<td class="down"><a href="csOne?id=${bag.csId}&csWriter=${bag.csWriter}">${bag.csTitle}</a></td>
-											<td class="down">${bag.csWriter}</td>
+											<c:choose>
+												<c:when
+													test="${sessionScope.id eq bag.csWriter}">
+													<td class="down"><a
+														href="csOne?id=${bag.csId}&csWriter=${bag.csWriter}">${bag.csTitle}</a></td>
+												</c:when>
+												<c:otherwise>
+													<td class="down"><a
+														href="csOne?id=${bag.csId}&csWriter=${bag.csWriter}">비밀글입니다.</a></td>
+												</c:otherwise>
+											</c:choose>
+											<td class="down">${nickname[status.index]}</td>
 											<td class="down">${bag.csDate}</td>
 											<td class="down">${bag.csView}</td>
 										</tr>
@@ -160,8 +180,7 @@
 									int pages1 = (int) request.getAttribute("pages1");
 								for (int p = 1; p <= pages1; p++) {
 								%>
-								<button class="pages"
-									style="background: lime; color: red; width: 50px;"><%=p%></button>
+								<button class="pages"><%=p%></button>
 								<%
 									}
 								%>
@@ -169,7 +188,7 @@
 							<div id="csButtom" style="margin-top: 10px; text-align: center">
 
 								<div id="search" style="margin-top: 10px">
-									<input id="csSearch" type="text" size=40;>
+									<input id="csSearch" type="text" size=40; placeholder="ID로 검색해주세요">
 									<button id="csSearchBtn">검색</button>
 								</div>
 							</div>
