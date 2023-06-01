@@ -36,11 +36,33 @@
 		where product2.product_no between #{start} and #{end}
 	</select>
 
+	<select id="searchAllOnSale" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where product_name like concat('%', #{search}, '%') and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+
 	<select id="categoryAll" resultType="productVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
 		from product p
 		where category = #{category}) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+
+	<select id="categoryAllOnSale" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where category = #{category} and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)) product2
 		where product2.product_no between #{start} and #{end}
 	</select>
 	
@@ -49,9 +71,25 @@
 		where product_name like concat('%', #{search}, '%')
 	</select>
 
+	<select id="countSearchOnSale" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where product_name like concat('%', #{search}, '%') and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)
+	</select>
+
 	<select id="countCategory" resultType="Integer" parameterType="String">
 		select count(*) from product
 		where category = #{category}
+	</select>
+
+	<select id="countCategoryOnSale" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where category = #{category} and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)
 	</select>
 
 	<update id="viewsCount" parameterType="Integer">
