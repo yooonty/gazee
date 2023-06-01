@@ -4,13 +4,25 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
-<html>
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
 	rel="stylesheet">
 <style type="text/css">
+.slideshow-container {
+	position: relative;
+	max-width: 100%;
+	margin: auto;
+}
+
+.slideshow-container img {
+	width: 100%;
+	height: auto;
+	display: none;
+}
+
 table {
 	margin-left: auto;
 	margin-right: auto;
@@ -55,6 +67,7 @@ table {
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9;
 }
 
 .modal-content {
@@ -69,6 +82,7 @@ table {
 	border-radius: 10px;
 	box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
 	transform: translateX(-50%) translateY(-50%);
+	z-index: 10;
 }
 
 .close {
@@ -85,25 +99,97 @@ table {
 	cursor: pointer;
 }
 
-
 #map {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	height: 300px;
 }
-
 
 .bAddr {
-	padding: 5px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-	max-width: 300px;
+	position:absolute;
+	display: block;
+    background: #50627F;
+    color: #fff;
+    text-align: center;
+    height: 24px;
+    line-height:22px;
+    border-radius:4px;
+    padding:0px 10px;
+    width: 150px;
+    white-space: normal;
+    height: max-content;
+    word-wrap: break-word;
 }
 
+#directclick {
+	position: absolute;
+	margin: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	top: -10px;
+	margin: 50px;
+	width: 240px;
+	height: 30px;
+	background: #E2DAED;
+	border: 1px solid #dbdbdb;
+	border-radius: 10px;
+}
+
+#directclick:after {
+	border-top: 0px solid transparent;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #E2DAED;
+	content: "";
+	position: absolute;
+	top: -10px;
+	left: 67px;
+}
+
+#btn_directMapRemove {
+	position: absolute;
+	left: 220px;
+	top: 10px;
+	width: 10px;
+	height: 10px;
+}
+
+#show_status {
+	background: #693FAA;
+	border-radius: 10px;
+	padding: 3px 20px;
+	color: #fff;
+	font-size: 14px
+}
+
+#order_status {
+	display: flex;
+	gap: 5px;
+	flex-direction: column;
+	align-items: center;
+}
+#seller_info {
+	padding: 10px;
+	display: flex;
+	flex-flow: column;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+}
+
+#nickreport {
+	display: flex;
+	flex-flow: column;
+	padding: 10px;
+	align-items: flex-start;
+	gap: 5px;
+}
 </style>
 
 <script type="text/javascript">
@@ -111,6 +197,26 @@ var urlParams = new URLSearchParams(location.search);
 var productId = urlParams.get('productId');
 
 $(function() {
+	let directclick = document.getElementById("directclick");
+	
+	if (directclick) {
+		document.getElementById("btn_directMapRemove").addEventListener("click", function() {
+		  document.getElementById("directclick").style.visibility = "hidden";
+		});
+	}
+
+	
+	
+	 $.ajax({
+			url : "imgslide",
+			data:{
+				productId : ${bag.productId}
+			},
+			success : function(res) {
+				$('#imgslide').append(res)
+			}
+		})
+	
 	  var directBtn = $("#directChack");
 	  var deliveryBtn = $("#deliveryChack");
 	  var dealType = ""; // 초기값은 빈 문자열로 설정
@@ -282,18 +388,36 @@ $(function() {
 				style="color: red;"></i></td>
 		</tr>
 		<tr>
-			<td rowspan="6" style="width: 500px; height: 500px;"><img
-				width="500px" height="500px"
-				src="../resources/img/${bag2.productImageName}"></td>
-			<td style="width: 250px"><div>${bag.category}</div></td>
+			<td rowspan="6" style="width: 500px; height: 500px;"><div id="imgslide"></div></td>
+			<td id="order_status">
+					<%
+						String order = (String)request.getAttribute("order");
+						if(order.equals("null")) {
+					%>
+						<div id="show_status">판매중</div>
+					<%
+						} else if (order.equals("yet")) {
+					%>
+						<div id="show_status">거래중</div>
+					<%
+						} else {
+					%>
+						<div id="show_status">거래완료</div>
+					<%
+						}
+					%>
+			
+			<div>${bag.category}</div>
+			</td>
 		</tr>
 		<tr>
 			<td style="font-weight: 900; font-size: xx-large;"><div>
 					${bag.productName}</div></td>
 		</tr>
 		<tr>
-			<td><div>
+			<td><div style="position: relative;">
 					<c:if test="${bag.dealDirect == 1}">
+						<div id="directclick"><img src="../resources/img/cancel_icon.svg" id="btn_directMapRemove"> 클릭하시면 지도가 보여요!</div>
 						<img height="30px" src="../resources/img/direct.png" class="map-trigger">
 					</c:if>
 					<c:if test="${bag.dealDelivery == 1}">
@@ -307,7 +431,7 @@ $(function() {
 			<td><div style="font-size: medium;">${bag.productContent}</div></td>
 		</tr>
 		<tr>
-			<td><div style="font-weight: 900; font-size: xx-large;"><fmt:formatNumber value="${bag.price}" pattern="#,###"/>원</td>
+			<td><div style="font-weight: 900; font-size: xx-large;"><fmt:formatNumber value="${bag.price}" pattern="#,###"/>원</div></td>
 		</tr>
 		<tr>
 			<td><c:if test="${bag.dealDirect == 1}">
@@ -317,14 +441,14 @@ $(function() {
 				</c:if></td>
 		</tr>
 		<tr>
-			<td style="display: inline-block;">
-				<div style="display: inline-block;">판매자 id : ${bag.memberId}</div>
-				<div style="display: inline-block; color: red;">신고횟수
-					${bag3.count}회</div>
-				<div style="display: inline-block;">
-					<button type="button" id="reportStart">
-						<img height="50px" width="50px" src="../resources/img/report.png">
-					</button>
+			<td><%-- 원래${userProfileImg} --%>
+				<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/32763658-e868-4157-b65f-469a8ee2b00e_%EB%82%98.jpg?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 100px;">
+				<div id="nickreport"> <div style="font-size: 20px; font-weight: bold;">${nickname}</div> 
+				<div style=" color: red;">신고횟수
+					${bag3.count}회</div></div>
+					<div id="reportStart">
+						<img height="40px" width="40px" src="../resources/img/report.png">
+					</div>
 				</div>
 			</td>
 			<td><button id="chatStart">판매자와 채팅하기</button></td>
@@ -347,8 +471,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 //주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
 
-var marker = new kakao.maps.Marker(), // 중심 위치를 표시할 마커입니다
-infowindow = new kakao.maps.InfoWindow({zindex:1}); // 중심 위치에 대한 주소를 표시할 인포윈도우입니다
+
 searchDetailAddrFromCoords(map.getCenter(), function(result, status) {
  if (status === kakao.maps.services.Status.OK) {
  	var detailAddr = '';
@@ -357,7 +480,8 @@ searchDetailAddrFromCoords(map.getCenter(), function(result, status) {
  	} else if (result[0].address) {
  	    detailAddr += result[0].address.address_name ;
  	}
- 	
+ 	var marker = new kakao.maps.Marker(), // 중심 위치를 표시할 마커입니다
+	infowindow = new kakao.maps.InfoWindow({zindex:1}); // 중심 위치에 대한 주소를 표시할 인포윈도우입니다
      var content = '<div class="bAddr">' + detailAddr + '</div>';
 
      // 중심 위치에 표시합니다 
@@ -367,6 +491,20 @@ searchDetailAddrFromCoords(map.getCenter(), function(result, status) {
      // 중심 위치에 대한 법정동 상세 주소정보를 표시합니다
      infowindow.setContent(content);
      infowindow.open(map, marker);
+     
+     var infoTitle = document.querySelector('.bAddr');
+     if (infoTitle) {
+		var w = infoTitle.offsetWidth + 10;
+     var ml = w/2;
+     infoTitle.parentElement.style.top = "82px";
+     infoTitle.parentElement.style.left = "0%";
+     infoTitle.parentElement.style.marginLeft = -ml+"px";
+     infoTitle.parentElement.style.width = w+"px";
+     infoTitle.parentElement.previousSibling.style.display = "none";
+     infoTitle.parentElement.parentElement.style.border = "0px";
+     infoTitle.parentElement.parentElement.style.background = "unset";
+	}
+     
  }   
 });
 
