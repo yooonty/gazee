@@ -122,7 +122,8 @@
 		<span style="font-size: 18px; font-weight: bold;">결제 안내사항</span>
 		<div style="width: 100%; display: flex; flex-flow: column; font-size: 14px; margin: 10px 0 0 0;">
 			<span style="color: #808080">결제 후 결제하신 대금은 정산이 이루어지기 전까지 가지페이가 보관하며, 확정 이후에 판매자에게 정산이 이루어집니다.</span>
-			<span style="color: red;">정산 이후에는 환불이 불가하오니 신중히 결정하시기 바랍니다.</span>
+			<span style="color: red;">정산 이후에는 환불이 불가하오니 신중히 결정하시기 바랍니다.</span><br>
+			<span style="color: red;">※10분 이내로 결제해 주시기 바랍니다.</span>
 		</div>
 	</div>
 </div>
