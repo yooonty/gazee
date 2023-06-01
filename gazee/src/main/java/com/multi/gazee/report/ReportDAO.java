@@ -1,6 +1,5 @@
 package com.multi.gazee.report;
 
-import com.multi.gazee.paging.PageVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,11 +19,6 @@ public class ReportDAO {
     public int replyRegister(ReportVO bag) {
         int result = my.insert("report.reply", bag);
         return result;
-    }
-    
-    public List<ReportVO> needReplyList(PageVO vo){
-        List<ReportVO> needReplyList = my.selectList("report.needReply", vo);
-        return needReplyList;
     }
     
     public List<ReportVO> nonPagedNeedReply() {
@@ -48,10 +42,6 @@ public class ReportDAO {
     
     public List<ReportVO> nonPagedList(){
         List<ReportVO> list = my.selectList("report.nonPagedList");
-        return list;
-    }
-    public List<ReportVO> list(PageVO vo){
-        List<ReportVO> list = my.selectList("report.all", vo);
         return list;
     }
     

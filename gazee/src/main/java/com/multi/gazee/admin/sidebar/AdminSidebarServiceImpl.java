@@ -78,13 +78,13 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         return "../admin/adminInfo";
     }
     
-    public String loadinfoEdit(Model model) throws Exception {
+    public String loadInfoEdit(Model model) throws Exception {
         MemberVO memberVo = Mdao.readAdmin();
         model.addAttribute("adminOne", memberVo);
         return "../admin/adminInfoEdit";
     }
     
-    public String loadMember(Model model) {
+    public String loadMember(Model model) throws Exception {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
         List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();

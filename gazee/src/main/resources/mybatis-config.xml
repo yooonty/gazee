@@ -24,23 +24,15 @@
    		<typeAlias type="com.multi.gazee.set.SetVO" alias="setVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.transactionHistory.TransactionHistoryVO" alias="historyVO"></typeAlias>
 		<typeAlias type="com.multi.gazee.withdraw.WithdrawVO" alias="withdrawVO"></typeAlias>
-		<typeAlias type="com.multi.gazee.paging.PageVO" alias="pageVO"></typeAlias>
    </typeAliases>
    <mappers>
    		<mapper resource="mapper/chargeMapper.xml" />
-   		<mapper resource="mapper/chatMapper.xml" />
    		<mapper resource="mapper/customerServiceMapper.xml" />
-   		<mapper resource="mapper/customerServiceImgMapper.xml" />
-   		<mapper resource="mapper/faqMapper.xml" />
    		<mapper resource="mapper/memberMapper.xml" />
    		<mapper resource="mapper/orderMapper.xml" />
 		<mapper resource="mapper/productMapper.xml" />
-		<mapper resource="mapper/productImageMapper.xml" />
-		<mapper resource="mapper/productLikesMapper.xml" />
-		<mapper resource="mapper/recentlyViewedMapper.xml" />
 		<mapper resource="mapper/reportMapper.xml" />
 		<mapper resource="mapper/reportCountMapper.xml" />
-		<mapper resource="mapper/reportImgMapper.xml" />
 		<mapper resource="mapper/setMapper.xml" />
 		<mapper resource="mapper/transactionHistoryMapper.xml" />
 		<mapper resource="mapper/withdrawMapper.xml" />

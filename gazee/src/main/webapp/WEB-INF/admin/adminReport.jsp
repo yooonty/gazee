@@ -22,7 +22,7 @@
         var penaltyType = td.eq(6).find("select[name='penalty']").val();
 
         $.ajax({
-            url: "penaltyComplete.do",
+            url: "executeSuspension.do",
             type: "POST",
             data: {
                 reporteeId: reporteeId,
@@ -76,7 +76,6 @@
                             <option value="seven">7일 정지</option>
                             <option value="thirty">30일 정지</option>
                             <option value="permanent">영구 정지</option>
-                            <option value="release">정지 해제</option>
                         </select>
                     </td>
                     <td>
