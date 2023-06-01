@@ -20,6 +20,27 @@ let longitude = ${bag.directAddressy};
 let dealDirect = ${bag.dealDirect};
 let dealDelivery = ${bag.dealDelivery};
 $(function() {
+	
+	function uploadFiles() {
+		var formData = new FormData($("#uploadForm")[0]);
+
+		$.ajax({
+			url: "uploadMultipleFile",
+			type: "POST",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(response) {
+				// Handle success response
+				console.log("Upload successful!");
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				// Handle error response
+				console.error("Upload failed: " + errorThrown);
+			}
+		});
+	}
 
 	console.log(latitude);
 	console.log(longitude);
@@ -117,6 +138,7 @@ $(function() {
     					temporary : temporary
     				},
     				success : function(x) {
+    					uploadFiles();
     					alert("판매글을 수정했습니다.");
     					location.href = "../home/gazeeMain.jsp";
     						
@@ -130,27 +152,27 @@ $(function() {
     		}
         });
 
-        // 삭제 버튼 클릭 시 productDelete로 요청 전송
-        $('#delete').click(function() {
-        	var memberId = "<%=session.getAttribute("id")%>";
-        	console.log("sessionId" + memberId);
-    		console.log("productId" + ${bag.productId});
-            if (confirm('정말로 삭제하시겠습니까?')) {
-                $.ajax({
-                    url: 'productDelete',
-                    type: 'POST',
-                    data: {
-                        memberId: memberId,
-                        productId: ${bag.productId}
-                    },
-                    success: function(x) {
-                            alert('삭제되었습니다.');
-                            location.href = "../home/gazeeMain.jsp";
-                            
-                    }
-                });
-            }
-        });
+        // 삭제 버튼 클릭 시 S3ProductDelete로 요청 전송
+        $('#productDelete').click(function() {
+          	var memberId = "<%=session.getAttribute("id")%>";
+          	console.log("sessionId" + memberId);
+      		console.log("productId" + ${bag.productId});
+              if (confirm('정말로 삭제하시겠습니까?')) {
+            	  $.ajax({
+                      url: 'S3ProductDelete',
+                      type: 'POST',
+                      data: {
+                    	  memberId: memberId,
+                          productId: ${bag.productId}
+                      },
+                      success: function(x) {
+                    	alert('삭제되었습니다.');
+                        location.href = "../home/gazeeMain.jsp";
+                      }
+                  });
+                  
+              }
+          });
 })
    
 </script>
@@ -220,7 +242,7 @@ $(function() {
 	</tr>
 	<tr class="each-row">
 		<td class="attribute">사진첨부</td>
-		<td><input type="file" value="${bag.productViews}"></td>
+		<td style="color: red; font-size: 20px">※사기방지를 위해 사진 수정은 불가능합니다.※</td>
 	</tr>
 </table>
 <div>
@@ -242,54 +264,12 @@ $(function() {
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 
-	// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
-	searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 	
 	var marker = new kakao.maps.Marker(), // 중심 위치를 표시할 마커입니다
     infowindow = new kakao.maps.InfoWindow({zindex:1}); // 중심 위치에 대한 주소를 표시할 인포윈도우입니다
 	
-	function getXY(){
-	    var address = $('.search').val(); // address-search 입력 필드의 값 가져오기
-	    console.log('주소 값 : ' + address)
-	    if (address=='') {
-	    	alert("주소를 입력해주세요")
-	    }else {
-			// 주소로 좌표를 검색합니다
-			geocoder.addressSearch(address, function(result, status) {
-		    // 정상적으로 검색이 완료됐으면 
-		    if (status === kakao.maps.services.Status.OK) {
-		
-			       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-					
-			       console.log('경도, 위도 : ' + result[0].y+", "+ result[0].x);
-			       longitude = result[0].y;
-	               latitude = result[0].x;
-	                
-			       // 결과값으로 받은 위치를 마커로 표시합니다
-			       var marker = new kakao.maps.Marker({
-			           map: map,
-			           position: coords
-			       });
-			       
-			       var detailAddr = '';
-			       if (result[0].road_address) {
-			           detailAddr += result[0].road_address.address_name;
-			       } else if (result[0].address) {
-			           detailAddr +=  result[0].address.address_name;
-			       }
-			       // 인포윈도우로 장소에 대한 설명을 표시합니다
-			       var infowindow = new kakao.maps.InfoWindow({
-			           content: '<div class="bAddr">' + detailAddr +'</div>'
-			       });
-			       infowindow.open(map, marker);
-			
-			       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-			       map.setCenter(coords);
-    		}else{console.log("검색 안됨")}
-			})
-	    }
-	}
 	
+    
 	function searchAddrFromCoords(coords, callback) {
 	    // 좌표로 행정동 주소 정보를 요청합니다
 	    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
@@ -320,15 +300,19 @@ $(function() {
             // 중심 위치에 대한 법정동 상세 주소정보를 표시합니다
             infowindow.setContent(content);
             infowindow.open(map, marker);
+            var infoTitle = document.querySelector('.bAddr');
+		       if (infoTitle) {
+				var w = infoTitle.offsetWidth + 10;
+	           var ml = w/2;
+	           infoTitle.parentElement.style.top = "82px";
+	           infoTitle.parentElement.style.left = "50%";
+	           infoTitle.parentElement.style.marginLeft = -ml+"px";
+	           infoTitle.parentElement.style.width = w+"px";
+	           infoTitle.parentElement.previousSibling.style.display = "none";
+	           infoTitle.parentElement.parentElement.style.border = "none";
+	           infoTitle.parentElement.parentElement.style.background = "unset";
+			}
         }   
     });
-	
 
-	// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-	function displayCenterInfo(result, status) {
-	    if (status === kakao.maps.services.Status.OK) {
-	        var infoDiv = document.getElementById('centerAddr');
-
-	    }    
-	}
 	</script>

@@ -27,6 +27,11 @@ border: none;
 	border-radius: 100px;
 	border-style: none;
 }
+#noUpdate{
+    padding-top: 10px;
+    font-size: 12px;
+    color: gray;
+}
 </style>
 <script>
 let latitude = 0.0000000000;
@@ -217,7 +222,8 @@ $(function() {
 						<td class="attribute">사진첨부</td>
 						<td><form id="uploadForm" enctype="multipart/form-data">
 								<input type="file" name="file" multiple>
-							</form></td>
+							 </form>
+							<div id="noUpdate">사기방지를 위해 사진 수정이 불가능합니다! 신중하게 등록해주세요!</div></td>
 					</tr>
 				</table>
 			</div>
