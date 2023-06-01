@@ -45,22 +45,4 @@ public class ReportServiceImpl implements ReportService {
         model.addAttribute("reportList", nonPagedReportList);
         return "../admin/adminReport";
     }
-    
-    public String penalty(String reporteeId, String penaltyType) {
-        MemberVO vo = Mdao.one(reporteeId);
-        String currentStatus = vo.getStatus();
-        if (penaltyType.equals("release")) {
-            if (currentStatus.equals("정상")) {
-                return "해당 회원은 제재 상태가 아닙니다.";
-            } else {
-                vo.setStatus("정상");
-                Mdao.changeStatus(vo);
-                return "제재가 해제되었습니다.";
-            }
-        } else {
-            vo.setStatus("정지");
-            Mdao.changeStatus(vo);
-            return "제재가 적용되었습니다.";
-        }
-    }
 }

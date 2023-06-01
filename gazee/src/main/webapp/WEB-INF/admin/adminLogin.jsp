@@ -40,7 +40,9 @@
                     </div>
                 </div>
                 <div class="login_relative">
-                    <div id="error_here"><br></div>
+                    <div id="error_here">
+                        <br>
+                    </div>
                     <div id="login_btn_container">
                         <button type="submit" class="btn" id="login_btn" name="login_btn">관리자 로그인</button>
                     </div>

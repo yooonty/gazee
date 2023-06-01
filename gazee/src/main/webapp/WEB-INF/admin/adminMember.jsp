@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminMember.css"/>
 <!DOCTYPE html>
 <html>
-<script>
+<script type="text/javascript">
     $(function () {
         var memberThirty = ${memberOfPastThirtyDaysList.size()};
         var element = document.getElementById("newMemberPastThirtyDays");
@@ -132,6 +132,7 @@
             </div>
         </div>
     </div>
+    <%--<div id="piechart_3d" style="width: 100%; height: 500px;"></div>--%>
 </div>
 </body>
 </html>

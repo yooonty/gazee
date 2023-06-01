@@ -1,4 +1,4 @@
-package com.multi.gazee.excel;
+package com.multi.gazee.admin.excel;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
