@@ -39,22 +39,12 @@
         where cs_id =#{csId}
     </update>
 
-    <select id="all"  parameterType="pageVO" resultType="csVO">
-        select *
-        from (
-                 select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.*
-                 from
-                     customer_service cs) cs2
-        where (cs2.cs_no between #{start} and #{end}) and cs2.temporary = 1
-    </select>
-
     <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
     <select id="nonPagedNeedReply" resultType="csVO">
         select *
         from customer_service
         WHERE cs_reply IS NULL
     </select>
-
 
     <select id="category" parameterType="Map" resultType="csVO">
         select * from (
@@ -77,14 +67,6 @@
     <select id="countSearch" parameterType="String" resultType="Integer">
         select count(*) from customer_service
         where cs_title like concat('%', #{search1}, '%')
-    </select>
-
-    <select id="list2" resultType="csVO" parameterType="PageVO">
-        select *
-        from (
-                 select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
-                 from customer_service cs) cs2
-        where cs2.cs_no between #{start} and #{end}
     </select>
 
     <select id="searchAll" resultType="csVO"  parameterType="Map">
