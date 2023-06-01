@@ -25,7 +25,6 @@
 	
 	$(function() {
 		handlePageLoad(memberId);
-		checkAndStartTimer();
 		
 		/* 채팅 내역 불러오는 함수 */
 		function getChatHistory(roomId) {
