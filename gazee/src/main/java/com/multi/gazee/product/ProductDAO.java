@@ -42,22 +42,39 @@ public class ProductDAO { // DAO는 테이블 당 하나씩
 		return my.selectList("product.searchAll", map);
 	}
 
+	public List<ProductVO> searchAllOnSale(HashMap<String, Object> map) {
+		return my.selectList("product.searchAllOnSale", map);
+	}
+
 	public List<ProductVO> categoryAll(HashMap<String, Object> map) {
 		return my.selectList("product.categoryAll", map);
+	}
+
+	public List<ProductVO> categoryAllOnSale(HashMap<String, Object> map) {
+		return my.selectList("product.categoryAllOnSale", map);
 	}
 	
 	public int countSearch(String search) {
 		return my.selectOne("product.countSearch",search);
 	} 
 
+	public int countSearchOnSale(String search) {
+		return my.selectOne("product.countSearchOnSale",search);
+	} 
+
 	public int countCategory(String category) {
 		return my.selectOne("product.countCategory",category);
+	}
+
+	public int countCategoryOnSale(String category) {
+		return my.selectOne("product.countCategoryOnSale",category);
 	}
 	
 	public int viewsCount(int productId) {
 		return my.update("product.viewsCount", productId);
 	}
 	
+	/* 판매하기 */
 	public int register(ProductVO product) {
 		//product.setSavedTime(Timestamp.valueOf(LocalDateTime.now()));
 		product.setSavedTime(getTime());
@@ -80,9 +97,6 @@ public class ProductDAO { // DAO는 테이블 당 하나씩
 		return timestamp;
 	}
 	
-	/*
-	 * public int recentView(HashMap<String, Object> map) { return
-	 * my.insert("product.recentView", map); } public int recentViewCount(String
-	 * memberId) { return my.selectOne("product.recentViewCount", memberId); }
-	 */
+	/* 상세페이지 */
+
 }
