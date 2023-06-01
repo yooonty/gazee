@@ -97,12 +97,14 @@ public class ChatController {
 		return ChatService.getSubscribedRoomIds(session);
 	}
 	
+	/* 채팅방 selectOne */
 	@RequestMapping("chat/chatSelectOne")
 	@ResponseBody
 	public ChatVO chatSelectOne(int roomId) {
 		return ChatService.chatSelectOne(roomId);
 	}
 	
+	/* 안읽은 메세지 체크 */
 	@RequestMapping("chat/unreadMessageCheck")
 	@ResponseBody
 	public List<ChatVO> unreadMessageCheck(String memberId) {
