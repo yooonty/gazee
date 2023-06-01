@@ -21,8 +21,7 @@ $('.pages').click(function() {
 		})
 </script>
 
-<table class="table table-striped"
-	style="margin: 0 auto;">
+<table class="table table-striped" style="margin: 0 auto;">
 	<tr>
 		<td class="top">번호</td>
 		<td class="top">제목</td>

@@ -26,8 +26,7 @@
 	})
 </script>
 
-<table class="table table-striped"
-	style="width: 1000px; margin: 0 auto;">
+<table class="table table-striped" style="margin: 0 auto;">
 	<tr>
 		<td class="top">번호</td>
 		<td class="top">제목</td>
@@ -42,14 +41,3 @@
 		</tr>
 	</c:forEach>
 </table>
-<%-- <div id="paging" style="margin-top:10px; text-align:center">
-	<%
-		int pages1 = (int) request.getAttribute("pages1");
-	for (int p = 1; p <= pages1; p++) {
-	%>
-	<button class="pages"
-		style="background: lime; color: red; width: 50px;"><%=p%></button>
-	<%
-		}
-	%>
-</div> --%>

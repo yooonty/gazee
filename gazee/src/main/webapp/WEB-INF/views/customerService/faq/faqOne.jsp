@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="../../resources/css/style2.css" rel="stylesheet" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$('#faqList').click(function() {
