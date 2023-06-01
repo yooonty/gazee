@@ -1,13 +1,13 @@
 package com.multi.gazee.admin;
 
+import com.multi.gazee.admin.excel.ExcelService;
 import com.multi.gazee.admin.findPw.AdminFindPwServiceImpl;
 import com.multi.gazee.admin.login.AdminLoginService;
 import com.multi.gazee.admin.pwEdit.AdminPwEditServiceImpl;
 import com.multi.gazee.admin.sidebar.AdminSidebarService;
-import com.multi.gazee.brcypt.BcryptServiceImpl;
+import com.multi.gazee.brcypt.BcryptService;
 import com.multi.gazee.charge.ChargeService;
 import com.multi.gazee.customerService.CustomerServiceService;
-import com.multi.gazee.excel.ExcelService;
 import com.multi.gazee.member.MemberService;
 import com.multi.gazee.order.OrderService;
 import com.multi.gazee.product.ProductService;
@@ -50,7 +50,7 @@ public class AdminController {
     @Autowired
     SetService setService;
     @Autowired
-    BcryptServiceImpl bcry = new BcryptServiceImpl();
+    BcryptService bcryptService;
     @Autowired
     AdminLoginService adminLoginService;
     @Autowired
@@ -68,7 +68,7 @@ public class AdminController {
         return adminLoginService.invalidateSession(request);
     }
     
-    @GetMapping(value = "/admin")
+    @RequestMapping(value = "/admin")
     public String checkCookie(HttpServletRequest request, Model model) throws Exception {
         return adminLoginService.checkCookie(request, model);
     }
@@ -89,7 +89,7 @@ public class AdminController {
     
     @RequestMapping(value = "infoEdit.do")
     public String loadInfoEdit(Model model) throws Exception {
-        return adminSidebarService.loadinfoEdit(model);
+        return adminSidebarService.loadInfoEdit(model);
     }
     
     @RequestMapping(value = "adminPwEdit.do")
@@ -174,6 +174,22 @@ public class AdminController {
     @RequestMapping(value = "searchMember.do")
     public String searchMember(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
         return memberService.searchMember(searchType, searchIndex, model);
+    }
+    
+    /* Execute suspension */
+    
+    @RequestMapping(value = "executeSuspension.do", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String executeSuspension(@ModelAttribute("reporteeId") String memberId, @ModelAttribute("penaltyType") String period) throws Exception {
+        return memberService.executeSuspension(memberId, period);
+    }
+    
+    /* Release from suspension */
+    
+    @RequestMapping(value = "releaseSuspension.do", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String releaseSuspension(@ModelAttribute("reporteeId") String memberId, @ModelAttribute("penaltyType") String penaltyType) throws Exception {
+        return memberService.releaseSuspension(memberId, penaltyType);
     }
     
     /* Product */
@@ -272,12 +288,6 @@ public class AdminController {
     @RequestMapping(value = "reportReplyRegisterComplete.do")
     public String replyRegister(@ModelAttribute("reportId") int reportId, @ModelAttribute("replyContent") String replyContent, Model model) throws Exception {
         return reportService.reportReply(reportId, replyContent, model);
-    }
-    
-    @RequestMapping(value = "penaltyComplete.do", produces = "application/text; charset=utf8")
-    @ResponseBody
-    public String penaltyComplete(@ModelAttribute("reporteeId") String reporteeId, @ModelAttribute("penaltyType") String penaltyType) {
-        return reportService.penalty(reporteeId, penaltyType);
     }
     
     /* Export XLSX */

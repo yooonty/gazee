@@ -18,10 +18,9 @@
         var nickname = td.eq(3).text();
         var count = td.eq(4).text();
         var status = 'release'
-        var penaltyType = td.eq(6).find("select[name='penalty']").val();
 
         $.ajax({
-            url: "penaltyComplete.do",
+            url: "releaseSuspension.do",
             type: "POST",
             data: {
                 reporteeId: reporteeId,

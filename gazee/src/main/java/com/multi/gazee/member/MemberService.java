@@ -12,4 +12,8 @@ public interface MemberService {
     String getMemberSuspendedList(Model model) throws Exception;
     
     String searchMember(String searchType, String searchIndex, Model model) throws Exception;
+    
+    String executeSuspension(String memberId, String period) throws Exception;
+    
+    String releaseSuspension(String memberId, String penaltyType) throws Exception;
 }

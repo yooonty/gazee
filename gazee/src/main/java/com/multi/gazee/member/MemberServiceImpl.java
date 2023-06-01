@@ -4,12 +4,13 @@ import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
 import com.multi.gazee.reportCount.ReportCountDAO;
 import com.multi.gazee.reportCount.ReportCountVO;
+import com.multi.gazee.scheduler.SevenDaysScheduler;
+import com.multi.gazee.scheduler.ThirtyDaysScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.jws.WebParam;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,10 @@ public class MemberServiceImpl implements MemberService {
     ReportDAO Rdao;
     @Autowired
     ReportCountDAO RCdao;
+    @Autowired
+    SevenDaysScheduler sevenDaysScheduler;
+    @Autowired
+    ThirtyDaysScheduler thirtyDaysScheduler;
     
     public String getMemberList(Model model) {
         List<MemberVO> memberList = Mdao.list();
@@ -113,6 +118,34 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminMemberSearch";
+    }
+    
+    public String executeSuspension(String memberId, String period) throws Exception {
+        if (period.equals("seven")) {
+            Mdao.executeSuspension(memberId);
+            sevenDaysScheduler.setMemberId(memberId);
+            LocalDateTime releaseDate = LocalDateTime.now().plusDays(7);
+            return "7일 제재가 적용되었습니다.\n해제 일시는" + releaseDate + "입니다.";
+        } else if (period.equals("thirty")) {
+            Mdao.executeSuspension(memberId);
+            thirtyDaysScheduler.setMemberId(memberId);;
+            LocalDateTime releaseDate = LocalDateTime.now().plusDays(30);
+            return "30일 정지가 적용되었습니다.\n해제 일시는" + releaseDate + "입니다.";
+        } else {
+            Mdao.executeSuspension(memberId);
+            return "영구 정지가 적용되었습니다.";
+        }
+    }
+    
+    public String releaseSuspension(String reporteeId, String penaltyType) throws Exception {
+        MemberVO vo = Mdao.one(reporteeId);
+        String currentStatus = vo.getStatus();
+        if (currentStatus.equals("정상")) {
+            return "해당 회원은 제재 상태가 아닙니다.";
+        } else {
+            Mdao.releaseSuspension(reporteeId);
+            return "제재가 해제되었습니다.";
+        }
     }
 }
 
