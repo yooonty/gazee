@@ -24,6 +24,7 @@
 	overflow: hidden;
 	margin-top: 50px;
 	margin-bottom: 50px;
+	cursor: pointer;
 }
 
 #sell {
@@ -43,50 +44,11 @@
 
 .recommend {
 	height: 350px;
+	padding-top: 30px;
 }
 
 .categoryMenu {
 	cursor: pointer;
-}
-
-#recentView {
-	width: 90px;
-	position: fixed;
-	top: 330px;
-	right: calc(50% - 630px);
-	transition: all 0.35s;
-}
-
-.recentViewItem {
-	padding: 10px;
-	border: 1px solid rgb(204, 204, 204);
-	background: rgb(255, 255, 255);
-	margin-bottom: 6px;
-}
-
-.recentViewTxt {
-	font-size: 12px;
-	font-weight: 600;
-	color: rgb(102, 102, 102);
-	text-align: center;
-	margin-bottom: 8px;
-}
-
-.recentViewCount {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 10px;
-}
-
-.viewCount {
-	display: flex;
-	justify-content: center;
-	font-size: 12px;
-	color: rgb(247, 0, 0);
-	font-weight: 600;
-	width: 38px;
-	border-bottom: 2px dotted rgb(136, 136, 136);
-	padding-bottom: 10px;
 }
 
 /* searchList.jsp, categoryList.jsp */

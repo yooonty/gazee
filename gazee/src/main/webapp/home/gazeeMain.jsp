@@ -63,30 +63,27 @@
 		/* 검색창을 이용한 검색 */
 		$('#searchButton').click(function() {
 			var search = $('#searchBar').val()
-			location.href = "../product/searchList?page=1&search=" + search
+			location.href = "../product/searchList?page=1&num=20&search=" + search
 		})
 		
 		/* 카테고리(햄버거바)를 이용한 검색 */
 		$('.categoryMenu').click(function() {
 			var category = $(this).text()
-			location.href = "../product/categoryList?page=1&category=" + category
+			location.href = "../product/categoryList?page=1&num=20&category=" + category
 		})
 		
 		/* 배너 클릭 -> 판매하기 */
 		$('#banner').click(function() {
 			location.href = "../product/register.jsp"
 		})
+
+		/* 최근 본 상품 목록 */
+		/* $('#btn_recentItem').click(function() {
+			location.href = "../recentlyViewed/recentlyViewedList.jsp"
+		}) */
 	}) 
 </script>
 <style type="text/css">
-#btn_recentItem {
-	background-color: white;
-	color: #693FAA;
-	border: 1px solid #693FAA;
-	border-radius: 3px;
-	font-size: 12px;
-	font-weight: 600;
-}
 
 </style>
 <title>가지가지</title>
@@ -102,35 +99,13 @@
 			<div id="content">
 				<div id="banner">
 					<img src="../resources/img/banner.jpg" width="1000px">
+					
 				</div>
 				<div id="recommend_item">
 				</div>
 			</div>
 		</div>
-		<%
-			if(id!=null){
-		%>
-		<div id="recentView">
-			<div class="recentViewItem">
-				<div class="recentViewTxt">채팅방</div>
-			</div>
-			<div class="recentViewItem">
-				<div class="recentViewTxt">최근본상품</div>
-				<div class="recentViewCount">
-					<div class="viewCount">
-					</div>
-				</div>
-				<div class="recentItem">
-					<button id="btn_recentItem">목록보기</button>
-				</div>
-			</div>
-			<div class="recentViewItem">
-				<div class="recentViewTxt">가지 Chatbot</div>
-			</div>
-		</div>
-		<%
-			} 
-		%>
+		<jsp:include page="../home/SideBar.jsp" flush="true"/>
 		<jsp:include page="../home/Footer.jsp" flush="true"/>
 	</div>
 </body>
