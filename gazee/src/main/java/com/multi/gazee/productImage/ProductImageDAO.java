@@ -19,8 +19,8 @@ public class ProductImageDAO {
 		return list;
 	}
 	
-	public void productImageDelete(ProductVO product) {
-		int result = my.delete("productImage.productImageDelete", product);
+	public void productImageDelete(int productId) {
+		int result = my.delete("productImage.productImageDelete", productId);
 		System.out.println(result);
 	}
 	
