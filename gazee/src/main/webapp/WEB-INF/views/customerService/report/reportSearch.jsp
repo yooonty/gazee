@@ -1,23 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>가지가지</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
-	rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="../../resources/css/style2.css" rel="stylesheet" type="text/css">
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -27,7 +22,8 @@
 				url : "reportList",
 				data : {
 					page : $(this).text(),
-					mode : 2
+					mode : 2,
+					search1: '${searchValue}'
 				},
 				success : function(result) { //결과가 담겨진 table부분코드
 					$('#result').html(result)
@@ -75,7 +71,21 @@
 
 	})
 </script>
-
+<style>
+.pages {
+	width: 34px;
+	height: 34px;
+	background-color: white;
+	border: 1px solid rgb(204, 204, 204);
+	color: rgb(155, 153, 169);
+	cursor: pointer;
+}
+.pages:active {
+	background-color: #693FAA;
+	color: white;
+	border:1px solid #693FAA;
+}
+</style>
 </head>
 <body>
 	<div id="alert"></div>
@@ -93,11 +103,9 @@
 						<div class="FAQ">
 							<div style="display: flex; justify-content: space-between;">
 								<h3 style="color: #693FAA">
-									<a href="reportList?page=1&mode=1"
-										style="color: #693FAA !important;">신고 게시판</a>
+									<a href="reportList?page=1&mode=1" style="color: #693FAA !important;">신고 게시판</a>
 								</h3>
-								<div
-									style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+								<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
 									<form method="get">
 										<label for="category">카테고리</label> <select id="category"
 											name="category" size="1">
@@ -138,11 +146,25 @@
 										<td class="top">작성날짜</td>
 										<td class="top">조회수</td>
 									</tr>
-									<c:forEach items="${search}" var="bag">
+									<c:forEach items="${search}" var="bag" varStatus="status">
+										<%
+											@SuppressWarnings("unchecked")
+											List<String> nickname = (List<String>) request.getAttribute("nickname");
+										%>
 										<tr>
 											<td class="down">${bag.reportNo}</td>
-											<td class="down"><a href="reportOne?id=${bag.reportId}">${bag.reportTitle}</a></td>
-											<td class="down">${bag.reportWriter}</td>
+											<c:choose>
+												<c:when
+													test="${sessionScope.id eq bag.reportWriter}">
+													<td class="down"><a
+														href="reportOne?id=${bag.reportId}&reportWriter=${bag.reportWriter}">${bag.reportTitle}</a></td>
+												</c:when>
+												<c:otherwise>
+													<td class="down"><a
+														href="reportOne?id=${bag.reportId}&reportWriter=${bag.reportWriter}">비밀글입니다.</a></td>
+												</c:otherwise>
+											</c:choose>
+											<td class="down">${nickname[status.index]}</td>
 											<td class="down">${bag.reportDate}</td>
 											<td class="down">${bag.reportView}</td>
 										</tr>
@@ -154,8 +176,7 @@
 									int pages = (int) request.getAttribute("pages1");
 								for (int p = 1; p <= pages; p++) {
 								%>
-								<button class="pages"
-									style="background: lime; color: red; width: 50px;"><%=p%></button>
+								<button class="pages"><%=p%></button>
 								<%
 									}
 								%>
@@ -163,7 +184,7 @@
 							<div id="faqButtom" style="margin-top: 10px; text-align: center">
 
 								<div id="search" style="margin-top: 10px">
-									<input id="reportSearch" type="text" size=40;>
+									<input id="reportSearch" type="text" size=40; placeholder="ID로 검색해주세요">
 									<button id="btn_reportSearch">검색</button>
 								</div>
 							</div>

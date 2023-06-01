@@ -14,8 +14,8 @@ public class ReportVO {
 	private String reportDate;
 	private int reportView;
 	private String reportReply;
-	private int temporary;
 	private String reportee;
+	private int temporary;
 	
 	
 	public int getReportId() {
@@ -79,25 +79,10 @@ public class ReportVO {
 	public void setReportContent(String reportContent) {
 		this.reportContent = reportContent;
 	}
-	
 	public String getReportee() {
 		return reportee;
 	}
 	public void setReportee(String reportee) {
 		this.reportee = reportee;
 	}
-	@Override
-	public String toString() {
-		return "ReportVO [reportId=" + reportId + ", reportNo=" + reportNo + ", reportTitle=" + reportTitle
-				+ ", reportCategory=" + reportCategory + ", reportContent=" + reportContent + ", reportWriter="
-				+ reportWriter + ", reportDate=" + reportDate + ", reportView=" + reportView + ", reportReply="
-				+ reportReply + ", temporary=" + temporary + ", reportee=" + reportee
-				+ "]";
-	}
-	
-	
-	
-	
-	
-	
 }

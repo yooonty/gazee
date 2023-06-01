@@ -1,7 +1,5 @@
 package com.multi.gazee.report;
 
-import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,12 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.gazee.customerService.PageVO;
+import com.multi.gazee.reportImg.ReportImgDAO;
 
 @Controller
 public class ReportController {
 
 	@Autowired
 	ReportDAO dao;
+	@Autowired
+	ReportImgDAO dao2;
 	
 	@Autowired
 	ReportService service;
@@ -38,7 +39,7 @@ public class ReportController {
 
 	@RequestMapping("customerService/report/reportList")
 	public String reportList(PageVO vo, Model model, int mode) throws Exception {
-		return reportList(vo, model, mode);
+		return service.reportList(vo, model, mode);
 	}
 
 	@RequestMapping("customerService/report/reportCategory")

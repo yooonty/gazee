@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="report">
 	
-	<insert id="register" parameterType="reportVO">
+	<insert id="register" parameterType="reportVO" useGeneratedKeys="true" keyProperty= "reportId">
 		insert into report(report_title, report_content, report_writer, report_category, temporary,reportee) 
 		values (#{reportTitle}, 
 				#{reportContent},
@@ -61,8 +61,8 @@
 	</select>
 	
 	<select id="countSearch" parameterType="String" resultType="Integer">
-		select count(*) from report r
-		where r.report_title like concat('%', #{search1}, '%') and r.temporary=1
+		select count(*) from report 
+		where report_writer = #{search1} and temporary=1
 	</select>
 	
 	<select id="list2" resultType="reportVO" parameterType="pageVO">
@@ -78,7 +78,7 @@
 		select * from (
 		select ROW_NUMBER() over(order by report_id desc) as report_no, r.*
 		from report r
-		where r.report_title like concat('%', #{search1}, '%') and r.temporary=1) r2
+		where r.report_writer = #{search1} and r.temporary=1) r2
 		where r2.report_no between #{start} and #{end}
 	</select>
 	

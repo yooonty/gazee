@@ -6,21 +6,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="../../resources/css/style2.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../resources/css/product-register.css"
-	type="text/css">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../resources/css/product-register.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		function uploadFiles() {
+			var formData = new FormData($("#uploadForm")[0]);
+
+			$.ajax({
+				url: "../../reportImg/reportUploadMultipleFile",
+				type: "POST",
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					// Handle success response
+					console.log("Upload successful!");
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					// Handle error response
+					console.error("Upload failed: " + errorThrown);
+				}
+			});
+		}
+		
+		
+		
+		
 		$('.save')
 				.click(
 						function() {
@@ -46,6 +64,7 @@
 									},
 									success : function(x) {
 										if (save == 1) {
+											uploadFiles();
 											alert("신고 게시글을 등록했습니다.");
 											location.href="../../customerService/report/reportList?page=1&mode=1"
 										} else if (save == 0) {
@@ -118,11 +137,11 @@
 								</tr>
 								<tr class="each-row">
 									<td class="attribute">사진첨부</td>
-									<td><input type="file"></td>
+									<td style="color:red; font-size: 20px">문의 및 신고 게시판에서 사진 수정은 불가합니다.</td>
 								</tr>
 							</table>
 						</div>
-						<div style="display: flex; justify-content: flex-end;">
+						<div style="display: flex; justify-content: flex-end; gap: 15px;">
 							<button class="save" value="1">저장</button>
 							<button class="save" value="0">임시저장</button>
 						</div>
