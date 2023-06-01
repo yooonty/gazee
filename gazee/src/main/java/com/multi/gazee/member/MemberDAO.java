@@ -72,5 +72,13 @@ public class MemberDAO {
 		List<MemberVO> oneWhere = my.selectList("member.oneWhere", parameterMap);
 		return oneWhere;
 	}
+	
+	public void executeSuspension(String memberId) {
+		my.update("member.executeSuspension", memberId);
+	}
+	
+	public void releaseSuspension(String memberId) {
+		my.update("member.releaseSuspension", memberId);
+	}
 }
 

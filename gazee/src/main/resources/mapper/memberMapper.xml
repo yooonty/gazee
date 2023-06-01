@@ -11,7 +11,8 @@
     <!-- 관리자 제외 ALL -->
     <select id="allExceptAdmin" resultType="memberVO">
         SELECT *
-        FROM member WHERE user_level = 1
+        FROM member
+        WHERE user_level = 1
     </select>
 
     <!-- 관리자 권한 계정 Read -->
@@ -93,4 +94,19 @@
                      WHERE count IN (3, 5, 7))
           AND status = '정상';
     </select>
+
+    <!-- 정지 -->
+    <update id="executeSuspension" parameterType="String">
+        UPDATE member
+        SET status = '정지'
+        WHERE id = #{memberId}
+    </update>
+
+    <!-- 정지 해제 -->
+    <update id="releaseSuspension" parameterType="String">
+        UPDATE member
+        SET status = '정상'
+        WHERE id = #{memberId}
+    </update>
+
 </mapper>
