@@ -1,4 +1,4 @@
-package com.multi.gazee.brcypt;
+package com.multi.gazee.admin.brcypt;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;

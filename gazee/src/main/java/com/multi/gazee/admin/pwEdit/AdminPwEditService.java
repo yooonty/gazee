@@ -1,6 +1,6 @@
 package com.multi.gazee.admin.pwEdit;
 
-import com.multi.gazee.brcypt.BcryptServiceImpl;
+import com.multi.gazee.admin.brcypt.BcryptServiceImpl;
 import com.multi.gazee.member.MemberDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

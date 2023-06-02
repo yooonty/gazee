@@ -1,6 +1,6 @@
 package com.multi.gazee.admin.findPw;
 
-import com.multi.gazee.brcypt.BcryptServiceImpl;
+import com.multi.gazee.admin.brcypt.BcryptServiceImpl;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.apache.commons.mail.HtmlEmail;

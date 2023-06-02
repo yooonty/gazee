@@ -1,6 +1,6 @@
 package com.multi.gazee.admin.login;
 
-import com.multi.gazee.brcypt.BcryptService;
+import com.multi.gazee.admin.brcypt.BcryptService;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import org.apache.commons.lang3.StringUtils;
