@@ -71,8 +71,6 @@
                     <option value="no">No</option>
                     <option value="member_id">신청자</option>
                 </select>
-                <input name="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">
-                <input class="btn" type="button" onclick="getSearchList()" value="검색"></input>
                 <a href="#" class="btn" onclick="getWithdrawList()">전체목록 조회</a>
              </span>
             </form>
