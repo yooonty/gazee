@@ -97,9 +97,25 @@
 		</div>
 		<div id="content_wrap">
 			<div id="content">
-				<div id="banner">
-					<img src="../resources/img/banner.jpg" width="1000px">
-					
+				<div class="slidebox">
+				    <input type="radio" name="slide" id="slide01" checked>
+				    <input type="radio" name="slide" id="slide02">
+				    <ul class="slidelist">
+				        <li class="slideitem">
+				            <div>
+				                <!-- <label for="slide02" class="left"></label>
+				                <label for="slide02" class="right"></label> -->
+				                <a><img src="../resources/img/banner.jpg"></a>
+				            </div>
+				        </li>
+				        <li class="slideitem">
+				            <div>
+				                <!-- <label for="slide01" class="left"></label>
+				                <label for="slide01" class="right"></label> -->
+				                <a><img src="../resources/img/banner2.jpg"></a>
+				            </div>
+				        </li>
+				    </ul>
 				</div>
 				<div id="recommend_item">
 				</div>
