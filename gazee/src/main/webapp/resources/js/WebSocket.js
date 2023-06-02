@@ -658,7 +658,7 @@
 		
 		/* 결제내역 확인하러 마이페이지로 이동 */
 		function myPage() {
-			location.href = "../home/gazeeMain.jsp";
+			location.href = "../member/mypage.jsp";
 		}
 		
 		/* 결제 후 채팅방으로 이동 */
