@@ -1,5 +1,6 @@
 package com.multi.gazee.withdraw;
 
+import com.multi.gazee.order.OrderVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

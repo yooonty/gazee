@@ -1,5 +1,6 @@
 package com.multi.gazee.member;
 
+import com.multi.gazee.admin.paging.PageVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,13 @@ public class MemberDAO {
 		return memberList;
 	}
 	
-	public void changeStatus(MemberVO bag) {
-		int result = my.update("member.changeStatus", bag);
+	public List<MemberVO> pagedList(PageVO pageVo) {
+		List<MemberVO> pagedMemberList = my.selectList("member.pagedAll", pageVo);
+		return pagedMemberList;
+	}
+	
+	public int count() {
+		return my.selectOne("member.count");
 	}
 	
 	/* Admin 제외 회원 List */

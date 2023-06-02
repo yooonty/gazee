@@ -1,6 +1,7 @@
 package com.multi.gazee.customerService;
 
 public class CustomerServiceVO {
+	private int pagedCsId;
 	private int csId;
 	private int csNo;
 	private String csTitle;
@@ -11,6 +12,14 @@ public class CustomerServiceVO {
 	private String csCategory;
 	private String csReply;
 	private int temporary;
+	
+	public int getPagedCsId() {
+		return pagedCsId;
+	}
+	
+	public void setPagedCsId(int pagedCsId) {
+		this.pagedCsId = pagedCsId;
+	}
 	
 	public int getCsId() {
 		return csId;

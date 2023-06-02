@@ -3,6 +3,7 @@ package com.multi.gazee.admin;
 import com.multi.gazee.admin.excel.ExcelService;
 import com.multi.gazee.admin.findPw.AdminFindPwServiceImpl;
 import com.multi.gazee.admin.login.AdminLoginService;
+import com.multi.gazee.admin.paging.PageVO;
 import com.multi.gazee.admin.pwEdit.AdminPwEditServiceImpl;
 import com.multi.gazee.admin.sidebar.AdminSidebarService;
 import com.multi.gazee.brcypt.BcryptService;
@@ -120,8 +121,8 @@ public class AdminController {
     }
     
     @RequestMapping(value = "member.do")
-    public String loadMember(Model model) throws Exception {
-        return adminSidebarService.loadMember(model);
+    public String loadMember(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return adminSidebarService.loadMember(pageVo, pageNumber, model);
     }
     
     @RequestMapping(value = "order.do")
@@ -130,8 +131,8 @@ public class AdminController {
     }
     
     @RequestMapping(value = "product.do")
-    public String loadProduct(Model model) throws Exception {
-        return adminSidebarService.loadProduct(model);
+    public String loadProduct(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return adminSidebarService.loadProduct(pageVo, pageNumber, model);
     }
     
     @RequestMapping(value = "money.do")
@@ -140,20 +141,20 @@ public class AdminController {
     }
     
     @RequestMapping(value = "cs.do")
-    public String loadCs(Model model) throws Exception {
-        return adminSidebarService.loadCs(model);
+    public String loadCs(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return adminSidebarService.loadCs(pageVo, pageNumber, model);
     }
     
     @RequestMapping(value = "report.do")
-    public String loadReport(Model model) throws Exception {
-        return adminSidebarService.loadReport(model);
+    public String loadReport(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return adminSidebarService.loadReport(pageVo, pageNumber, model);
     }
     
     /* Member */
     
     @RequestMapping(value = "memberList.do")
-    public String loadMemberList(Model model) throws Exception {
-        return memberService.getMemberList(model);
+    public String loadMemberList(PageVO pageVo, Model model) throws Exception {
+        return memberService.getMemberList(pageVo, model);
     }
     
     @RequestMapping(value = "memberThisWeekList.do")
@@ -259,8 +260,8 @@ public class AdminController {
     /* CS */
     
     @RequestMapping(value = "csList.do")
-    public String loadCsList(Model model) throws Exception {
-        return customerServiceService.getCsList(model);
+    public String loadCsList(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return customerServiceService.getCsList(pageVo, pageNumber, model);
     }
     
     @RequestMapping(value = "cs_one.do")
@@ -276,8 +277,8 @@ public class AdminController {
     /* Report */
     
     @RequestMapping(value = "reportList.do")
-    public String loadReportList(Model model) throws Exception {
-        return reportService.getReportList(model);
+    public String loadReportList(PageVO pageVo, @RequestParam("pageNumber") int pageNumber, Model model) throws Exception {
+        return reportService.getReportList(pageVo, pageNumber, model);
     }
     
     @RequestMapping(value = "report_one.do")

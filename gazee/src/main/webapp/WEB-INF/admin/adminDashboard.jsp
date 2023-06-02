@@ -86,120 +86,55 @@
             <div class="cardName" id="입">수수료 수입</div>
         </div>
         <div class="iconBox">
+            <i class="fa fa-calculator" aria-hidden="true"></i>
+        </div>
+    </div>
+    <a href=# onclick="loadCs()">
+        <div class="card">
+            <div>
+                <div class="numbers">${nonPagedNeedCsReplyList.size()}개</div>
+                <div class="cardName">새 문의글</div>
+            </div>
+            <div class="iconBox">
+                <i class="fa fa-comment-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </a>
+    <a href=# onclick="loadReport()">
+        <div class="card">
+            <div>
+                <div class="numbers">${nonPagedNeedReportReplyList.size()}개</div>
+                <div class="cardName">새 신고글</div>
+            </div>
+            <div class="iconBox">
+                <i class="fa fa-legal" aria-hidden="true"></i>
+            </div>
+        </div>
+    </a>
+    <a href=# onclick="loadOrder()">
+        <div class="card">
+            <div>
+                <div class="numbers">${orderNeedToSetList.size()}건</div>
+                <div class="cardName">정산 요청</div>
+            </div>
+            <div class="iconBox">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </div>
+        </div>
+    </a>
+    <div class="card">
+        <div>
+            <%--JSTL 사용, 세 자리 수마다 콤마(,) 삽입--%>
+            <div class="numbers"><fmt:formatNumber value="${total}" type="number" pattern="#,###"/>원</div>
+            <div class="cardName" id="입">총 거래금액</div>
+        </div>
+        <div class="iconBox">
             <i class="fa fa-usd" aria-hidden="true"></i>
         </div>
     </div>
 </div>
 <div class="details" id="details_container">
     <div class="recentOrders" id="order_container">
-        <div class="cardHeader">
-            <h2>정산이 필요한 거래 : ${orderNeedToSetList.size()}건</h2>
-            <a href="#" class="btn" onclick="orderList()">전체목록 조회</a>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <td>거래 NO</td>
-                <td>판매자</td>
-                <td>구매자</td>
-                <td>판매자확정</td>
-                <td>구매자확정</td>
-                <td>정산하기</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${orderNeedToSetList}" var="bag" varStatus="loop">
-                <script>
-                    $(function () {
-                        const buyerConfirm = ${bag.buyerConfirm};
-                        if (buyerConfirm === 1) {
-                            $("#buyer_confirm_${loop.index}").html('<span class="status confirm">확정</span>');
-                        } else {
-                            $("#buyer_confirm_${loop.index}").html('<span class="status cancel">미확정</span>');
-                        }
-                    });
-                </script>
-                <tr>
-                    <td>
-                            ${bag.no}
-                    </td>
-                    <td>
-                        <p style="display:none;">${bag.productId}</p>
-                        <p style="display:none;">${bag.transactionId}</p>
-                        <p>${bag.sellerId}</p>
-                    </td>
-                    <td>
-                            ${bag.buyerId}
-                    </td>
-                    <td>
-                        <span id="seller_confirm_${loop.index}">
-                            <span class="status confirm">확정</span>
-                        </span>
-                    </td>
-                    <td>
-                        <span id="buyer_confirm_${loop.index}">
-                        ${bag.buyerConfirm}
-                        </span>
-                    </td>
-                    <td>
-                        <button id="settle_button" style="font-size: 1.0rem">정산</button>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <div class="recentCustomers">
-        <div class="cardHeader">
-            <h2>신고목록</h2>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <th scope="col">제목
-                </td>
-                <th scope="col">작성자
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${reportList}" var="bag">
-                <p style="display: none" class="bag_report_id">${bag.reportId}</p>
-                <tr>
-                    <td><a href=# class="report_list_title" onclick="loadReportOneDash()">${bag.reportTitle}</a></td>
-                    <td>${bag.reportWriter}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <div class="recentOrders" id="cs_list">
-        <div class="cardHeader">
-            <span><h2>답변이 필요한 문의 목록</h2></span>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <td>카테고리</td>
-                <td>ID</td>
-                <td>제목</td>
-                <td>날짜</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${nonPagedNeedCsReplyList}" var="bag">
-                <tr>
-                    <p style="display: none" id="bag_cs_id">${bag.csId}</p>
-                    <td>${bag.csCategory}</td>
-                    <td>${bag.csWriter}</td>
-                    <td><a href=# id="cs_list_title" onclick="loadCsOne()">${bag.csTitle} </a></td>
-                    <td>${bag.csDate}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-    <div class="recentCustomers">
         <div class="cardHeader">
             <h2>정산 완료 내역</h2>
         </div>
@@ -226,57 +161,44 @@
             </tbody>
         </table>
     </div>
-    <div class="recentOrders" id="report_list">
-        <div class="cardHeader">
-            <span><h2>답변이 필요한 신고 목록</h2></span>
-            <a href="#" class="btn" onclick="getReportList()">전체목록 조회</a>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <td>카테고리</td>
-                <td>ID</td>
-                <td>제목</td>
-                <td>날짜</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${nonPagedNeedReportReplyList}" var="bag">
-                <tr>
-                    <p style="display: none" class="bag_report_id">${bag.reportId}</p>
-                    <td>${bag.reportCategory}</td>
-                    <td>${bag.reportWriter}</td>
-                    <td><a href=# class="report_list_title" onclick="loadReportOne()">${bag.reportTitle} </a></td>
-                    <td>${bag.reportDate}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
     <div class="recentCustomers">
         <div class="cardHeader">
-            <h2>최근 결제 된 상품</h2>
+            <h2>전체 거래 목록</h2>
+            <a href=# class="btn" onclick="returnToSetList()">정산 대상 조회</a>
         </div>
         <table>
             <thead>
             <tr>
-                <td>상품 ID</td>
-                <td>결제 시각</td>
-                <td>구매자</td>
+                <td>거래 No</td>
                 <td>판매자</td>
+                <td>구매자</td>
+                <td>결제시간</td>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${orderList}" var="bag">
+            <c:forEach items="${orderList}" var="orderList">
                 <tr>
-                    <td>${bag.productId}</td>
-                    <td><fmt:formatDate value="${bag.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td>${bag.buyerId}</td>
-                    <td>${bag.sellerId}</td>
+                    <td>
+                            ${orderList.no}
+                    </td>
+                    <td>
+                            ${orderList.sellerId}
+                    </td>
+                    <td>
+                            ${orderList.buyerId}
+                    </td>
+                    <td>
+                            ${orderList.paymentTime}
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+        <div style="text-align: right">
+            <form action="excelOrder.do" method="get">
+                <button class="btn" type="submit">엑셀 다운로드</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

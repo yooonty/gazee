@@ -5,7 +5,17 @@
 <!DOCTYPE html>
 <script>
     function prev() {
-        $("#contents_container").load("report.do")
+        $.ajax({
+            type: 'GET',
+            url: "report.do",
+            data: {
+                pageNumber : 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
 
     function replyResgister() {
@@ -102,7 +112,7 @@
             <textarea id="reply_content" style="width: 100%; height: 100px; font-size: 1.2rem"></textarea>
         </div>
         <div style="text-align: center">
-            <button id="reply_register_button" style="font-size: 1.0rem" onclick="replyResgister()">답변 등록하기</button>
+            <button id="reply_register_button" style="font-size: 1.0rem" class="btn" onclick="replyResgister()">답변 등록하기</button>
         </div>
     </div>
 </div>

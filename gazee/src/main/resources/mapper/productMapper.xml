@@ -8,6 +8,18 @@
         FROM product
     </select>
 
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="productVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY product_id) AS product_id, saved_time, product_name, member_id, price, product_views
+              FROM product p) p2
+        WHERE p2.product_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM product
+    </select>
+
     <!-- 오늘 등록 된 상품 Read -->
     <select id="listProductToday" resultType="productVO">
         SELECT *

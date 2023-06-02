@@ -62,10 +62,10 @@
                 </thead>
                 <tbody style="font-size: 18px">
                 <tr>
-                    <td><input type="text" id="admin_current_pw" placeholder="기존 비밀번호"></td>
-                    <td><input type="text" id="admin_new_pw" placeholder="변경 할 비밀번호"></td>
-                    <td><input type="text" id="admin_new_pw_check" placeholder="변경 할 비밀번호 확인"></td>
-                    <td><button id="admin_pw_edit_btn" onclick="adminPwEdit()">변경</button></td>
+                    <td><input type="text" class="text_input" id="admin_current_pw" placeholder="기존 비밀번호"></td>
+                    <td><input type="text" class="text_input" id="admin_new_pw" placeholder="변경 할 비밀번호"></td>
+                    <td><input type="text" class="text_input" id="admin_new_pw_check" placeholder="변경 할 비밀번호 확인"></td>
+                    <td><button id="admin_pw_edit_btn" class="btn" onclick="adminPwEdit()">변경</button></td>
                 </tr>
                 </tbody>
             </table>

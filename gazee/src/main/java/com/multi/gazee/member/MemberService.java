@@ -1,9 +1,10 @@
 package com.multi.gazee.member;
 
+import com.multi.gazee.admin.paging.PageVO;
 import org.springframework.ui.Model;
 
 public interface MemberService {
-    String getMemberList(Model model) throws Exception;
+    String getMemberList(PageVO pageVo, Model model) throws Exception;
     
     String getMemberThisWeekList(Model model) throws Exception;
     

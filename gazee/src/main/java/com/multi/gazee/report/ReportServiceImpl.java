@@ -1,5 +1,6 @@
 package com.multi.gazee.report;
 
+import com.multi.gazee.admin.paging.PageVO;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.reportCount.ReportCountDAO;
@@ -20,8 +21,21 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     MemberDAO Mdao;
     
-    public String getReportList(Model model) {
+    public String getReportList(PageVO pageVo, int pageNumber, Model model) {
         List<ReportVO> reportList = Rdao.nonPagedList();
+    
+        /* 페이징 */
+        pageVo.setPage(pageNumber);
+        pageVo.setStartEnd(pageVo.getPage());
+        List<ReportVO> pagedReportList = Rdao.pagedList(pageVo);
+        int currentPage = pageVo.getPage();
+        int count = Mdao.count();
+        int pages = (int) (count / 10.0 + 1);
+    
+        model.addAttribute("pagedReportList", pagedReportList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pages", pages);
+        model.addAttribute("count", count);
         model.addAttribute("reportList", reportList);
         return "../admin/adminReportList";
     }

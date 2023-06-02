@@ -10,15 +10,19 @@
 </head>
 <body>
 <script>
+    /* 로그인과 동시에 대시보드 불러오기 */
+
     $(function () {
         $("#contents_container").load("dashboard.do");
-    });
+    })
 
-    $(function() {
+    /* 세션 만료 시 (60분) 자동 로그아웃 */
+
+    $(function () {
         checkLogin(3600000);
 
         function checkLogin(delay) {
-            setTimeout(function() {
+            setTimeout(function () {
                 var hasCookie, hasSession;
 
                 var loginCookie = document.cookie.indexOf("AUTH");
@@ -32,14 +36,12 @@
 
                 if (hasCookie && hasSession) {
                     console.log("isLogin: true");
-                }
-                else {
+                } else {
                     if (hasCookie || hasSession) {
                         // 둘 중 하나만 존재하는 경우 로그아웃 페이지로 이동시킴
                         alert("로그인 후 60분이 지나 자동으로 로그아웃 됩니다.")
-                        location.href="logout.do"
-                    }
-                    else {
+                        location.href = "logout.do"
+                    } else {
                         return false;
                     }
                 }
@@ -49,16 +51,24 @@
 
     })
 
+    /* 사이드바 메뉴 */
+
     function loadDashboard() {
         $("#contents_container").load("dashboard.do");
     }
 
-    function loadSetting() {
-        $("#contents_container").load("info.do");
-    }
-
     function loadMember() {
-        $("#contents_container").load("member.do");
+        $.ajax({
+            type: 'GET',
+            url: "member.do",
+            data: {
+                pageNumber: 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
 
     function loadMemberThisWeek() {
@@ -74,11 +84,31 @@
     }
 
     function loadProduct() {
-        $("#contents_container").load("product.do");
+        $.ajax({
+            type: 'GET',
+            url: "product.do",
+            data: {
+                pageNumber: 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
 
     function loadOrder() {
-        $("#contents_container").load("order.do");
+        $.ajax({
+            type: 'GET',
+            url: "order.do",
+            data: {
+                pageNumber: 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
 
     function loadMoney() {
@@ -86,54 +116,44 @@
     }
 
     function loadCs() {
-        $("#contents_container").load("cs.do");
+        $.ajax({
+            type: 'GET',
+            url: "cs.do",
+            data: {
+                pageNumber: 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
+
 
     function loadReport() {
-        $("#contents_container").load("report.do");
+        $.ajax({
+            type: 'GET',
+            url: "report.do",
+            data: {
+                pageNumber: 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
     }
 
-    function orderList() {
-        $("#order_container").load("orderList.do");
+
+    function loadSetting() {
+        $("#contents_container").load("info.do");
     }
+
+    /* 기타 */
 
     function returnToSetList() {
         $("#contents_container").load("order.do");
     }
-
-    function loadReportOneDash() {
-        const bagReportId = $("#bag_report_id").text();
-        $.ajax({
-            url: "report_one.do",
-            type: "POST",
-            data: {
-                reportId: bagReportId
-            },
-            success: function (result) {
-                $('#contents_container').html(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        })
-    };
-
-    function loadReportOne() {
-        const bagReportId = $("#bag_report_id").text();
-        $.ajax({
-            url: "report_one.do",
-            type: "POST",
-            data: {
-                reportId: bagReportId
-            },
-            success: function (result) {
-                $('#details_container').html(result);
-            },
-            error: function (xhr, status, error) {
-                alert("에러 발생: " + error);
-            }
-        })
-    };
 </script>
 <div class="container">
     <div class="navigation">

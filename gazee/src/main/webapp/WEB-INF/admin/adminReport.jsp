@@ -3,6 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
 <script>
+    $(function () {
+            var thisPage = "${currentPage}"
+            $(".pagination button").each(function(){
+                var idx = $(this).index();
+                var thistitle = $(this).attr("title");
+                if(thistitle == thisPage){
+                    $(".pagination").find("button").eq(idx).addClass("active");
+                }
+            });
+        }
+    )
+
+    function loadPage(pageNumber) {
+        $.ajax({
+            type: 'GET',
+            url: "report.do",
+            data: {
+                pageNumber: pageNumber
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
+    }
+
     // 테이블의 Row 클릭시 값 가져오기
     $(".penalty").click(function () {
 
@@ -39,7 +65,34 @@
     });
 
     function getReportList() {
-        $("#report_list").load("reportList.do");
+        $.ajax({
+            type: 'GET',
+            url: "reportList.do",
+            data: {
+                pageNumber : 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#report_list").html(result);
+            }
+        })
+    }
+
+    function loadReportOne() {
+        const bagReportId = $("#bag_report_id").text();
+        $.ajax({
+            url: "report_one.do",
+            type: "POST",
+            data: {
+                reportId: bagReportId
+            },
+            success: function (result) {
+                $('#details_container').html(result);
+            },
+            error: function (xhr, status, error) {
+                alert("에러 발생: " + error);
+            }
+        })
     }
 </script>
 <!DOCTYPE html>
@@ -101,7 +154,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${nonPagedNeedReplyList}" var="bag">
+            <c:forEach items="${pagedNeedReplyReportList}" var="bag">
                 <tr>
                     <p style="display: none" id="bag_report_id">${bag.reportId}</p>
                     <td>${bag.reportCategory}</td>
@@ -112,6 +165,12 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="pagination" style="text-align: center">
+            <c:forEach begin="1" end="${pages}" varStatus="page">
+                <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
+            </c:forEach>
+        </div>
+
     </div>
 </div>
 </html>

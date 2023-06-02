@@ -1,9 +1,10 @@
 package com.multi.gazee.report;
 
+import com.multi.gazee.admin.paging.PageVO;
 import org.springframework.ui.Model;
 
 public interface ReportService {
-    String getReportList(Model model) throws Exception;
+    String getReportList(PageVO pageVo, int pageNumber, Model model) throws Exception;
     
     String reportOne(int id, Model model) throws Exception;
     

@@ -18,6 +18,18 @@
         }
     });
 
+    $(function () {
+        var thisPage = "${currentPage}"
+        $(".pagination button").each(function(){
+            var idx = $(this).index();
+            var thistitle = $(this).attr("title");
+            if(thistitle == thisPage){
+                $(".pagination").find("button").eq(idx).addClass("active");
+            }
+        });
+        }
+    )
+
     function getSearchList() {
         $.ajax({
             type: 'GET',
@@ -26,6 +38,37 @@
             success: function (result) {
                 console.log(result)
                 $("#table_container").html(result);
+            }
+        })
+    }
+
+    $('.pages').click(function () {
+        //$('#result').empty()
+        $.ajax({
+            url: "member.do",
+            data: {
+                page: $(this).text(),
+                /*mode: 2*/
+            },
+            success: function (result) { //결과가 담겨진 table부분코드
+                $('#result').html(result)
+            },
+            error: function () {
+                location.reload();
+            }
+        }) //ajax
+    })
+
+    function loadPage(pageNumber) {
+        $.ajax({
+            type: 'GET',
+            url: "member.do",
+            data: {
+                pageNumber: pageNumber
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
             }
         })
     }
@@ -130,9 +173,13 @@
                     <button class="btn" type="submit">엑셀 다운로드</button>
                 </form>
             </div>
+           <div class="pagination" style="text-align: center">
+                <c:forEach begin="1" end="${pages}" varStatus="page">
+                    <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
+                </c:forEach>
+           </div>
         </div>
     </div>
-    <%--<div id="piechart_3d" style="width: 100%; height: 500px;"></div>--%>
 </div>
 </body>
 </html>

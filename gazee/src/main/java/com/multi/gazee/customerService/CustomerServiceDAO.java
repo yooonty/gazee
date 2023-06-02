@@ -1,5 +1,6 @@
 package com.multi.gazee.customerService;
 
+import com.multi.gazee.admin.paging.PageVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,27 @@ public class CustomerServiceDAO {
         return nonPagedNeedReplyList;
     }
     
+    public List<CustomerServiceVO> pagedNeedReply(PageVO pageVo) {
+        List<CustomerServiceVO> pagedCsNeedReplyList = my.selectList("cs.pagedNeedReply", pageVo);
+        return pagedCsNeedReplyList;
+    }
+    
+    public int countPagedNeedReply() {
+        return my.selectOne("cs.countPagedNeedReply");
+    }
+    
+    public int count() {
+        return my.selectOne("cs.count");
+    }
+    
+    
     public List<CustomerServiceVO> nonPagedList(){
         List<CustomerServiceVO> list = my.selectList("cs.nonPagedList");
+        return list;
+    }
+    
+    public List<CustomerServiceVO> pagedList(PageVO pageVo){
+        List<CustomerServiceVO> list = my.selectList("cs.pagedList", pageVo);
         return list;
     }
 }

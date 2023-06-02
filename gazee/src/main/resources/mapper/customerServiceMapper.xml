@@ -46,6 +46,19 @@
         WHERE cs_reply IS NULL
     </select>
 
+    <!--  답변이 필요한 문의글 불러오기 (페이징) -->
+    <select id="pagedNeedReply" resultType="csVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY cs_id) AS paged_cs_id, cs_id, cs_category, cs_writer, cs_title, cs_date
+              FROM customer_service cs WHERE cs_reply IS NULL) cs2
+        WHERE cs2.paged_cs_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="countPagedNeedReply" resultType="Integer">
+        SELECT count(*) FROM customer_service WHERE cs_reply IS NULL
+    </select>
+
+
     <select id="category" parameterType="Map" resultType="csVO">
         select * from (
                           select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.*
@@ -79,6 +92,14 @@
 
     <select id="nonPagedList" resultType="csVO">
         select * from customer_service
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedList" resultType="csVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY cs_id) AS paged_cs_id, cs_id, cs_category, cs_writer, cs_title, cs_date
+              FROM customer_service cs WHERE temporary = 1) cs2
+        WHERE cs2.paged_cs_id BETWEEN #{start} AND #{end}
     </select>
 
 </mapper>

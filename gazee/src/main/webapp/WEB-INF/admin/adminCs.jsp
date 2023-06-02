@@ -3,6 +3,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
 <script>
+    $(function () {
+            var thisPage = "${currentPage}"
+            $(".pagination button").each(function(){
+                var idx = $(this).index();
+                var thistitle = $(this).attr("title");
+                if(thistitle == thisPage){
+                    $(".pagination").find("button").eq(idx).addClass("active");
+                }
+            });
+        }
+    )
+
+    function loadPage(pageNumber) {
+        $.ajax({
+            type: 'GET',
+            url: "cs.do",
+            data: {
+                pageNumber: pageNumber
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
+    }
+
     function loadCsOne() {
         const bagCsId = $("#bag_cs_id").text();
         $.ajax({
@@ -21,7 +47,17 @@
     }
 
     function getCsList() {
-        $("#cs_list").load("csList.do");
+        $.ajax({
+            type: 'GET',
+            url: "csList.do",
+            data: {
+                pageNumber : 1
+            },
+            success: function (result) {
+                console.log(result)
+                $("#cs_list").html(result);
+            }
+        })
     }
 </script>
 <!DOCTYPE html>
@@ -41,7 +77,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${nonPagedNeedReplyList}" var="bag">
+            <c:forEach items="${pagedNeedReplyCsList}" var="bag">
                 <tr>
                     <p style="display: none" id="bag_cs_id">${bag.csId}</p>
                     <td>${bag.csCategory}</td>
@@ -52,5 +88,11 @@
             </c:forEach>
             </tbody>
         </table>
+        <div class="pagination" style="text-align: center">
+            <c:forEach begin="1" end="${pages}" varStatus="page">
+                <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
+            </c:forEach>
+        </div>
+
     </div>
 </div>

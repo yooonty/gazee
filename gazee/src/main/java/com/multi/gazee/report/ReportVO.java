@@ -5,6 +5,7 @@ package com.multi.gazee.report;
  *
  */
 public class ReportVO {
+	private int pagedReportId;
 	private int reportId;
 	private int reportNo;
 	private String reportTitle;
@@ -18,6 +19,13 @@ public class ReportVO {
 	private int temporary;
 	private String reportee;
 	
+	public int getPagedReportId() {
+		return pagedReportId;
+	}
+	
+	public void setPagedReportId(int pagedReportId) {
+		this.pagedReportId = pagedReportId;
+	}
 	
 	public int getReportId() {
 		return reportId;

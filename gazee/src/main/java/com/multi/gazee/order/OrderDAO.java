@@ -17,6 +17,11 @@ public class OrderDAO {
         return orderList;
     }
     
+    public List<OrderVO> recentOrder() {
+        List<OrderVO> orderList = my.selectList("order.recent");
+        return orderList;
+    }
+    
     public List<OrderVO> listOrderNeedToSet() {
         List<OrderVO> orderNeedToSetList = my.selectList("order.listOrderNeedToSet");
         return orderNeedToSetList;

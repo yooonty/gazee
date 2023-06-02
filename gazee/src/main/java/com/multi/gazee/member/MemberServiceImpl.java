@@ -1,5 +1,6 @@
 package com.multi.gazee.member;
 
+import com.multi.gazee.admin.paging.PageVO;
 import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
 import com.multi.gazee.reportCount.ReportCountDAO;
@@ -30,24 +31,24 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     ThirtyDaysScheduler thirtyDaysScheduler;
     
-    public String getMemberList(Model model) {
+    public String getMemberList(PageVO pageVo, Model model) {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
         List<MemberVO> newMemberThisWeekList = Mdao.newMemberThisWeek();
         List<MemberVO> memberOfPastThirtyDaysList = Mdao.memberOfPastThirtyDays();
         List<MemberVO> suspendedList = Mdao.suspendedList();
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
-        List<Integer> countList = new ArrayList<>();
-        
+        List<Integer> reportCountList = new ArrayList<>();
+    
         for (MemberVO member : memberExceptAdminList) {
             String memberId = member.getId();
             ReportCountVO RCvo = RCdao.one(memberId);
-            int count = 0;
+            int reportCount = 0;
             
             if (RCvo != null) {
-                count = RCvo.getCount();
+                reportCount = RCvo.getCount();
             }
-            countList.add(count);
+            reportCountList.add(reportCount);
         }
         model.addAttribute("memberList", memberList);
         model.addAttribute("memberListToShow", memberExceptAdminList);
@@ -55,7 +56,16 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         model.addAttribute("reportList", nonPagedReportList);
-        model.addAttribute("countList", countList);
+        model.addAttribute("countList", reportCountList);
+    
+        /* 페이징 */
+        List<MemberVO> pagedMemberList = Mdao.pagedList(pageVo);
+        int listSize = pagedMemberList.size();
+        int pages = listSize / 10 +1;
+    
+        model.addAttribute("pagedMemberList", pagedMemberList);
+        model.addAttribute("listSize", listSize);
+        model.addAttribute("pages", pages);
         
         return "../admin/adminMemberList";
     }

@@ -21,14 +21,6 @@ public class MemberVO {
     private String profileImg;
     private Timestamp logoutTime;
     
-    public String getGender() {
-        return gender;
-    }
-    
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-    
     public int getNo() {
         return no;
     }
@@ -121,6 +113,14 @@ public class MemberVO {
         return birth;
     }
     
+    public String getGender() {
+        return gender;
+    }
+    
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    
     public void setBirth(Date birth) {
         this.birth = birth;
     }
@@ -148,4 +148,5 @@ public class MemberVO {
     public void setLogoutTime(Timestamp logoutTime) {
         this.logoutTime = logoutTime;
     }
+    
 }

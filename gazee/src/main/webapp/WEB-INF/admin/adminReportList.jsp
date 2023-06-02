@@ -2,6 +2,33 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminReport.css"/>
+<script>
+    $(function () {
+            var thisPage = "${currentPage}"
+            $(".pagination button").each(function(){
+                var idx = $(this).index();
+                var thistitle = $(this).attr("title");
+                if(thistitle == thisPage){
+                    $(".pagination").find("button").eq(idx).addClass("active");
+                }
+            });
+        }
+    )
+
+    function loadPage(pageNumber) {
+        $.ajax({
+            type: 'GET',
+            url: "reportList.do",
+            data: {
+                pageNumber: pageNumber
+            },
+            success: function (result) {
+                console.log(result)
+                $("#report_list").html(result);
+            }
+        })
+    }
+</script>
 <!DOCTYPE html>
 <html>
 <div class="cardHeader">
@@ -18,7 +45,7 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${reportList}" var="bag">
+    <c:forEach items="${pagedReportList}" var="bag">
         <tr>
             <p style="display: none" id="bag_report_id">${bag.reportId}</p>
             <td>${bag.reportCategory}</td>
@@ -29,4 +56,10 @@
     </c:forEach>
     </tbody>
 </table>
+<div class="pagination" style="text-align: center">
+    <c:forEach begin="1" end="${pages}" varStatus="page">
+        <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
+    </c:forEach>
+</div>
+
 </html>

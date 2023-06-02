@@ -8,14 +8,27 @@
         FROM member
     </select>
 
-    <!-- 관리자 제외 ALL -->
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="memberVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS no, id, name, nickname, email, join_date
+              FROM member m
+              WHERE m.user_level = 1) m2
+        WHERE m2.no BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM member
+    </select>
+
+    <!-- 관리자 제외 일반 회원 ALL -->
     <select id="allExceptAdmin" resultType="memberVO">
         SELECT *
         FROM member
         WHERE user_level = 1
     </select>
 
-    <!-- 관리자 권한 계정 Read -->
+    <!-- 관리자 계정 SELECT -->
     <select id="readAdmin" resultType="memberVO">
         SELECT *
         FROM member
@@ -27,13 +40,6 @@
         UPDATE member
         SET pw = #{pw}
         WHERE email = #{email}
-    </update>
-
-    <!-- 회원 상태 변경 (정상/정지) -->
-    <update id="changeStatus" parameterType="memberVO">
-        UPDATE member
-        SET status = #{status}
-        WHERE id = #{id}
     </update>
 
     <!-- Email로 회원 검색 -->
@@ -50,7 +56,7 @@
         WHERE id = #{id}
     </select>
 
-    <!-- 검색 기능 -->
+    <!-- 관리자 페이지 내 검색창 -->
     <select id="oneWhere" parameterType="java.util.Map" resultType="memberVO">
         SELECT *
         FROM member
@@ -95,14 +101,14 @@
           AND status = '정상';
     </select>
 
-    <!-- 정지 -->
+    <!-- 제재 실행 -->
     <update id="executeSuspension" parameterType="String">
         UPDATE member
         SET status = '정지'
         WHERE id = #{memberId}
     </update>
 
-    <!-- 정지 해제 -->
+    <!-- 제재 해제 -->
     <update id="releaseSuspension" parameterType="String">
         UPDATE member
         SET status = '정상'

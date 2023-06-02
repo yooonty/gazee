@@ -8,6 +8,26 @@
         FROM tb_order
     </select>
 
+    <!-- 최근 10건의 거래 -->
+    <select id="recent" resultType="orderVO">
+        SELECT * FROM tb_order
+        ORDER BY no DESC
+            LIMIT 10;
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="orderVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS no, seller_id, buyer_id, seller_confirm, buyer_confirm, transaction_id
+              FROM tb_order o WHERE complete_status = 1 AND set_status = 0) o2
+        WHERE o2.no BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM tb_order where complete_status = 1 AND set_status = 0
+    </select>
+
+
     <!-- 정산이 필요한 거래 Read -->
     <select id="listOrderNeedToSet" resultType="orderVO">
         SELECT *

@@ -14,6 +14,32 @@
             }
         })
     }
+
+    $(function () {
+            var thisPage = "${currentPage}"
+            $(".pagination button").each(function(){
+                var idx = $(this).index();
+                var thistitle = $(this).attr("title");
+                if(thistitle == thisPage){
+                    $(".pagination").find("button").eq(idx).addClass("active");
+                }
+            });
+        }
+    )
+
+    function loadPage(pageNumber) {
+        $.ajax({
+            type: 'GET',
+            url: "product.do",
+            data: {
+                pageNumber: pageNumber
+            },
+            success: function (result) {
+                console.log(result)
+                $("#contents_container").html(result);
+            }
+        })
+    }
 </script>
 <html>
 <body>
@@ -55,7 +81,7 @@
         <div>
             <%--JSTL 사용, 세 자리 수마다 콤마(,) 삽입--%>
             <div class="numbers"><fmt:formatNumber value="${sum}" type="number" pattern="#,###"/>원</div>
-            <div class="cardName">총 거래량</div>
+            <div class="cardName">총 거래금액</div>
         </div>
         <div class="iconBox">
             <i class="fa fa-usd" aria-hidden="true"></i>
@@ -81,7 +107,7 @@
             <table id="boardtable">
                 <thead>
                 <tr>
-                    <td>상품 ID</td>
+                    <td>번호</td>
                     <td>등록일시</td>
                     <td>상품명</td>
                     <td>판매자</td>
@@ -90,25 +116,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${productList}" var="productList">
+                <c:forEach items="${pagedProductList}" var="bag">
                     <tr>
                         <td>
-                                ${productList.productId}
+                                ${bag.productId}
                         </td>
                         <td>
-                            <fmt:formatDate value="${productList.savedTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            <fmt:formatDate value="${bag.savedTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </td>
                         <td>
-                                ${productList.productName}
+                                ${bag.productName}
                         </td>
                         <td>
-                                ${productList.memberId}
+                                ${bag.memberId}
                         </td>
                         <td>
-                            <fmt:formatNumber value="${productList.price}" type="number" pattern="#,###"/>원
+                            <fmt:formatNumber value="${bag.price}" type="number" pattern="#,###"/>원
                         </td>
                         <td>
-                                ${productList.productViews}회
+                                ${bag.productViews}회
                         </td>
                     </tr>
                 </c:forEach>
@@ -118,6 +144,11 @@
                 <form action="excelProduct.do" method="get">
                     <button class="btn" type="submit">엑셀 다운로드</button>
                 </form>
+            </div>
+            <div class="pagination" style="text-align: center">
+                <c:forEach begin="1" end="${pages}" varStatus="page">
+                    <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
+                </c:forEach>
             </div>
         </div>
     </div>
@@ -135,7 +166,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${orderList}" var="bag">
+            <c:forEach items="${recentOrderList}" var="bag">
                 <tr>
                     <td>${bag.productId}</td>
                     <td><fmt:formatDate value="${bag.paymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

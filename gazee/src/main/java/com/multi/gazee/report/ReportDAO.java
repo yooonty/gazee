@@ -1,5 +1,7 @@
 package com.multi.gazee.report;
 
+import com.multi.gazee.admin.paging.PageVO;
+import com.multi.gazee.customerService.CustomerServiceVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,15 @@ public class ReportDAO {
     public List<ReportVO> nonPagedNeedReply() {
         List<ReportVO> nonPagedNeedReplyList = my.selectList("report.nonPagedNeedReply");
         return nonPagedNeedReplyList;
+    }
+    
+    public List<ReportVO> pagedNeedReply(PageVO pageVo) {
+        List<ReportVO> pagedReportNeedReplyList = my.selectList("report.pagedNeedReply", pageVo);
+        return pagedReportNeedReplyList;
+    }
+    
+    public int countPagedNeedReply() {
+        return my.selectOne("report.countPagedNeedReply");
     }
     
     public void delete(ReportVO bag) {
@@ -68,4 +79,10 @@ public class ReportDAO {
     public int countSearch(String search1) {
         return my.selectOne("report.countSearch", search1);
     }
+    
+    public List<ReportVO> pagedList(PageVO pageVo){
+        List<ReportVO> list = my.selectList("report.pagedList", pageVo);
+        return list;
+    }
+    
 }
