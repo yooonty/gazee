@@ -78,7 +78,7 @@ public class AdminController {
     
     @RequestMapping(value = "findPwForm.do")
     public String findPwForm() throws Exception {
-        return "../admin/findPwForm";
+        return "../admin/adminFindPwForm";
     }
     
     @RequestMapping(value = "findPw.do", method = RequestMethod.POST)
