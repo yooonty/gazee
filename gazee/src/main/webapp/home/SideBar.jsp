@@ -16,7 +16,11 @@ $(function() {
 			location.href = "../chat/gazeeChat.jsp";
 		}
 	})
+	
 })
+function chatBotOpen() {
+	window.open("../home/chatBot.jsp","_blank", "width=500, height=665");
+}
 </script>
 <link rel="stylesheet" href="../resources/css/style.css" type="text/css">
 		<%
@@ -39,14 +43,15 @@ $(function() {
 					<button id="btn_recentItem">목록보기</button>
 				</div>
 			</div>
+			<div id="newMessageBadge"></div>
 			<div class="recentViewItem">
-				<div class="btn_myChatlist recentViewTxt">
+				<div class="btn_myChatlist recentViewTxt" id="btn_myChatlist">
 					<img src="../resources/img/icon_chat2.svg" width="18px;">
 					채팅방
 				</div>
 			</div>
 			<div class="recentViewItem">
-				<div class="btn_chatBot recentViewTxt">
+				<div class="btn_chatBot recentViewTxt" onclick='chatBotOpen()'>
 					<img src="../resources/img/icon_bot.svg" width="20px;">
 					챗봇상담
 				</div>
