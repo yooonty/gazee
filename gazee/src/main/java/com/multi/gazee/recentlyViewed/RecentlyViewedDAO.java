@@ -27,7 +27,12 @@ public class RecentlyViewedDAO {
 			return my.selectList("recentlyViewed.recentViewList", map);
 		}
 		
-		public int count() {
-			return my.selectOne("recentlyViewed.count");
+		public int recentViewControl(String memberId) {
+			return my.delete("recentlyViewed.recentViewControl", memberId);
 		}
+		
+		/*
+		 * public int count() { return my.selectOne("recentlyViewed.count"); }
+		 */
+		
 }

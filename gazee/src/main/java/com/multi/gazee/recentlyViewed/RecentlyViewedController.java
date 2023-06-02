@@ -16,13 +16,13 @@ import com.multi.gazee.productImage.ProductImageVO;
 
 @Controller // 스프링에서 제어하는 역할로 등록!
 public class RecentlyViewedController {
-	
+
 	@Autowired
 	RecentlyViewedDAO dao;
-	
+
 	@Autowired
 	ProductImageDAO dao2;
-	
+
 	@RequestMapping("recentlyViewed/recentView")
 	public void recentView(int productId, String memberId) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -33,6 +33,11 @@ public class RecentlyViewedController {
 			System.out.println("insert");
 		} else {
 			System.out.println("insert에러");
+		}
+		int count = dao.recentViewCount(memberId);
+		if (count > 20) {
+			int control = dao.recentViewControl(memberId);
+			System.out.println("제어성공? " + control);
 		}
 	}
 

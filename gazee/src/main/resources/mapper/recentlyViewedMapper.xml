@@ -22,6 +22,13 @@
 		where recent2.recent_no between #{start} and #{end}
 	</select>
 	
+	<delete id="recentViewControl" parameterType="String">
+		delete from recently_viewed 
+		where member_id = #{memberId}
+		order by recent_id 
+		limit 1
+	</delete>
+	
 </mapper>
 
 
