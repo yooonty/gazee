@@ -64,7 +64,6 @@ public class ReportDAO {
     
     public List<ReportVO> search(HashMap<String, Object> map){
         List<ReportVO> search = my.selectList("report.searchAll", map);
-        System.out.println(search.size());
         return search;
     }
     

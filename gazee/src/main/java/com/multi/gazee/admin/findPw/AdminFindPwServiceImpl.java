@@ -104,7 +104,6 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
             email.setHostName(hostSMTP);
             email.setSslSmtpPort("465");
             
-            System.out.println("호스트 메일 : " + hostSMTPid + "호스트 비번 : " + hostSMTPpwd);
             email.setTLS(true);
             email.addTo(mail, charSet);
             email.setFrom(fromEmail, fromName, charSet);

@@ -37,8 +37,6 @@ public class WithdrawServiceImpl implements WithdrawService {
     
     public String searchBalance(String memberId, Model model) throws Exception {
         int balance = Tdao.getBalance(memberId);
-        System.out.println(memberId);
-        System.out.println(balance);
         model.addAttribute("memberId", memberId);
         model.addAttribute("balance", balance);
         

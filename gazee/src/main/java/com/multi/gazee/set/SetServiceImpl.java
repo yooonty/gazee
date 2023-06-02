@@ -28,18 +28,13 @@ public class SetServiceImpl implements SetService {
     TransactionService transactionService;
     
     public String settlement(int productId, String sellerId, String orderTransactionId) throws Exception{
-        System.out.println("productId : " + productId);
-        System.out.println("sellerId : " + sellerId);
-        System.out.println("orderTransactionId : " + orderTransactionId);
         int price = Pdao.priceByOrderNo(productId);
-        System.out.println("price : " + price);
         MemberVO memberVo = Mdao.one(sellerId);
         SetVO setVo = new SetVO();
         //1. 거래 시간 가져오기
         Timestamp transactionTime = transactionService.getTransactionTime();
         //2. 거래 일련번호 생성
         String identifier = transactionService.makeIdentifier("s", memberVo, transactionTime);
-        System.out.println("identifier : " + identifier);
         
         setVo.setTransactionId(identifier);
         setVo.setOrderTransactionId(orderTransactionId);

@@ -26,10 +26,8 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("searchType", searchType);
         parameterMap.put("searchIndex", searchIndex);
-        System.out.println("searchType : " + searchType + ", searchIndex : " + searchIndex);
         
         List<ProductVO> oneWhereList = Pdao.oneWhere(parameterMap);
-        System.out.println("ProductVO : " + oneWhereList);
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminProductSearch";

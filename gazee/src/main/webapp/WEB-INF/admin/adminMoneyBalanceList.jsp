@@ -9,7 +9,6 @@
             url: "searchBalance.do",
             data: $("form[name=search-form]").serialize(),
             success: function (result) {
-                console.log(result)
                 $("#table_container").html(result);
             }
         })

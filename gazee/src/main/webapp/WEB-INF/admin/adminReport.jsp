@@ -23,7 +23,6 @@
                 pageNumber: pageNumber
             },
             success: function (result) {
-                console.log(result)
                 $("#contents_container").html(result);
             }
         })
@@ -72,7 +71,6 @@
                 pageNumber : 1
             },
             success: function (result) {
-                console.log(result)
                 $("#report_list").html(result);
             }
         })

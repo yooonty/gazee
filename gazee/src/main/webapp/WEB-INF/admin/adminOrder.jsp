@@ -29,13 +29,6 @@
         var orderTransactionId = p.eq(1).text();
         var sellerId = p.eq(2).text();
 
-        /*let sellerId = $("seller_id").text();
-        let productId = Number($("product_id").text());
-        let orderTransacionId = $("order_transaction_id").text();*/
-        console.log(typeof sellerId + "seller_id : " + sellerId);
-        console.log(typeof productId + "product_id : " + productId);
-        console.log(typeof orderTransactionId + "order_transaction_id : " + orderTransactionId);
-
         $.ajax({
             url: "set.do",
             type: "POST",
@@ -60,7 +53,6 @@
             url: "/searchOrder.do",
             data: $("form[name=search-form]").serialize(),
             success: function (result) {
-                console.log(result)
                 $("#table_container").html(result);
             }
         })

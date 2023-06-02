@@ -9,7 +9,6 @@
             url: "searchWithdraw.do",
             data: $("form[name=search-form]").serialize(),
             success: function (result) {
-                console.log(result)
                 $(".recentOrders").html(result);
             }
         })

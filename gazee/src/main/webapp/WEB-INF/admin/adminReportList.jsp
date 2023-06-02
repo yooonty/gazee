@@ -23,7 +23,6 @@
                 pageNumber: pageNumber
             },
             success: function (result) {
-                console.log(result)
                 $("#report_list").html(result);
             }
         })

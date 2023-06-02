@@ -23,7 +23,6 @@
                 pageNumber: pageNumber
             },
             success: function (result) {
-                console.log(result)
                 $("#cs_list").html(result);
             }
         })

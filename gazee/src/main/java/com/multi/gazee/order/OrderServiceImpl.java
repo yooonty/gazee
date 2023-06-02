@@ -37,10 +37,8 @@ public class OrderServiceImpl implements OrderService {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("searchType", searchType);
         parameterMap.put("searchIndex", searchIndex);
-        System.out.println("searchType : " + searchType + ", searchIndex : " + searchIndex);
         
         List<OrderVO> oneWhereList = Odao.oneWhere(parameterMap);
-        System.out.println("OrderVO : " + oneWhereList);
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminOrderSearch";

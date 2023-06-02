@@ -12,7 +12,6 @@
                 pageNumber : 1
             },
             success: function (result) {
-                console.log(result)
                 $("#contents_container").html(result);
             }
         })
@@ -20,7 +19,6 @@
 
     function replyResgister() {
         var replyContent = $("#reply_content").val();
-        console.log(replyContent)
         $.ajax({
             url: "csReplyRegisterComplete.do",
             type: "POST",

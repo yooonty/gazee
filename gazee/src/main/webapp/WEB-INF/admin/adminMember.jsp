@@ -36,7 +36,6 @@
             url: "/searchMember.do",
             data: $("form[name=search-form]").serialize(),
             success: function (result) {
-                console.log(result)
                 $("#table_container").html(result);
             }
         })
@@ -67,7 +66,6 @@
                 pageNumber: pageNumber
             },
             success: function (result) {
-                console.log(result)
                 $("#contents_container").html(result);
             }
         })
