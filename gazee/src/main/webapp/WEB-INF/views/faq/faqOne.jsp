@@ -5,13 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="../../resources/css/style2.css" rel="stylesheet" />
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" />
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$('#faqList').click(function() {
-			location.href = "../../customerService/faq/faqlist?page=1&mode=1";
+			location.href = "faqlist?page=1&mode=1";
 
 		})
 
@@ -55,6 +54,7 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="/home/SideBar.jsp" flush="true" />
 	<jsp:include page="/home/Footer.jsp" flush="true" />
 	</div>
 </body>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.gazee.customerService.PageVO;
+import com.multi.gazee.service.FaqService;
 
 
 
@@ -22,23 +23,23 @@ public class FaqController {
 	@Autowired
 	FaqService service;
 
-	@RequestMapping("customerService/faq/faqlist")
+	@RequestMapping("faq/faqlist")
 	public String faqList(PageVO vo, Model model, int mode) throws Exception {
 		return service.faqList(vo, model, mode);
 	}
 
-	@RequestMapping("customerService/faq/faqCategory")
+	@RequestMapping("faq/faqCategory")
 	public String faqCategory(PageVO vo, Model model, String category1, int mode) throws Exception {
 		
 		return service.faqCategory(vo, model, category1, mode);
 	}
 	
-	@RequestMapping("customerService/faq/faqOne")
+	@RequestMapping("faq/faqOne")
 	public void faqOne(int id, Model model) {
 		service.faqOne(id, model);
 	}
 	
-	@RequestMapping("customerService/faq/faqSearch")
+	@RequestMapping("faq/faqSearch")
 	public String faqSearch(PageVO vo, String search1, Model model, int mode) throws Exception {
 		return service.faqSearch(vo, search1, model, mode);
 		

@@ -7,22 +7,33 @@
 <meta charset="UTF-8">
 <title>가지가지</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet" type="text/css">
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/alarm.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/WebSocket.js"></script>
+<script type="text/javascript" src="../resources/js/sockjs-0.3.4.js"></script>
+<script type="text/javascript" src="../resources/js/stomp.js"></script>
 <script type="text/javascript">
 	$(function() {
-
+		var memberId = "<%= (String)session.getAttribute("id") %>";
+		
+		if (memberId !== "null") {
+			/* 웹소켓 연결 */
+			handlePageLoad(memberId);
+			
+			/* 안 읽은 메세지 체크 */
+			unreadMessageCheck(memberId);
+		}
+		
 		$('.pages').click(function() {
-			$('#result').empty()
+			//$('#result').empty()
 			$.ajax({
-				url : "faqCategory",
+				url : "faqlist", //views/bbsList2.jsp가 결과!
 				data : {
 					page : $(this).text(),
-					mode : 2,
-					category1 : '${categoryValue}'
+					mode : 2
 				},
 				success : function(result) { //결과가 담겨진 table부분코드
 					$('#result').html(result)
@@ -31,32 +42,33 @@
 					alert('실패.@@@')
 				}
 			}) //ajax
-		})//카테고리 페이징
+		})
 
 		$('#faqList')
 				.click(
 						function() {
 							var category1 = $('#category').val();
-							location.href = "../../customerService/faq/faqCategory?page=1&mode=1&category1="
+							location.href = "faqCategory?page=1&mode=1&category1="
 									+ category1;
 
-						})//카테고리 목록 버튼
+						})//category
 
 		$('#btn_faqSearch')
 				.click(
 						function() {
 							var search1 = $('#faqSearch').val();
-							location.href = "../../customerService/faq/faqSearch?page=1&mode=1&search1="
+							location.href = "faqSearch?page=1&mode=1&search1="
 									+ search1;
 
-						})//검색 버튼
+						})//category
+
 	})
 </script>
 </head>
 <body>
 	<div id="wrap">
 		<div id="header">
-			<jsp:include page="/home/Header.jsp" flush="true" />
+			<jsp:include page="/home/Header.jsp" flush="true"/>
 		</div>
 		<div id="content_wrap">
 			<div id="customerHead" style="text-align: left;">
@@ -64,13 +76,12 @@
 			</div>
 			<div id="content">
 				<div id="customerServiceMain">
-					<div id="customerMenu1" style="margin: 30px 0">
+					<div id="customerMenu1" style="margin-top: 30px">
 						<div class="FAQ">
 							<div style="display: flex; justify-content: space-between;">
 
 								<h3 style="color: #693FAA">
-									<a href="faqlist?page=1&mode=1"
-										style="color: #693FAA !important;">자주 묻는 질문(FAQ)</a>
+									<a href="faqlist?page=1&mode=1"	style="color: #693FAA !important;">자주 묻는 질문(FAQ)</a>
 								</h3>
 								<div
 									style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
@@ -92,26 +103,26 @@
 						<div id="customerServiceSideBar">
 							<table>
 								<tr height="75">
-									<td><a href="../faq/faqlist?page=1&mode=1">FAQ게시판 목록</a></td>
+								<td><a href="../faq/faqlist?page=1&mode=1">FAQ게시판 목록</a></td>
+								</tr >
+								<tr height="75">
+								<td><a href="../cs/csList?page=1&mode=1">질문게시판 목록</a></td>
 								</tr>
 								<tr height="75">
-									<td><a href="../cs/csList?page=1&mode=1">질문게시판 목록</a></td>
-								</tr>
-								<tr height="75">
-									<td><a href="../report/reportList?page=1&mode=1">신고게시판
-											목록</a></td>
+								<td><a href="../report/reportList?page=1&mode=1">신고게시판 목록</a></td>
 								</tr>
 							</table>
 						</div>
 						<div style="width: 80%;">
 							<div id=result>
-								<table class="table table-striped" style="margin: 0 auto;">
+								<table class="table table-striped"
+									style="margin: 0 auto;">
 									<tr>
 										<td class="top">번호</td>
 										<td class="top">제목</td>
 										<td class="top">조회수</td>
 									</tr>
-									<c:forEach items="${category}" var="bag">
+									<c:forEach items="${list}" var="bag">
 										<tr>
 											<td class="down">${bag.faqNo}</td>
 											<td class="down"><a href="faqOne?id=${bag.faqId}">${bag.faqTitle}</a>
@@ -123,7 +134,7 @@
 							</div>
 							<div id="paging" style="margin-top: 10px; text-align: center">
 								<%
-									int pages = (int) request.getAttribute("pages1");
+									int pages = (int) request.getAttribute("pages");
 								for (int p = 1; p <= pages; p++) {
 								%>
 								<button class="pages"><%=p%></button>
@@ -132,7 +143,7 @@
 								%>
 							</div>
 							<div id="faqButtom" style="margin-top: 10px; text-align: center">
-
+		
 								<div id="search" style="margin-top: 10px">
 									<input id="faqSearch" type="text" size=40;>
 									<button id="btn_faqSearch">검색</button>
@@ -143,7 +154,9 @@
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/home/SideBar.jsp" flush="true"/>
 		<jsp:include page="/home/Footer.jsp" flush="true" />
+
 	</div>
 </body>
 </html>

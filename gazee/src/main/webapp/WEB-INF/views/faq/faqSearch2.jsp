@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	$('.pages').click(function() {
 		$('#result').empty()
@@ -27,7 +24,7 @@
 	
 	$('#faqList').click(function() {
 			var category1=$('#category').val();
-			location.href="../../customerService/faq/faqCategory?page=1&mode=1&category1="+category1;
+			location.href="faqCategory?page=1&mode=1&category1="+category1;
 			
 		})//category
 
@@ -35,7 +32,7 @@
 			.click(
 					function() {
 						var search1 = $('#search1').val();
-						location.href = "../customerService/faq/faqSearch?page=1&mode=1&search1="
+						location.href = "faqSearch?page=1&mode=1&search1="
 								+ search1;
 
 					})//category
