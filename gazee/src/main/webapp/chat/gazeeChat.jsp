@@ -343,19 +343,23 @@
 			let detailAddress = $("#detailAddress").val();
 			let address = city + " " + detailAddress;
 			
-			$.ajax({
-				url: '../order/orderComplete',
-				data: {
-					roomId: roomId,
-					address: address
-				},
-				success: function(result) {
-					if (result == 1) {
-						dealDeliveryComplete(roomId);
-						location.href = "../order/orderComplete.jsp?productId=" + productId + "&dealType=" + dealType;
+			if(city !== "" && detailAddress !== "") {
+				$.ajax({
+					url: '../order/orderComplete',
+					data: {
+						roomId: roomId,
+						address: address
+					},
+					success: function(result) {
+						if (result == 1) {
+							dealDeliveryComplete(roomId);
+							location.href = "../order/orderComplete.jsp?productId=" + productId + "&dealType=" + dealType;
+						}
 					}
-				}
-			})
+				})
+			} else {
+				alert('주소를 입력해주세요')
+			}
 		}
 	}
 	
