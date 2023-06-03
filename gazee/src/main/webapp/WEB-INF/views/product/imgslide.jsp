@@ -22,6 +22,10 @@
     span{
     cursor: pointer; 
     }
+    
+    .material-symbols-outlined {
+    	margin-top: 10px;
+    }
 </style>
 <script type="text/javascript">
 // 슬라이드 기능 구현
@@ -59,7 +63,7 @@ function plusSlides(n) {
 <div class="slideshow-container">
 <c:forEach items="${bag2}" var="bag2">
     <img width="500px" height="500px"
-        src="http://awswlqccbpkd17595311.cdn.ntruss.com/${bag2.productImageName}?type=m&w=500&h=500">
+        src="http://awswlqccbpkd17595311.cdn.ntruss.com/${bag2.productImageName}?type=f&w=500&h=500">
 </c:forEach>
 </div>
 <c:if test="${bag2.size() > 1}">

@@ -22,6 +22,7 @@ table {
 	font-size: large;
 	color: white;
 	border: none;
+	cursor: pointer;
 }
 
 .btn_product {
@@ -31,6 +32,7 @@ table {
 	width: 120px;
 	margin: 5px;
 	border-radius: 5%;
+	cursor: pointer;
 }
 
 .modal {
@@ -130,6 +132,7 @@ table {
 	top: 10px;
 	width: 10px;
 	height: 10px;
+	cursor: pointer;
 }
 
 #show_status {
@@ -163,6 +166,10 @@ table {
 	padding: 10px;
 	align-items: flex-start;
 	gap: 5px;
+}
+
+.map-trigger {
+	cursor: pointer;
 }
 </style>
 <script type="text/javascript">
@@ -314,7 +321,7 @@ $(function() {
 		</tr>
 		<tr>
 			<td >
-			<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/32763658-e868-4157-b65f-469a8ee2b00e_%EB%82%98.jpg?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 100px;">
+			<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/${userProfileImg}?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 20px;">
 				<div id="nickreport"> <div style="font-size: 20px; font-weight: bold;">${nickname}</div> 
 				<div style=" color: red;">신고횟수
 					${bag3.count}회</div></div></div>

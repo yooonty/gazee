@@ -37,6 +37,7 @@ table {
 	font-size: large;
 	color: white;
 	border: none;
+	cursor: pointer;
 }
 
 #reportStart {
@@ -44,6 +45,7 @@ table {
 	height: 40px;
 	border: none;
 	background-color: white;
+	cursor: pointer;
 }
 
 .dealbtn {
@@ -53,6 +55,7 @@ table {
 	width: 120px;
 	margin: 5px;
 	border-radius: 5%;
+	cursor: pointer;
 }
 
 .clicked {
@@ -157,6 +160,7 @@ table {
 	top: 10px;
 	width: 10px;
 	height: 10px;
+	cursor: pointer;
 }
 
 #show_status {
@@ -189,6 +193,10 @@ table {
 	padding: 10px;
 	align-items: flex-start;
 	gap: 5px;
+}
+
+.map-trigger {
+	cursor: pointer;
 }
 </style>
 
@@ -383,9 +391,9 @@ $(function() {
 </div>
 	<table>
 		<tr>
-			<td colspan="2" style="text-align: right;"><i
-				class="fa fa-solid fa-heart fa-2x" id="productlike"
-				style="color: red;"></i></td>
+			<td colspan="2" style="text-align: right;">
+				<i class="fa fa-solid fa-heart fa-2x" id="productlike" style="color: red; cursor: pointer;"></i>
+			</td>
 		</tr>
 		<tr>
 			<td rowspan="6" style="width: 500px; height: 500px;"><div id="imgslide"></div></td>
@@ -442,7 +450,7 @@ $(function() {
 		</tr>
 		<tr>
 			<td><%-- 원래${userProfileImg} --%>
-				<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/32763658-e868-4157-b65f-469a8ee2b00e_%EB%82%98.jpg?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 100px;">
+				<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/${userProfileImg}?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 20px;">
 				<div id="nickreport"> <div style="font-size: 20px; font-weight: bold;">${nickname}</div> 
 				<div style=" color: red;">신고횟수
 					${bag3.count}회</div></div>
