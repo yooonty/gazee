@@ -7,20 +7,20 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet" />
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../resources/css/product-register.css" type="text/css">
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link href="../resources/css/product-register.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+
 		function uploadFiles() {
 			var formData = new FormData($("#uploadForm")[0]);
 			
 			
 			$.ajax({
-				url: "../../customerServiceImg/csUploadMultipleFile",
+				url: "csUploadMultipleFile",
 				type: "POST",
 				data: formData,
 				cache: false,
@@ -60,13 +60,13 @@
 												temporary : save
 											},
 											success : function(x) {
+												uploadFiles();
 												if (save == 1) {
-													uploadFiles();
 													alert("1:1 질문 글을 등록했습니다.");
-													location.href = "../../customerService/cs/csList?page=1&mode=1"
+													location.href = "csList?page=1&mode=1"
 												} else if (save == 0) {
 													alert("글을 저장했습니다.");
-													location.href = "../../customerService/cs/csList?page=1&mode=1"
+													location.href = "csList?page=1&mode=1"
 												}
 											}
 										})
@@ -75,7 +75,13 @@
 						})
 	})
 </script>
-
+<style type="text/css">
+	#noUpdate{
+	    padding-top: 10px;
+	    font-size: 12px;
+	    color: gray;
+	}
+</style>
 </head>
 <body>
 	<div id="wrap">
@@ -133,7 +139,9 @@
 									<td class="attribute">사진첨부</td>
 									<td><form id="uploadForm" enctype="multipart/form-data">
 											<input type="file" name="file" multiple>
-										</form></td>
+										</form>
+										<div id="noUpdate">사기방지를 위해 사진 수정이 불가능합니다! 신중하게 등록해주세요!</div>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -150,6 +158,7 @@
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/home/SideBar.jsp" flush="true" />
 		<jsp:include page="/home/Footer.jsp" flush="true" />
 	</div>
 

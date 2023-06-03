@@ -24,21 +24,6 @@ $('.pages').click(function() {
 			}) //ajax
 		})
 </script>
-<style>
-.pages {
-	width: 34px;
-	height: 34px;
-	background-color: white;
-	border: 1px solid rgb(204, 204, 204);
-	color: rgb(155, 153, 169);
-	cursor: pointer;
-}
-.pages:active {
-	background-color: #693FAA;
-	color: white;
-	border:1px solid #693FAA;
-}
-</style>
 <table class="table table-striped"
 					style="margin: 0 auto;">
 					<tr>
@@ -51,7 +36,7 @@ $('.pages').click(function() {
 					<c:forEach items="${list}" var="bag" varStatus="status">
 										<%
 											@SuppressWarnings("unchecked")
-											List<String> nickname = (List<String>) request.getAttribute("nickname");
+											List<String> nickName = (List<String>) request.getAttribute("nickName");
 										%>
 										<tr>
 											<td class="down">${bag.csNo}</td>
@@ -66,7 +51,7 @@ $('.pages').click(function() {
 														href="csOne?id=${bag.csId}&csWriter=${bag.csWriter}">비밀글입니다.</a></td>
 												</c:otherwise>
 											</c:choose>
-											<td class="down">${nickname[status.index]}</td>
+											<td class="down">${nickName[status.index]}</td>
 											<td class="down">${bag.csDate}</td>
 											<td class="down">${bag.csView}</td>
 										</tr>

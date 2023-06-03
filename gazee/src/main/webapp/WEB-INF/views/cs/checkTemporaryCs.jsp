@@ -8,7 +8,7 @@
     // 임시저장된 cs가 있을 경우 처리할 내용
     if (confirm("작성 중인 글이 있습니다. 이어서 작성하시겠습니까? 취소를 누르면 자동으로 삭제되고 새로운 글을 쓸 수 있습니다.")) {
         // 이어서 작성하도록 처리하는 페이지로 이동
-        location.href = "../../customerService/cs/goToCsUpdate?csWriter="+sessionId+"&id="+${bag.csId};
+        location.href = "goToCsUpdate?csWriter="+sessionId+"&id="+${bag.csId};
     } else {
         // 임시저장된 cs를 삭제하는 페이지로 이동
         
@@ -22,14 +22,14 @@
                 },
                 success: function(x) {
                         alert('삭제되었습니다.');
-                        location.href = "../cs/csList?page=1&mode=1";
+                        location.href = "csList?page=1&mode=1";
                 }
             })//ajax
         }
      }
 } else {
     // 임시저장된 product가 없을 경우 register.jsp로 이동
-    location.href = "../../customerService/cs/goToCsWrite?csWriter="+sessionId;
+    location.href = "goToCsWrite?csWriter="+sessionId;
 }
 	   
 </script>

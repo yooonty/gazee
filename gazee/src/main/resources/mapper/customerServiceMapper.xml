@@ -3,7 +3,7 @@
 <mapper namespace="cs">
 
 
-    <insert id="register" parameterType="csVO" useGeneratedKeys="true" keyProperty= "csId">
+    <insert id="register" parameterType="customerServiceVO" useGeneratedKeys="true" keyProperty= "csId">
 		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary) 
 		values (#{csTitle}, 
 				#{csContent},
@@ -12,18 +12,18 @@
 				#{temporary})
 	</insert>
 	
-	<delete id="del"  parameterType="csVO">
+	<delete id="del"  parameterType="customerServiceVO">
 		delete from customer_service where cs_id = #{csId}
 	</delete>
 	
-	<update id="up"  parameterType="csVO">
+	<update id="up"  parameterType="customerServiceVO">
 		update customer_service 
 		set 
 		cs_title= #{csTitle}, cs_content =#{csContent}, cs_category = #{csCategory}, `temporary`=1
 		where cs_id = #{csId}
 	</update>
 	
-	<select id="one" parameterType="Integer" resultType="csVO">
+	<select id="one" parameterType="Integer" resultType="customerServiceVO">
 		select * from customer_service
 		where cs_id =#{csId}
 	</select>
@@ -33,7 +33,7 @@
 		where cs_id =#{csId}
 	</update>
 	
-	<select id="all"  parameterType="pageVO" resultType="csVO">
+	<select id="all"  parameterType="pageVO" resultType="customerServiceVO">
 		select * 
 		from (
 		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.* 
@@ -42,7 +42,7 @@
 		where (cs2.cs_no between #{start} and #{end}) 
 	</select>
 	
-	<select id="category" parameterType="Map" resultType="csVO">
+	<select id="category" parameterType="Map" resultType="customerServiceVO">
 		select * from (
 		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.*
 		from customer_service cs 
@@ -65,7 +65,7 @@
 		where cs_writer = #{search1} and temporary=1
 	</select>
 	
-	<select id="list2" resultType="csVO" parameterType="PageVO">
+	<select id="list2" resultType="customerServiceVO" parameterType="pageVO">
 		select *
 		from (
 		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
@@ -74,7 +74,7 @@
 		where cs2.cs_no between #{start} and #{end} 
 	</select>
 	
-	<select id="searchAll" resultType="csVO"  parameterType="Map">
+	<select id="searchAll" resultType="customerServiceVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
 		from customer_service cs
@@ -82,7 +82,7 @@
 		where cs2.cs_no between #{start} and #{end}
 	</select>
 
-	<select id="checkTemporaryCs" resultType="csVO" parameterType="csVO">
+	<select id="checkTemporaryCs" resultType="customerServiceVO" parameterType="customerServiceVO">
 		select * from customer_service where cs_Writer= #{csWriter} and `temporary`= 0
 	</select>
 

@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.multi.gazee.customerServiceImg.CustomerServiceImgDAO;
+import com.multi.gazee.service.CustomerServiceService;
+
 
 
 @Controller
@@ -23,52 +25,52 @@ public class CustomerServiceController {
 	@Autowired
 	CustomerServiceDAO dao;
 	
-	@RequestMapping("customerService/cs/csWrite")
+	@RequestMapping("cs/csWrite")
 	public void csWrite(CustomerServiceVO bag, HttpSession session) {
 		service.csWrite(bag, session);
 	}
 
-	@RequestMapping("customerService/cs/csDelete")
+	@RequestMapping("cs/csDelete")
 	public void csDelete(CustomerServiceVO bag) {
 		service.csDelete(bag);
 	}
 
-	@RequestMapping("customerService/cs/csUpdate")
+	@RequestMapping("cs/csUpdate")
 	public void csUpdate(CustomerServiceVO bag) {
 		service.csUpdate(bag);
 	}
 
-	@RequestMapping("customerService/cs/csList")
+	@RequestMapping("cs/csList")
 	public String list(PageVO vo, Model model, int mode) throws Exception {
 		return service.csList(vo, model, mode);
 	}
 
-	@RequestMapping("customerService/cs/csCategory")
+	@RequestMapping("cs/csCategory")
 	public String category(PageVO vo, Model model, String category1, int mode) throws Exception{
 		return service.csCategory(vo, model, category1, mode);
 	}
 
-	@RequestMapping("customerService/cs/csSearch")
+	@RequestMapping("cs/csSearch")
 	public String search(PageVO vo, String search1, Model model, int mode) throws Exception {
 		return service.search(vo, search1, model, mode);
 	}
 
-	@RequestMapping("customerService/cs/csOne")
+	@RequestMapping("cs/csOne")
 	public void one(int id, Model model) {
 		service.one(id, model);		
 		}
 
-	@RequestMapping("customerService/cs/goToCsWrite")
+	@RequestMapping("cs/goToCsWrite")
 	public String goToCsWrite() throws Exception{
 		return service.goToCsWrite();
 	}
 	
-	@RequestMapping("customerService/cs/goToCsUpdate")
+	@RequestMapping("cs/goToCsUpdate")
 	public String goToCsUpdate(Model model, int id) throws Exception{
 		return service.goToCsUpdate(model, id);
 	}
 	
-	@RequestMapping("customerService/cs/checkTemporaryCs")
+	@RequestMapping("cs/checkTemporaryCs")
 	public void checkTemporaryCs(HttpSession session, Model model, CustomerServiceVO bag) {
 		service.checkTemporaryCs(model, bag);
 	}
