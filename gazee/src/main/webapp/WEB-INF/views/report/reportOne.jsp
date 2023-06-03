@@ -7,8 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet" />
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" />
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -16,11 +15,11 @@
 		$('#reportList')
 				.click(
 						function() {
-							location.href = "../../customerService/report/reportList?page=1&mode=1";
+							location.href = "reportList?page=1&mode=1";
 						})//report목록으로 돌아가기
 
 		$('#goToReportUpdate').click(function() {
-			 location.href = "../../customerService/report/goToReportUpdate?reportWriter="+sessionId+"&id="+${bag.reportId};
+			 location.href = "goToReportUpdate?reportWriter="+sessionId+"&id="+${bag.reportId};
 		})//report update
 						
 						
@@ -40,7 +39,7 @@
 							alert('삭제되었습니다.');
 						}
 					})
-                    location.href = "../report/reportList?page=1&mode=1";
+                    location.href = "reportList?page=1&mode=1";
 				}
 			})
 		})//reportDelete
@@ -78,33 +77,40 @@
 						</div>
 					</div>
 				</div>
-				<% if(session.getAttribute("id").equals(request.getAttribute("reportWriter"))){  %>
-				<div id=result>
-					<label>제목 : </label><label> ${bag.reportTitle}</label>
-					<hr>
-					<label>내용 : </label><label> ${bag.reportContent}</label>
-					<hr>
-					<label>사진 : </label>
-					<c:forEach items="${reportImgList}" var="bag2">
-					<label><img src="http://erxtjrehmojx17106475.cdn.ntruss.com/${bag2.reportImgName}?type=m&w=300&h=300"></label>
-					</c:forEach>
-					<hr>
-					<label>답글 : </label><label> ${bag.reportReply}</label>
-					<hr>
-					<div style="display: flex; justify-content: right; gap:15px;">
-						<button id="goToReportUpdate">수정하기</button>
-						<button id="reportDelete">삭제하기</button>
-					</div>
-				</div>
-				<%} else {%>
-				<div id=result>
-					<h1>작성자가 아니면 열람하실 수 없습니다.</h1>
+				<%	String sessionID = (String) session.getAttribute("id");
+					String reportWriter = (String) request.getAttribute("reportWriter");
 					
-				</div>
-				<%} %>
-				
+					if (sessionID != null && sessionID.equals(reportWriter)) {
+				%>
+					    <div id="result">
+					        <label>제목 : </label><label>${bag.reportTitle}</label>
+					        <hr>
+					        <label>내용 : </label><label>${bag.reportContent}</label>
+					        <hr>
+					        <label>사진 : </label>
+					        <c:forEach items="${reportImgList}" var="bag2">
+					            <label><img src="http://erxtjrehmojx17106475.cdn.ntruss.com/${bag2.reportImgName}?type=m&w=300&h=300"></label>
+					        </c:forEach>
+					        <hr>
+					        <label>답글 : </label><label>${bag.reportReply}</label>
+					        <hr>
+					        <div style="display: flex; justify-content: right; gap:15px;">
+					            <button id="goToReportUpdate">수정하기</button>
+					            <button id="reportDelete">삭제하기</button>
+					        </div>
+					    </div>
+					<%
+					} else {
+					%>
+					    <div id="result">
+					        <h1>작성자가 아니면 열람하실 수 없습니다.</h1>
+					    </div>
+					<%
+					}
+					%>
 			</div>
 		</div>
+		<jsp:include page="/home/SideBar.jsp" flush="true" />
 		<jsp:include page="/home/Footer.jsp" flush="true" />
 	</div>
 </body>

@@ -36,7 +36,7 @@ $('.pages').click(function() {
 									<c:forEach items="${list}" var="bag" varStatus="status">
 										<%
 											@SuppressWarnings("unchecked")
-											List<String> nickname = (List<String>) request.getAttribute("nickname");
+											List<String> nickName = (List<String>) request.getAttribute("nickName");
 										%>
 										<tr>
 											<td class="down">${bag.reportNo}</td>
@@ -51,7 +51,7 @@ $('.pages').click(function() {
 														href="reportOne?id=${bag.reportId}&reportWriter=${bag.reportWriter}">비밀글입니다.</a></td>
 												</c:otherwise>
 											</c:choose>
-											<td class="down">${nickname[status.index]}</td>
+											<td class="down">${nickName[status.index]}</td>
 											<td class="down">${bag.reportDate}</td>
 											<td class="down">${bag.reportView}</td>
 										</tr>

@@ -7,9 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet" />
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" />
-<link rel="stylesheet" href="../../resources/css/product-register.css" type="text/css">
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="../resources/css/product-register.css" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -40,7 +39,7 @@
 									},
 									success : function(x) {
 											alert("글 수정이 완료되었습니다.");
-											location.href="../../customerService/report/reportList?page=1&mode=1"
+											location.href="report/reportList?page=1&mode=1"
 										}, error: function() {
 											alert("글 수정 실패.");
 										}
@@ -117,6 +116,10 @@
 									<td class="attribute">내용</td>
 									<td class="content"><textarea class="prd-info reportContent">${bag.reportContent}</textarea></td>
 								</tr>
+								<tr class="each-row">
+									<td class="attribute">사진첨부</td>
+									<td style="color:red; font-size: 20px">문의 및 신고 게시판에서 사진 수정은 불가합니다.</td>
+								</tr>
 							</table>
 						</div>
 						<div style="display: flex; justify-content: right">
@@ -131,6 +134,7 @@
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/home/SideBar.jsp" flush="true" />
 		<jsp:include page="/home/Footer.jsp" flush="true" />
 	</div>
 

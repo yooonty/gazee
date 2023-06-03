@@ -8,28 +8,26 @@
 <meta charset="UTF-8">
 <title>가지가지</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-<link href="../../resources/css/style2.css" rel="stylesheet" type="text/css">
-<link href="../../resources/css/customerServiceStyle.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/customerServiceStyle.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-
 		$('.pages').click(function() {
 			//$('#result').empty()
 			$.ajax({
-				url : "reportCategory",
+				url : "reportList",
 				data : {
 					page : $(this).text(),
 					mode : 2,
-					category1 : '${categoryValue}'
+					search1: '${searchValue}'
 				},
 				success : function(result) { //결과가 담겨진 table부분코드
 					$('#result').html(result)
 				},
 				error : function() {
-					location.reload();
+					alert('실패.@@@')
 				}
 			}) //ajax
 		})
@@ -38,7 +36,7 @@
 				.click(
 						function() {
 							var category1 = $('#category').val();
-							location.href = "../../customerService/report/reportCategory?page=1&mode=1&category1="
+							location.href = "reportCategory?page=1&mode=1&category1="
 									+ category1;
 
 						})//category
@@ -47,27 +45,27 @@
 				.click(
 						function() {
 							var search1 = $('#reportSearch').val();
-							location.href = "../../customerService/report/reportSearch?page=1&mode=1&search1="
+							location.href = "reportSearch?page=1&mode=1&search1="
 									+ search1;
 
 						})//category
 
 		$('#reportWrite').click(function() {
-			var sessionId = "<%=session.getAttribute("id")%>";
-			$.ajax({
-				url: "checkTemporaryReport",
-				data:{
-					reportWriter: sessionId
-				},
-				success: function(x){
-					$('#alert').html(x);
-				},
-				error: function(xhr, status, error){
-					location.href = "../../customerService/report/goToReportWrite?reportWriter="+sessionId;
-				}
-							
-			})
-		}) //qna 글쓰기 버튼
+				var sessionId = "<%=session.getAttribute("id")%>";
+				$.ajax({
+					url: "checkTemporaryReport",
+					data:{
+						reportWriter: sessionId
+					},
+					success: function(x){
+						$('#alert').html(x);
+					},
+					error: function(xhr, status, error){
+						location.href = ".goToReportWrite?reportWriter="+sessionId;
+					}
+				
+				})
+			}) //qna 글쓰기 버튼
 
 	})
 </script>
@@ -131,10 +129,10 @@
 										<td class="top">작성날짜</td>
 										<td class="top">조회수</td>
 									</tr>
-									<c:forEach items="${category}" var="bag" varStatus="status">
+									<c:forEach items="${search}" var="bag" varStatus="status">
 										<%
 											@SuppressWarnings("unchecked")
-											List<String> nickname = (List<String>) request.getAttribute("nickname");
+											List<String> nickName = (List<String>) request.getAttribute("nickName");
 										%>
 										<tr>
 											<td class="down">${bag.reportNo}</td>
@@ -149,7 +147,7 @@
 														href="reportOne?id=${bag.reportId}&reportWriter=${bag.reportWriter}">비밀글입니다.</a></td>
 												</c:otherwise>
 											</c:choose>
-											<td class="down">${nickname[status.index]}</td>
+											<td class="down">${nickName[status.index]}</td>
 											<td class="down">${bag.reportDate}</td>
 											<td class="down">${bag.reportView}</td>
 										</tr>
@@ -167,6 +165,7 @@
 								%>
 							</div>
 							<div id="faqButtom" style="margin-top: 10px; text-align: center">
+
 								<div id="search" style="margin-top: 10px">
 									<input id="reportSearch" type="text" size=40; placeholder="ID로 검색해주세요">
 									<button id="btn_reportSearch">검색</button>
@@ -177,6 +176,7 @@
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/home/SideBar.jsp" flush="true" />
 		<jsp:include page="/home/Footer.jsp" flush="true" />
 	</div>
 </body>
