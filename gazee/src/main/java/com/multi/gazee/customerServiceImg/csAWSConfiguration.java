@@ -24,9 +24,9 @@ public class csAWSConfiguration implements WebMvcConfigurer{
     private String endPoint;
     @Value("${regionName}")
     private String regionName;
-    @Value("${bucketSecretKey}")
+    @Value("${secretKey}")
     private String secretKey;
-    @Value("${bucketAccessKey}")
+    @Value("${accessKey}")
     private String accessKey;
     
 	@Bean
@@ -42,6 +42,7 @@ public class csAWSConfiguration implements WebMvcConfigurer{
 		AmazonS3 s3Builder = AmazonS3ClientBuilder.standard()
 			    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, regionName))
 			    .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
+			    .withChunkedEncodingDisabled(true)  // 청크 인코딩 비활성화
 			    .build();
 
 		return s3Builder;
