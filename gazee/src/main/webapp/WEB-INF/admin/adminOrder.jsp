@@ -108,7 +108,7 @@
 <div class="details">
     <div class="recentOrders" id="order_container">
         <div class="cardHeader">
-            <h2>정산이 필요한 거래 : ${orderNeedToSetList.size()}건</h2>
+            <h2>정산 필요 : ${orderNeedToSetList.size()}건</h2>
             <form name="search-form" autocomplete="off">
             <span style="text-align: right">
                 <select name="search_type" style="font-size: 1.0rem">
@@ -169,7 +169,7 @@
                 </span>
                         </td>
                         <td>
-                            <button id="settle_button" style="font-size: 1.0rem">정산</button>
+                            <button id="settle_button" class="btn" style="font-size: 1.0rem">정산</button>
                         </td>
                     </tr>
                 </c:forEach>
