@@ -8,19 +8,29 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Component;
-
-
 
 @Component
 public class ProductDAO {
-	
+
 	@Autowired
 	SqlSessionTemplate my;
-
-public ProductVO productone(int productId) {
+	
+	public ProductVO productone(int productId) {
 		ProductVO bag = my.selectOne("product.productOne", productId);
 		return bag;
+	}
+	
+	public int sellTimeUpdate(int productId) {
+		int result = my.update("product.sellTimeUpdate", productId);
+		return result;
+	}
+	
+	public int sellTimeDelete(int productId) {
+		int result = my.update("product.sellTimeDelete", productId);
+		return result;
 	}
 	
 	public ProductVO productDetail(int productId) {
@@ -30,16 +40,12 @@ public ProductVO productone(int productId) {
 	
 	public List<ProductVO> list() {
 		List<ProductVO> list = my.selectList("product.all");
-		//row하나당 어떤 vo에 넣을지만 지정하면 my.selectList()를 호출한 경우에는 myBatis가 list vo가 잔뜩 들어간 List로 만들어준다.
-		System.out.println(list.size());
 		return list;
 	}
 	
 	public int register(ProductVO product) {
-		//product.setSavedTime(Timestamp.valueOf(LocalDateTime.now()));
 		product.setSavedTime(getTime());
 		int result = my.insert("product.register", product);
-		System.out.println("myBatis 처리, DAO 완료");
 		return result;
 	}
 	
@@ -59,17 +65,15 @@ public ProductVO productone(int productId) {
 	
 	public void productUpdate(ProductVO product) {
 		product.setSavedTime(getTime());
-		int result = my.update("product.productUpdate", product);
-		System.out.println(result);
+		my.update("product.productUpdate", product);
 	}
 	
 	public void productDelete(ProductVO product) {
-		int result = my.delete("product.productDelete", product);
-		System.out.println(result);
+		my.delete("product.productDelete", product);
 	}
 	public ProductVO checkTemporaryProduct (ProductVO product) {
 		ProductVO bag = my.selectOne("product.checkTemporaryProduct",product);
-		System.out.println(bag);
 		return bag;
 	}
+
 }
