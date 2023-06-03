@@ -20,13 +20,16 @@ public class ProductImageDAO {
 	}
 	
 	public void productImageDelete(int productId) {
-		int result = my.delete("productImage.productImageDelete", productId);
-		System.out.println(result);
+		my.delete("productImage.productImageDelete", productId);
 	}
 	
 	public int productImageUpload(ProductImageVO productImage) {
 		int result = my.insert("productImage.productImageUpload", productImage);
-		System.out.println("imageDAO 완료" + productImage);
 		return result;
+	}
+	
+	public ProductImageVO productImageThumbnail(int productId) {
+		ProductImageVO bag = my.selectOne("productImage.productImageThumbnail",productId);
+		return bag;
 	}
 }
