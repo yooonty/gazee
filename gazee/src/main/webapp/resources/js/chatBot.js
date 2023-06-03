@@ -5,7 +5,7 @@ let websocket;
 function connect() {
 	console.log("연결 시도");
 	// 연결할 웹소켓 주소
-	var wsUri = "ws://localhost:8887/gazee_project/chat";
+	var wsUri = "ws://localhost:8888/gazee/chat";
 	// 소켓 객체 생성
 	websocket = new WebSocket(wsUri);
 	// 웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
