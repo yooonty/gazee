@@ -12,12 +12,15 @@ public class ProductLikesDAO {
 	
 	public int productLikes(ProductLikesVO bag) {
 		int result = my.insert("productLikes.productLikes", bag);
-		System.out.println(bag);
 		return result;
 	}
 	
 	public int unLikes(ProductLikesVO bag) {
 		int result = my.delete("productLikes.unLikes", bag);
+		return result;
+	}
+	public int likeDelete(ProductLikesVO bag) {
+		int result = my.delete("productLikes.likeDelete", bag);
 		return result;
 	}
 	
