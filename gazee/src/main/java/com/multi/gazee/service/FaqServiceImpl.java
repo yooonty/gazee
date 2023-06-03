@@ -1,4 +1,4 @@
-package com.multi.gazee.faq;
+package com.multi.gazee.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.multi.gazee.customerService.PageVO;
+import com.multi.gazee.faq.FaqDAO;
+import com.multi.gazee.faq.FaqVO;
 
 @Service
 public class FaqServiceImpl implements FaqService{
@@ -26,10 +28,10 @@ public class FaqServiceImpl implements FaqService{
 		model.addAttribute("pages", pages);
 		
 		if(mode==2) {
-			return "customerService/faq/faqlist2";
+			return "faq/faqlist2";
 		}
 		else {
-			return "customerService/faq/faqlist";
+			return "faq/faqlist";
 			}
 	}
 	
@@ -47,10 +49,10 @@ public class FaqServiceImpl implements FaqService{
 		model.addAttribute("pages1", pages1);
 		model.addAttribute("categoryValue",category1);
 		if(mode==2) {
-			return "customerService/faq/faqCategory2";
+			return "faq/faqCategory2";
 		}
 		else {
-			return "customerService/faq/faqCategory";
+			return "faq/faqCategory";
 			}
 	}
 	
@@ -73,10 +75,10 @@ public class FaqServiceImpl implements FaqService{
 		model.addAttribute("pages1", pages1);
 		model.addAttribute("searchValue",search1);
 		if(mode==2) {
-			return "customerService/faq/faqSearch2";
+			return "faq/faqSearch2";
 		}
 		else {
-			return "customerService/faq/faqSearch";
+			return "faq/faqSearch";
 			}
 	}
 }

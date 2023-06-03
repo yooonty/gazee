@@ -1,10 +1,11 @@
-package com.multi.gazee.report;
+package com.multi.gazee.service;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
 import com.multi.gazee.customerService.PageVO;
+import com.multi.gazee.report.ReportVO;
 
 public interface ReportService {
 

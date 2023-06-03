@@ -1,8 +1,11 @@
-package com.multi.gazee.customerService;
+package com.multi.gazee.service;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
+
+import com.multi.gazee.customerService.CustomerServiceVO;
+import com.multi.gazee.customerService.PageVO;
 
 public interface CustomerServiceService {
 	

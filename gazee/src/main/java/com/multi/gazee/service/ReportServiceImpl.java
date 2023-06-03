@@ -1,4 +1,4 @@
-package com.multi.gazee.report;
+package com.multi.gazee.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import com.multi.gazee.customerService.PageVO;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
+import com.multi.gazee.report.ReportDAO;
+import com.multi.gazee.report.ReportVO;
 import com.multi.gazee.reportImg.ReportImgDAO;
 import com.multi.gazee.reportImg.ReportImgVO;
 
@@ -47,7 +49,7 @@ public class ReportServiceImpl implements ReportService{
 		List<String> list2 = new ArrayList<String>();
 		for (ReportVO reportVO : list) {
 			String reportWriterId=reportVO.getReportWriter();
-			MemberVO bag2= memberDao.one(reportWriterId);
+			MemberVO bag2= memberDao.selectOne(reportWriterId);
 			String nickname=bag2.getNickname();
 			System.out.println(nickname);
 			list2.add(nickname);
@@ -55,15 +57,15 @@ public class ReportServiceImpl implements ReportService{
 		int count = dao.count();
 		int pages = count / 10 +1;	
 		model.addAttribute("list", list);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("count", count);
 		model.addAttribute("pages", pages);
 		
 		if(mode==2) {
-			return "customerService/report/reportList2";
+			return "report/reportList2";
 		}
 		else 
-			return "customerService/report/reportList";
+			return "report/reportList";
 	}
 	
 	public String reportCategory(PageVO vo, Model model, String category1, int mode) {
@@ -76,22 +78,22 @@ public class ReportServiceImpl implements ReportService{
 		List<String> list2 = new ArrayList<String>();
 		for (ReportVO reportVO : reportCategory) {
 			String reportWriterId=reportVO.getReportWriter();
-			MemberVO bag2= memberDao.one(reportWriterId);
+			MemberVO bag2= memberDao.selectOne(reportWriterId);
 			String nickname=bag2.getNickname();
 			list2.add(nickname);
 		}
 		int count = dao.countCategory(category1);
 		int pages1 = count / 10 +1;
 		model.addAttribute("category", reportCategory);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("count", count);
 		model.addAttribute("pages1", pages1);
 		model.addAttribute("categoryValue",category1);
 		if(mode==2) {
-			return "customerService/report/reportCategory2";
+			return "report/reportCategory2";
 		}
 		else 
-			return "customerService/report/reportCategory";
+			return "report/reportCategory";
 	}
 	
 	public String reportSearch(PageVO vo, String search1, Model model, int mode) {
@@ -104,7 +106,7 @@ public class ReportServiceImpl implements ReportService{
 		List<String> list2 = new ArrayList<String>();
 		for (ReportVO reportVO : reportSearch) {
 			String reportWriterId=reportVO.getReportWriter();
-			MemberVO bag2= memberDao.one(reportWriterId);
+			MemberVO bag2= memberDao.selectOne(reportWriterId);
 			String nickname=bag2.getNickname();
 			list2.add(nickname);
 		}
@@ -113,13 +115,13 @@ public class ReportServiceImpl implements ReportService{
 		model.addAttribute("search", reportSearch);
 		model.addAttribute("count", count);
 		model.addAttribute("pages1", pages1);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("searchValue",search1);
 		if(mode==2) {
-			return "customerService/report/reportSearch2";
+			return "report/reportSearch2";
 		}
 		else 
-			return "customerService/report/reportSearch";
+			return "report/reportSearch";
 	}
 	
 	public void reportOne(int id, Model model) {
@@ -131,14 +133,14 @@ public class ReportServiceImpl implements ReportService{
 	}
 	
 	public String goToReportWrite() {
-		return "customerService/report/reportWrite";
+		return "report/reportWrite";
 	}
 	
 	public String goToReportUpdate(Model model, int id) {
 		System.out.println(id);
 		ReportVO bag = dao.one(id);
 		model.addAttribute("bag",bag);
-		return "customerService/report/reportUpdate";
+		return "report/reportUpdate";
 	}
 	
 	public void checkTemporaryReport(Model model, ReportVO bag) {

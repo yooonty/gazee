@@ -1,4 +1,4 @@
-package com.multi.gazee.faq;
+package com.multi.gazee.service;
 
 import org.springframework.ui.Model;
 

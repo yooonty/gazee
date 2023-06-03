@@ -1,4 +1,4 @@
-package com.multi.gazee.customerService;
+package com.multi.gazee.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.multi.gazee.customerService.CustomerServiceDAO;
+import com.multi.gazee.customerService.CustomerServiceVO;
+import com.multi.gazee.customerService.PageVO;
 import com.multi.gazee.customerServiceImg.CustomerServiceImgDAO;
 import com.multi.gazee.customerServiceImg.CustomerServiceImgVO;
 import com.multi.gazee.member.MemberDAO;
@@ -20,8 +23,10 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 	
 	@Autowired
 	CustomerServiceDAO dao;
+	
 	@Autowired
 	CustomerServiceImgDAO dao2;
+	
 	@Autowired
 	MemberDAO memberDao;
 	
@@ -31,22 +36,22 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		List<String> list2 = new ArrayList<String>();
 		for (CustomerServiceVO CustomerServiceVO : list) {
 			String csWriterId=CustomerServiceVO.getCsWriter();
-			MemberVO bag2= memberDao.one(csWriterId);
+			MemberVO bag2= memberDao.selectOne(csWriterId);
 			String nickname=bag2.getNickname();
 			list2.add(nickname);
 		}
 		int count = dao.count();
 		int pages = count / 10 +1;		
 		model.addAttribute("list", list);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("count", count);
 		model.addAttribute("pages", pages);
 		
 		if(mode==2) {
-			return "customerService/cs/csList2";
+			return "cs/csList2";
 		}
 		else 
-			return "customerService/cs/csList";
+			return "cs/csList";
 	}
 	
 	public void csDelete(CustomerServiceVO bag) {
@@ -74,7 +79,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		List<String> list2 = new ArrayList<String>();
 		for (CustomerServiceVO CustomerServiceVO : qnaCategory) {
 			String csWriterId=CustomerServiceVO.getCsWriter();
-			MemberVO bag2= memberDao.one(csWriterId);
+			MemberVO bag2= memberDao.selectOne(csWriterId);
 			String nickname=bag2.getNickname();
 			list2.add(nickname);
 		}
@@ -83,13 +88,13 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		model.addAttribute("category", qnaCategory);
 		model.addAttribute("count", count);
 		model.addAttribute("pages1", pages1);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("categoryValue",category1);
 		if(mode==2) {
-			return "customerService/cs/csCategory2";
+			return "cs/csCategory2";
 		}
 		else 
-			return "customerService/cs/csCategory";
+			return "cs/csCategory";
 	}
 		
 	public String search(PageVO vo, String search1, Model model, int mode) {
@@ -102,7 +107,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		List<String> list2 = new ArrayList<String>();
 		for (CustomerServiceVO CustomerServiceVO : qnaSearch) {
 			String csWriterId=CustomerServiceVO.getCsWriter();
-			MemberVO bag2= memberDao.one(csWriterId);
+			MemberVO bag2= memberDao.selectOne(csWriterId);
 			String nickname=bag2.getNickname();
 			list2.add(nickname);
 		}
@@ -111,13 +116,13 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 		model.addAttribute("search", qnaSearch);
 		model.addAttribute("count", count);
 		model.addAttribute("pages1", pages1);
-		model.addAttribute("nickname", list2);
+		model.addAttribute("nickName", list2);
 		model.addAttribute("searchValue",search1);
 		if(mode==2) {
-			return "customerService/cs/csSearch2";
+			return "cs/csSearch2";
 		}
 		else 
-			return "customerService/cs/csSearch";
+			return "cs/csSearch";
 	}
 	
 	public void one(int id, Model model) {
@@ -130,13 +135,13 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 	}
 	
 	public String goToCsWrite() {
-		return "customerService/cs/csWrite";
+		return "cs/csWrite";
 	}
 	
 	public String goToCsUpdate(Model model, int id) {
 		CustomerServiceVO bag = dao.one(id);
 		model.addAttribute("bag",bag);
-		return "customerService/cs/csUpdate";
+		return "cs/csUpdate";
 	}
 	
 	public void checkTemporaryCs(Model model, CustomerServiceVO bag) {
