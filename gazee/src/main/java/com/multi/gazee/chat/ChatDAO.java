@@ -21,7 +21,7 @@ public class ChatDAO {
 	ProductDAO dao;
 
 	public int create(ChatVO chatVO) {
-		ProductVO bag2 = dao.productone(chatVO.getProductId());
+		ProductVO bag2 = dao.productOne(chatVO.getProductId());
 		chatVO.setSellerId(bag2.getMemberId());
 		int result = my.insert("chat.create", chatVO);
 		if (result > 0) {
