@@ -38,7 +38,6 @@ public class ProductImageConfiguration implements WebMvcConfigurer{
 	@Bean
 	public AmazonS3 AwsS3Client() {
 		
-		
 		AmazonS3 s3Builder = AmazonS3ClientBuilder.standard()
 			    .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endPoint, regionName))
 			    .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
