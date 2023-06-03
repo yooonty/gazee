@@ -24,6 +24,7 @@
    		<typeAlias type="com.multi.gazee.set.SetVO" alias="setVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.transactionHistory.TransactionHistoryVO" alias="historyVO"></typeAlias>
 		<typeAlias type="com.multi.gazee.withdraw.WithdrawVO" alias="withdrawVO"></typeAlias>
+		<typeAlias type="com.multi.gazee.admin.paging.PageVO" alias="pageVO"></typeAlias>
    </typeAliases>
    <mappers>
    		<mapper resource="mapper/chargeMapper.xml" />
