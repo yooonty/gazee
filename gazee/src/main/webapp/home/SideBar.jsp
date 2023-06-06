@@ -5,6 +5,7 @@
 %>
 <script type="text/javascript">
 $(function() {
+	var sessionId = "<%= session.getAttribute("id") %>";
 	/* 최근 본 상품 목록 */
 	$('#btn_recentItem').click(function() {
 		location.href = "../recentlyViewed/recentlyViewedList.jsp"
@@ -16,6 +17,29 @@ $(function() {
 			location.href = "../chat/gazeeChat.jsp";
 		}
 	})
+	
+	/* 채팅 페이지 */
+	$(".btn_myChatlist").click(function() {
+		location.href = "../chat/gazeeChat.jsp";
+	})
+	
+	/* 판매하기 버튼 */
+	$(".btn_sell").click(function() {
+		location.href = "../product/checkTemporaryProduct?memberId=" + sessionId;
+	})
+	
+	if(sessionId != "null"){ //사용자가 로그인했을때
+		/* 최근 본 상품 숫자 */
+		$.ajax({
+			url : "../recentlyViewed/recentViewCount",
+			data : {
+				memberId : sessionId
+			},
+			success : function(res) {
+				$('.viewCount').append(res)
+			}
+		})
+	}
 	
 })
 function chatBotOpen() {
