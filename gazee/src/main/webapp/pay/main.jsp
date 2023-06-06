@@ -17,6 +17,11 @@ $(function() {
 	var memberId = 1;
 	var bank = "";
 	var account = "";
+	var today = new Date();
+	var startDate = new Date(new Date().setMonth(today.getMonth() - 6)).toISOString().substring(0, 10);
+	var minDate = new Date(new Date().setFullYear(today.getFullYear() - 3)).toISOString().substring(0, 10);
+	var maxDate = today.toISOString().substring(0, 10);
+	var endDate = "";
 	
 	function numberToString(amount) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -42,27 +47,44 @@ $(function() {
 				}
 			}
 		})
-		
 	}
-	//페이지 로딩시 실행 - 전체 잔액 & 전체 거래 기록 가져오기, 출력
+	
+	function getTransactionRecord(){
+		$.ajax({
+		url:"record",
+		data: {
+			start : startDate,
+			end : $('.input-date-end').val()
+		},
+		success : function(x){
+			console.log('end' + endDate)
+			$('#transaction-record-table').empty();
+			$('#transaction-record-table').append(x)
+		}
+	})
+	}
+
+	$('.input-date-start').change(function(){
+		$('.input-date-end').attr('min', $('.input-date-start').val())
+	})
+	
+	$('.btn-date-search').click(function(){
+		startDate = $('.input-date-start').val();
+		endDate = $('.input-date-end').val();
+		console.log('startDate' + startDate + ', endDate' + endDate);
+		getTransactionRecord();
+	})
+	
+	//btn-d페이지 로딩시 실행 - 전체 잔액 & 전체 거래 기록 가져오기, 출력
 	$(document).ready(function() {
 		//세션-로그인 여부 확인 후, 정보 있으면 반환, 없으면 메인 페이지 보내기
 		getRecord('total');
+		$('.input-date-start').val(startDate);
+		$('.input-date-end').val(maxDate);
+		$('.input-date-start').attr("min", minDate);
+		$('.input-date-end').attr("max", maxDate);
+		getTransactionRecord();
 	});
-	//거래기록 리스트 불러오기
-	$('.btn-record-group button').click(function(){
-		var id = $(this).attr('id');
-		var clicked = $(this).hasClass('clicked')
-		$('.btn-record-group button').removeClass('clicked');
-		$('.btn-record-group button').addClass('not-clicked');
-		if (clicked){
-			$(this).addClass('not-clicked');
-			$(this).removeClass('clicked');
-		}else {
-			$(this).addClass('clicked');
-			$(this).removeClass('not-clicked');
-		}
-	})
 	//모달창 닫기
 	$('.btn-modal-close').click(function(){
 		$('.modal').css('visibility', 'hidden');
@@ -135,6 +157,32 @@ $(function() {
 				}
 			})
 			window.location.reload();
+		}
+	})
+	//거래기록 리스트 불러오기
+	$('.btn-record-group button').click(function(){
+		var id = $(this).attr('id');
+		var clicked = $(this).hasClass('clicked')
+		$('.btn-record-group button').removeClass('clicked');
+		$('.btn-record-group button').addClass('not-clicked');
+		if (clicked){
+			$(this).addClass('not-clicked');
+			$(this).removeClass('clicked');
+			$('.tr-buy').css('visibility', 'hidden')
+			$('.tr-charge').css('visibility', 'hidden')
+		}else {
+			$(this).addClass('clicked');
+			$(this).removeClass('not-clicked');
+			if(id="charge"){
+				$('.tr-charge').css('visibility', 'visible')
+				$('.tr-buy').css('visibility', 'hidden')
+			}else if(id="buy"){
+				$('.tr-buy').css('visibility', 'visible')
+				$('.tr-charge').css('visibility', 'hidden')
+			}else {
+				$('.tr-charge').css('visibility', 'visible')
+				$('.tr-buy').css('visibility', 'visible')
+			}
 		}
 	})
 })
