@@ -19,6 +19,7 @@
 	let longitude = ${bag.directAddressy};
 	let dealDirect = ${bag.dealDirect};
 	let dealDelivery = ${bag.dealDelivery};
+	var memberId = "<%=session.getAttribute("id")%>";
 	
 	$(function() {
 		function uploadFiles() {
@@ -100,7 +101,6 @@
         }
         
         $('#update').click(function() {
-        	var memberId = "<%=session.getAttribute("id")%>";
     		var category = $('.category').val();
     		var productName = $('.name').val();
     		var productContent = $('.product-content').val();
@@ -152,7 +152,6 @@
 
         // 삭제 버튼 클릭 시 S3ProductDelete로 요청 전송
         $('#productDelete').click(function() {
-          	var memberId = "<%=session.getAttribute("id")%>";
           	console.log("sessionId" + memberId);
       		console.log("productId" + ${bag.productId});
               if (confirm('정말로 삭제하시겠습니까?')) {
