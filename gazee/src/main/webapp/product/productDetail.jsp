@@ -3,9 +3,6 @@
 <%
 	int productId = Integer.parseInt(request.getParameter("productId").trim());
 %>
-<%
-	String memberId = request.getParameter("memberId");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,37 +17,82 @@
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript">
 	$(function() {
-	    var memberId = "<%=memberId%>"; // memberId 가져오기
+		var memberId; // memberId 가져오기
 	    var sessionId = "<%= session.getAttribute("id") %>";
+		
+		$.ajax({
+			url : "viewsCount",
+			data : {
+				productId : '<%=productId%>'
+			},
+			success : function(res) {
+				//console.log(res)
+			}
+		})
+		$.ajax({
+			url : "checkSeller",
+			async : false,
+			data : {
+				productId : '<%=productId%>'
+			},
+			success : function(res) {
+				memberId = res;
+			}
+		})
 		
 		if (memberId !== "null") {
 			handlePageLoad(sessionId);
 			unreadMessageCheck(sessionId);
+			
+			$.ajax({
+				url : "../recentlyViewed/recentView",
+				data : {
+					productId : '<%=productId%>',
+					memberId : sessionId
+				},
+				success : function(res) {
+					console.log(res)
+				}
+			})
 		}
 	
-	    if (memberId === sessionId) {
-	        $.ajax({
-	            url: "detail_owner", // memberId와 sessionId가 같을 때의 URL
-	            data: {
-	                productId: <%=productId%>,
-	                memberId: memberId
-	            },
-	            success: function(res) {
-	                $('#product_table').append(res);
-	            }
-	        });
-	    } else {
-	        $.ajax({
-	            url: "detail", // memberId와 sessionId가 다를 때의 URL
-	            data: {
-	                productId: <%=productId%>,
-	                memberId: memberId
-	            },
-	            success: function(res) {
-	                $('#product_table').append(res);
-	            }
-	        });
-	    }
+		if (memberId === sessionId) {
+		    $.ajax({
+		        url: "detail_owner", // memberId와 sessionId가 같을 때의 URL
+		        data: {
+		            productId: <%=productId%>,
+		            memberId: memberId
+		        },
+		        success: function(res) {
+		        	console.log("1");
+		            $('#product_table').append(res);
+		        }
+		    });
+		} else if (sessionId !== "null") {
+		    $.ajax({
+		        url: "detail", // memberId와 sessionId가 다를 때의 URL
+		        data: {
+		            productId: <%=productId%>,
+		            memberId: memberId
+		        },
+		        success: function(res) {
+		        	console.log(sessionId + "2");
+		            $('#product_table').append(res);
+		        }
+		    });
+		} else {
+		    $.ajax({
+		        url: "detail_nomember", // sessionId가 null일 때의 URL
+		        data: {
+		            productId: <%=productId%>,
+		            memberId: memberId
+		        },
+		        success: function(res) {
+		        	console.log("3");
+		            $('#product_table').append(res);
+		        }
+		    });
+		}
 	    
 	});
 </script>
