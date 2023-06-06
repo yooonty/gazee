@@ -3,6 +3,8 @@
 	width: 200px;
 	float: left;
 	margin-bottom: 10px;
+	text-align: left;
+	cursor: pointer;
 }
 
 .itemImage {
@@ -11,10 +13,24 @@
 	height: 195px;
 }
 
-.itemContent {
-	display: flex;
-	justify-content: flex-start;
+.itemPrice {
 	font-weight: bold;
+}
+.itemProductName {
+	white-space: nowrap;
+	font-size: 16px;
+    line-height: 1.45;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.itemSeller, .itemCategory{
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(153, 153, 153);
+    line-height: 1.38;
+    word-break: break-word;
+    padding-top: 3px;
 }
 
 /*슬라이드에 직접 적용되는 스타일*/
@@ -57,17 +73,30 @@
 }
 label.left {
     left: 20px;
-    background-color: white;
     background-position: center center;
     background-size: 50%;
     background-repeat: no-repeat;
 }
 label.right {
     right: 20px;
-    background-color: white;/*강의에서는 #5f5f5f;*/
     background-position: center center;
     background-size: 50%;
     background-repeat: no-repeat;
+}
+.slidebox .slideitem span {
+    position: absolute; /*자율 배치하는 값*/
+    top: 50%;
+    transform: translateY(-50%); /*가운데 지정*/
+    cursor: pointer; /*마우스가 올라가면 커서가 포인터로 바뀌도록 함*/
+    color: white;
+}
+span.right {
+	width: 0;
+    right: 50px;
+}
+span.left {
+	width: 0;
+    left: 35px;
 }
 [id="slide01"]:checked ~ .slidelist .slideitem {transform:translateX(0); animation:slide01 15s infinite}
 [id="slide02"]:checked ~ .slidelist .slideitem {transform:translateX(-100%); animation:slide02 15s infinite}
