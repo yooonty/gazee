@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="history">
+
+<select id="select" parameterType="String" resultType="_int">
+	SELECT COALESCE(balance, 0)
+	FROM transaction_history
+	WHERE member_id=#{id}
+	ORDER BY transaction_time DESC
+	LIMIT 1;
+</select>
+
+<insert id="insert" parameterType="historyVO">
+	INSERT INTO transaction_history
+	(transaction_id, member_id, transaction_time, amount, balance)
+	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
+</insert>
+
+</mapper>
