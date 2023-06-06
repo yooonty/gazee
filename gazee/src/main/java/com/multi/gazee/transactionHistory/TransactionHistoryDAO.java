@@ -10,7 +10,9 @@ public class TransactionHistoryDAO {
 	@Autowired
 	SqlSessionTemplate my;
 	
-	public int checkBalance(String id) {
+    
+	public int select(String id) {
+
 		int balance;
 
 		try {
