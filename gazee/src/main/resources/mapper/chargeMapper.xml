@@ -3,7 +3,7 @@
 <mapper namespace="charge">
 <insert id="insert" parameterType="chargeVO">
 INSERT INTO gazee.charge
-(transaction_id, member_id, transaction_time, pay_method, amount)
-VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{payMethod}, #{amount});
+(transaction_id, member_id, transaction_time, pay_method, amount, cancel_transaction_id)
+VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{payMethod}, #{amount}, #{cancelTransactionId});
 </insert>
 </mapper>

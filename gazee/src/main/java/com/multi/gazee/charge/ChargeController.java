@@ -40,6 +40,7 @@ public class ChargeController {
 		//3. 거래 일련번호 생성
 		String identifier = transactionService.makeIdentifier("c", member, transactionTime);
 		charge.setTransactionId(identifier);
+		charge.setCancelTransactionId("");
 		//4. 충전 테이블 삽입
 		chargeResult = chargeDAO.insert(charge);
 		//5. TransactionHistory 테이블 삽입
