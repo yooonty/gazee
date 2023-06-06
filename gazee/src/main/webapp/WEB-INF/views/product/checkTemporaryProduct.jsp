@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script type="text/javascript">
-
     var sessionId = "<%=session.getAttribute("id")%>";
     //임시저장이 된(temporary가 0인) product가 있으면 임시저장된것을 불러올지 임시저장한 product를 삭제할지 묻고 임시저장을 불러온다하면 productUpdateSel로 아니면 productDelete로처리하고 register.jsp로 이동
     console.log(${bag.temporary});
@@ -15,15 +14,14 @@
         
         if (confirm('정말로 삭제하시겠습니까?')) {
             $.ajax({
-                url: '../product/productDelete',
-                type: 'POST',
+                url: 'productDelete',
                 data: {
                     memberId: sessionId,
                     productId: ${bag.productId}
                 },
                 success: function(x) {
-                        alert('삭제되었습니다.');
-                        location.href = "../product/register.jsp?memberId=" + sessionId;
+                    alert('삭제되었습니다.');
+                    location.href = "../product/register.jsp?memberId=" + sessionId;
                 }
             });
         }
@@ -32,5 +30,4 @@
     // 임시저장된 product가 없을 경우 register.jsp로 이동
     location.href = "../product/register.jsp?memberId=" + sessionId;
 }
-	   
 </script>
