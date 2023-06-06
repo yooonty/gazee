@@ -16,4 +16,12 @@
 	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
 </insert>
 
+<select id="selectList" parameterType="hashMap" resultType="historyVO">
+	SELECT *
+	FROM transaction_history
+	WHERE member_id = #{id} 
+	AND transaction_time BETWEEN #{start} AND #{end}
+	ORDER BY transaction_time DESC
+</select>
+
 </mapper>

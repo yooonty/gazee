@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+	<util:properties id="property" location="classpath:application.properties" />
+
+	<!-- 1) mybatis SqlSessionTemplate my = new SqlSessionTemplate(config); -->
+	<bean id="my" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="config"></constructor-arg>
+	</bean>
+
+	<!-- 2) dbcp -->
+	<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/gazee?serverTimezone=UTC"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+
+	<!-- 3) mybatis config 경로쓸 때 classpath는 src/main/resources를 지정함.! -->
+	<bean id="config" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dbcp"></property>
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+	</bean>
+	
+	<!-- mongoDB -->
+	<mongo:mongo-client
+        host="localhost"
+        port="27017" credentials="gazee:1234@gazee_chat" >
+        <mongo:client-options
+            connections-per-host="50"
+            threads-allowed-to-block-for-connection-multiplier="10"
+            connect-timeout="2000"
+            max-wait-time="2500"
+            socket-keep-alive="false"
+            socket-timeout="2500"
+        />
+    </mongo:mongo-client>
+ 
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongo" />
+        <constructor-arg name="databaseName" value="gazee_chat" />
+    </bean>
+	
+	
+</beans>
