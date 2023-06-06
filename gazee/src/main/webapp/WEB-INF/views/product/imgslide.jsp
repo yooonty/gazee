@@ -18,6 +18,8 @@
         display: none;
         width: 100%;
         height: auto;
+        border-radius: 50px;
+        overflow: hidden;
     }
     span{
     cursor: pointer; 
