@@ -14,7 +14,6 @@
 <script>
 $(function() {
 	var balance;
-	var memberId = 1;
 	var bank = "";
 	var account = "";
 	var today = new Date();
@@ -34,10 +33,7 @@ $(function() {
 		$.ajax({
 			url:"userInfo",
 			type: "post",
-			
 			success: function(memberInfo){
-				console.log("불러오기 완료");
-				console.log("x값 : " + memberInfo)
 				balance = memberInfo.balance;
 				bank = memberInfo.bank;
 				account = memberInfo.account;
