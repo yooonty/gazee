@@ -113,14 +113,10 @@ public class MemberVO {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
-<<<<<<< HEAD
-
-=======
 	public Timestamp getLogoutTime() {
 		return logoutTime;
 	}
 	public void setLogoutTime(Timestamp logoutTime) {
 		this.logoutTime = logoutTime;
 	}
->>>>>>> Database/VO
 }
