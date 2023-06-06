@@ -11,31 +11,6 @@
 <script type="text/javascript" src="../resources/js/stomp.js"></script>
 <script type="text/javascript" src="../resources/js/WebSocket.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
-<style type="text/css">
-	.each-row{
-		text-align: left;
-	}
-	
-	.deal-type{
-		border: none;
-	}
-	
-	.save {
-		width: 110px;
-		height: 40px;
-		background-color: #693FAA;
-		color: #fff;
-		border-radius: 100px;
-		border-style: none;
-		cursor: pointer;
-	}
-	
-	#noUpdate{
-	    padding-top: 10px;
-	    font-size: 12px;
-	    color: gray;
-	}
-</style>
 <script type="text/javascript">
 	let latitude = 0.0000000000;
 	let longitude = 0.0000000000;
