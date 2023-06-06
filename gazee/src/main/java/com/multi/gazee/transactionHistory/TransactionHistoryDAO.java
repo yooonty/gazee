@@ -1,5 +1,8 @@
 package com.multi.gazee.transactionHistory;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,4 +30,9 @@ public class TransactionHistoryDAO {
 	public int insert(TransactionHistoryVO historyVO) {
 		return my.insert("history.insert", historyVO);
 	}
+	
+	public List<TransactionHistoryVO> selectList(HashMap<String, String> selectCondition) {
+		return my.selectList("history.selectList", selectCondition);
+	}
+
 }

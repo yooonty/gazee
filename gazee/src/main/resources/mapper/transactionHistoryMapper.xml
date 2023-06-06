@@ -16,4 +16,5 @@
 	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
 </insert>
 
+</select>
 </mapper>

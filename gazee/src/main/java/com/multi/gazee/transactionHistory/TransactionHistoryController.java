@@ -8,18 +8,26 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
+import com.multi.gazee.service.TransactionRecordVO;
+import com.multi.gazee.service.TransactionServiceImpl;
+
 @Controller
 public class TransactionHistoryController {
 	@Autowired
-	TransactionHistoryDAO dao;
+	TransactionHistoryDAO transactionHistorydao;
 	
 	@Autowired
 	MemberDAO memberDAO;
+	
+	@Autowired
+	TransactionServiceImpl transactionServiceImpl;
 	
 	@RequestMapping("pay/userInfo")
 	@ResponseBody
@@ -37,5 +45,12 @@ public class TransactionHistoryController {
 		response.setStatus(HttpServletResponse.SC_OK);
 		return memberInfo;
 	}
+	
+	@RequestMapping("pay/record")
+	public void transactionRecord(@RequestParam HashMap<String, String> param, HttpSession session, Model model) {
+		param.put("id", String.valueOf(session.getAttribute("id")));
+		param.put("end", param.get("end")+" 23:59:59");
+		List<TransactionRecordVO> transactionRecord= transactionServiceImpl.changeFormat(transactionHistorydao.selectList(param), session);
+		model.addAttribute("transactionRecord", transactionRecord);
 	}
 }
