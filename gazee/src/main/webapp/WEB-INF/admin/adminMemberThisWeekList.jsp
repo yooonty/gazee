@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+ <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="../../resources/css/adminMember.css"/>
@@ -30,26 +30,5 @@
             </c:forEach>
             </tbody>
         </table>
-    <%-- <div class="recentCustomers">
-         <div class="cardHeader">
-             <h2>신고 목록</h2>
-         </div>
-         <table>
-             <thead>
-             <tr>
-                 <td>제목</td>
-                 <td>작성자</td>
-             </tr>
-             </thead>
-             <tbody>
-             <c:forEach items="${reportList}" var="bag">
-                 <tr>
-                     <td>${bag.reportTitle}</td>
-                     <td>${bag.reportWriter}</td>
-                 </tr>
-             </c:forEach>
-             </tbody>
-         </table>
-     </div>--%>
 </div>
 </html>

@@ -49,9 +49,9 @@ public class ProductDAO {
 		return price;
 	}
 	
-	public List<ProductVO> oneWhere(Map parameterMap) {
-		List<ProductVO> oneWhere = my.selectList("product.oneWhere", parameterMap);
-		return oneWhere;
+	public List<ProductVO> search(Map parameterMap) {
+		List<ProductVO> search = my.selectList("product.search", parameterMap);
+		return search;
 	}
 }
 

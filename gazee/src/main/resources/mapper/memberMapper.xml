@@ -57,7 +57,7 @@
     </select>
 
     <!-- 관리자 페이지 내 검색창 -->
-    <select id="oneWhere" parameterType="java.util.Map" resultType="memberVO">
+    <select id="search" parameterType="java.util.Map" resultType="memberVO">
         SELECT *
         FROM member
         WHERE ${searchType} = #{searchIndex}

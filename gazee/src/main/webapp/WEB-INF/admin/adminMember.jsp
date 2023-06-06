@@ -125,7 +125,6 @@
             <form name="search-form" autocomplete="off">
             <span style="text-align: right">
                 <select name="search_type" style="font-size: 1.0rem">
-                    <option value="no">No</option>
                     <option value="id">ID</option>
                     <option value="name">이름</option>
                     <option value="nickname">닉네임</option>

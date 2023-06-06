@@ -16,6 +16,7 @@
         WHERE p2.product_id BETWEEN #{start} AND #{end}
     </select>
 
+    <!-- 등록 된 상품 갯수 카운트 -->
     <select id="count" resultType="Integer">
         SELECT count(*) FROM product
     </select>
@@ -34,7 +35,7 @@
     </select>
 
     <!-- 검색 기능 -->
-    <select id="oneWhere" parameterType="java.util.Map" resultType="productVO">
+    <select id="search" parameterType="java.util.Map" resultType="productVO">
         SELECT *
         FROM product
         WHERE ${searchType} = #{searchIndex}

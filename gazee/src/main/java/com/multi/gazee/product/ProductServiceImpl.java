@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
         parameterMap.put("searchType", searchType);
         parameterMap.put("searchIndex", searchIndex);
         
-        List<ProductVO> oneWhereList = Pdao.oneWhere(parameterMap);
+        List<ProductVO> oneWhereList = Pdao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminProductSearch";

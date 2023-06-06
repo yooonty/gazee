@@ -8,6 +8,7 @@
         FROM report_count
     </select>
 
+    <!-- 회원 별 누적 신고 횟수 READ -->
     <select id="one" parameterType="String" resultType="reportCountVO">
         SELECT *
         FROM report_count

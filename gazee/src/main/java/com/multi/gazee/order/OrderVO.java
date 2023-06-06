@@ -60,6 +60,7 @@ public class OrderVO {
 	public String getBuyerId() {
 		return buyerId;
 	}
+	
 	public void setBuyerId(String buyerId) {
 		this.buyerId = buyerId;
 	}

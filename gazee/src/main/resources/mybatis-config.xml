@@ -8,19 +8,12 @@
 	</settings>
    <typeAliases>
    		<typeAlias type="com.multi.gazee.charge.ChargeVO" alias="chargeVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.chat.ChatVO" alias="chatVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.customerService.CustomerServiceVO" alias="csVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.customerServiceImg.CustomerServiceImgVO" alias="customerServiceImgVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.faq.FaqVO" alias="faqVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.member.MemberVO" alias="memberVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.order.OrderVO" alias="orderVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.product.ProductVO" alias="productVO"></typeAlias>
-		<typeAlias type="com.multi.gazee.productImage.ProductImageVO" alias="productImageVO"></typeAlias>
-		<typeAlias type="com.multi.gazee.productLikes.ProductLikesVO" alias="productLikesVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.recentlyViewed.RecentlyViewedVO" alias="recentlyViewedVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.report.ReportVO" alias="reportVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.reportCount.ReportCountVO" alias="reportCountVO"></typeAlias>
-   		<typeAlias type="com.multi.gazee.reportImg.ReportImgVO" alias="reportImgVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.set.SetVO" alias="setVO"></typeAlias>
    		<typeAlias type="com.multi.gazee.transactionHistory.TransactionHistoryVO" alias="historyVO"></typeAlias>
 		<typeAlias type="com.multi.gazee.withdraw.WithdrawVO" alias="withdrawVO"></typeAlias>

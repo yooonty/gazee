@@ -35,7 +35,6 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pages", pages);
         model.addAttribute("count", count);
-        
         model.addAttribute("csList", csList);
         return "../admin/adminCsList";
     }

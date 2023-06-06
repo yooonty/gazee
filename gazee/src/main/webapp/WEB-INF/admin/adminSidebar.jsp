@@ -20,7 +20,6 @@
 
     $(function () {
         checkLogin(3600000);
-
         function checkLogin(delay) {
             setTimeout(function () {
                 var hasCookie, hasSession;

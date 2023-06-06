@@ -93,7 +93,6 @@
             <form name="search-form" autocomplete="off">
             <span style="text-align: right">
                 <select name="search_type" style="font-size: 1.0rem">
-                    <option value="product_id">No</option>
                     <option value="member_id">판매자</option>
                 </select>
                 <input name="search_index" style="font-size: 18px" placeholder="검색 할 값 입력">

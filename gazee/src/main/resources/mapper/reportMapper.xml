@@ -80,7 +80,6 @@
         SELECT count(*) FROM customer_service WHERE cs_reply IS NULL
     </select>
 
-    <!-- 신고글 카테고리화 -->
     <select id="category" parameterType="Map" resultType="reportVO">
         select *
         from (select ROW_NUMBER() over(order by report_id desc)as report_no, r.*
@@ -89,6 +88,7 @@
         where r2.report_no between #{start} and #{end}
     </select>
 
+    <!-- 작성 된 신고글 갯수 카운트 -->
     <select id="count" resultType="Integer">
         select count(*)
         from report where temporary = 1
@@ -106,6 +106,7 @@
         where report_title like concat('%', #{search1}, '%')
     </select>
 
+    <!-- 관리자 신고글 리스트 (페이징) -->
     <select id="searchAll" resultType="reportVO" parameterType="Map">
         select *
         from (select ROW_NUMBER() over(order by report_id desc) as report_no, r.*

@@ -10,6 +10,8 @@ import java.util.List;
 public class ChargeDAO {
     @Autowired
     SqlSessionTemplate my;
+    
+    /* ALL */
     public List<ChargeVO> listCharge() {
         List<ChargeVO> chargeList = my.selectList("charge.listCharge");
         return chargeList;

@@ -13,11 +13,14 @@ public class CustomerServiceDAO {
     @Autowired
     SqlSessionTemplate my;
     
+    
+    /* 문의 답변 등록 */
     public int replyRegister(CustomerServiceVO bag) {
         int result = my.insert("cs.reply", bag);
         return result;
     }
    
+    /* 문의 One + 조회수 증가 */
     public CustomerServiceVO one(int no) {
         CustomerServiceVO bag = my.selectOne("cs.one",no);
         my.update("cs.viewUpdate", no);

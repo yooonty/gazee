@@ -66,7 +66,7 @@
     </select>
 
     <!-- 검색 기능 -->
-    <select id="oneWhere" parameterType="java.util.Map" resultType="orderVO">
+    <select id="search" parameterType="java.util.Map" resultType="orderVO">
         SELECT *
         FROM tb_order
         WHERE ${searchType} = #{searchIndex}
