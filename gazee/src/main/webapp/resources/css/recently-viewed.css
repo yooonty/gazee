@@ -1,0 +1,49 @@
+@charset "UTF-8";
+#recentlyViewed_title {
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 35px;
+}
+
+.recentItemImage {
+	margin-right: 20px;
+}
+
+.recentViewTable {
+  border: 1px #a39485 solid;
+  font-size: .9em;
+  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+th, tr {
+  text-align: center;
+}
+  
+thead {
+  font-weight: bold;
+  color: #fff;
+  background: #693FAA;
+}
+
+td, th {
+  padding: 1em .5em;
+  vertical-align: middle;
+}
+td {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  background: #fff;
+}
+
+.pages {
+	width: 34px;
+	height: 34px;
+	background-color: white;
+	border: 1px solid rgb(204, 204, 204);
+	color: rgb(155, 153, 169);
+	cursor: pointer;
+}
