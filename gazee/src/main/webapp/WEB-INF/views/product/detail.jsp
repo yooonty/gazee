@@ -348,6 +348,9 @@ $(function() {
 				}
 			});
 		});
+		$('#reportStart').click(function() {
+			location.href = "../report/reportList?page=1&mode=1";
+		})
 	});
 	// 이미지 클릭 시 모달 창 열기
 	var mapTrigger = document.getElementsByClassName("map-trigger");
@@ -449,7 +452,7 @@ $(function() {
 				</c:if></td>
 		</tr>
 		<tr>
-			<td><%-- 원래${userProfileImg} --%>
+			<td>
 				<div id="seller_info"> <img src="http://zurvmfyklzsa17604146.cdn.ntruss.com/${userProfileImg}?type=f&w=50&h=50" style="width: 70px; height: 70px; border-radius: 20px;">
 				<div id="nickreport"> <div style="font-size: 20px; font-weight: bold;">${nickname}</div> 
 				<div style=" color: red;">신고횟수
