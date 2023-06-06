@@ -12,8 +12,6 @@ public class WithdrawVO {
 	private int requestedAmount;
 	private int commission;
 	private int totalAmount;
-	private int canceled;
-	private String cancelTransactionId;
 	
 	public int getNo() {
 		return no;
@@ -68,18 +66,6 @@ public class WithdrawVO {
 	}
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
-	}
-	public int getCanceled() {
-		return canceled;
-	}
-	public void setCanceled(int canceled) {
-		this.canceled = canceled;
-	}
-	public String getCancelTransactionId() {
-		return cancelTransactionId;
-	}
-	public void setCancelTransactionId(String cancelTransactionId) {
-		this.cancelTransactionId = cancelTransactionId;
 	}
 
 }

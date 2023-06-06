@@ -4,11 +4,13 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/task
-    	http://www.springframework.org/schema/task/spring-task.xsd">
+    	http://www.springframework.org/schema/task/spring-task.xsd
+    	http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -37,4 +39,13 @@
 	<task:annotation-driven/>
 
 	<context:component-scan base-package="com.multi.gazee" />
+	
+	<!-- 가지 챗봇 웹소켓 핸들러 등록 시작 -->
+	<websocket:handlers>
+		<websocket:mapping handler="chatBotHandler" path="/chat"/>
+	</websocket:handlers>
+	
+	<beans:bean id="chatBotHandler" class="com.multi.gazee.chatBot.ChatBotWebSocketHandler"></beans:bean>
+	<!-- 가지챗봇 웹소켓 핸들러 등록 끝 -->
+
 </beans:beans>

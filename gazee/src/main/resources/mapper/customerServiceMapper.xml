@@ -1,4 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="customerService">
+<mapper namespace="cs">
+
+
+    <insert id="register" parameterType="customerServiceVO" useGeneratedKeys="true" keyProperty= "csId">
+		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary) 
+		values (#{csTitle}, 
+				#{csContent},
+				#{csWriter},
+				#{csCategory},
+				#{temporary})
+	</insert>
+	
+	<delete id="del"  parameterType="customerServiceVO">
+		delete from customer_service where cs_id = #{csId}
+	</delete>
+	
+	<update id="up"  parameterType="customerServiceVO">
+		update customer_service 
+		set 
+		cs_title= #{csTitle}, cs_content =#{csContent}, cs_category = #{csCategory}, `temporary`=1
+		where cs_id = #{csId}
+	</update>
+	
+	<select id="one" parameterType="Integer" resultType="customerServiceVO">
+		select * from customer_service
+		where cs_id =#{csId}
+	</select>
+	
+	<update id="viewUpdate" parameterType="Integer">
+		update customer_service set cs_view= cs_view + 1
+		where cs_id =#{csId}
+	</update>
+	
+	<select id="all"  parameterType="pageVO" resultType="customerServiceVO">
+		select * 
+		from (
+		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.* 
+		from customer_service cs
+		where cs.temporary = 1) cs2 
+		where (cs2.cs_no between #{start} and #{end}) 
+	</select>
+	
+	<select id="category" parameterType="Map" resultType="customerServiceVO">
+		select * from (
+		select ROW_NUMBER() over(order by cs_id desc)as cs_no, cs.*
+		from customer_service cs 
+		where cs.cs_category=#{category1} and cs.temporary=1) cs2
+		where cs2.cs_no between #{start} and #{end}
+	</select>
+	
+	<select id="count" resultType="Integer">
+		select count(*) from customer_service cs
+		where cs.temporary =1
+	</select>
+	
+	<select id="countCategory" parameterType="String" resultType="Integer">
+		select count(*) from customer_service
+		where cs_category=#{category1} and temporary=1
+	</select>
+	
+	<select id="countSearch" parameterType="String" resultType="Integer">
+		select count(*) from customer_service
+		where cs_writer = #{search1} and temporary=1
+	</select>
+	
+	<select id="list2" resultType="customerServiceVO" parameterType="pageVO">
+		select *
+		from (
+		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
+		from customer_service cs
+		where cs.temporary=1) cs2
+		where cs2.cs_no between #{start} and #{end} 
+	</select>
+	
+	<select id="searchAll" resultType="customerServiceVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by cs_id desc) as cs_no, cs.*
+		from customer_service cs
+		where cs.cs_writer = #{search1} and cs.temporary=1) cs2
+		where cs2.cs_no between #{start} and #{end}
+	</select>
+
+	<select id="checkTemporaryCs" resultType="customerServiceVO" parameterType="customerServiceVO">
+		select * from customer_service where cs_Writer= #{csWriter} and `temporary`= 0
+	</select>
+
 </mapper>

@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="customerServiceImg">
+<mapper namespace="csImg">
+	<insert id="csImgUpload" parameterType="customerServiceImgVO" >
+		insert into customer_service_img(cs_id, cs_img_name, cs_img_order) 
+		values (#{csId}, 
+				#{csImgName},
+				#{csImgOrder})
+	</insert>
+	
+	<select id="csImgList" resultType="customerServiceImgVO" parameterType="Integer">
+		select * from customer_service_img
+		where cs_id=#{csId}
+	</select>
+	
+	<delete id="csImgDel"  parameterType="Integer">
+		delete from customer_service_img where cs_id = #{csId}
+	</delete>
 </mapper>
