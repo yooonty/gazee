@@ -214,7 +214,7 @@ $(function() {
 						</div>
 						<div class="input_signUp">
 							<label class="nametag">전화번호<span class="star">*</span></label>
-							<input type="text" id="tel" class="form-control" placeholder="전화번호">
+							<input type="text" id="tel" class="form-control" placeholder="전화번호" min="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<input type="hidden" id ="TelCheck"/>
 						</div>
 						<div class="input_signUp">
