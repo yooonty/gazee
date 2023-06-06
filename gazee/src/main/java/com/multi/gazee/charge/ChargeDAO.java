@@ -13,5 +13,10 @@ public class ChargeDAO {
 	public int insert(ChargeVO charge) {
 		return my.insert("charge.insert", charge);
 	}
-	
+	public int update(String transactionId) {
+		return my.update("charge.update", transactionId);
+	}
+	public ChargeVO select(String transactionId) {
+		return my.selectOne("charge.select", transactionId);
+	}
 }

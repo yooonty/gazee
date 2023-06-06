@@ -6,4 +6,13 @@ INSERT INTO gazee.charge
 (transaction_id, member_id, transaction_time, pay_method, amount, cancel_transaction_id)
 VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{payMethod}, #{amount}, #{cancelTransactionId});
 </insert>
+<update id="update" parameterType="String">
+UPDATE charge
+SET canceled=1
+WHERE transaction_id=#{transactionId};
+</update>
+<select id="select" parameterType="String" resultType="chargeVO">
+SELECT * FROM charge
+WHERE transaction_id=#{cancelTransactionId}
+</select>
 </mapper>
