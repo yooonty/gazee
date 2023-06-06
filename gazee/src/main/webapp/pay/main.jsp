@@ -153,7 +153,7 @@ $(function() {
 					totalAmount : totalAmount	
 				},
 				success : function(x) {
-					alert("출금이 완료됐습니다." + x)
+					alert("환급이 완료됐습니다." + x)
 				}
 			})
 			window.location.reload();
