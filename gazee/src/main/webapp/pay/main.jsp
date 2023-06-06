@@ -189,9 +189,13 @@ $(function() {
 </script>
 </head>
 <body>
+<div id="wrap">
+<div id="header">
 <jsp:include page="../home/Header.jsp" flush="true"/>
+</div>
 <jsp:include page="charge.jsp" flush="true"/>
-		<div class="main">
+<div id="content_wrap">
+<div id="content">
 			<div class="pay">
 				<div class="state">
 					<div class="balance">
@@ -223,13 +227,6 @@ $(function() {
 				<div id="transaction-record-table">
 				</div>
 			</div>
-			
-			
-			
-		</div><!-- main -->
-		
-<jsp:include page="../home/Footer.jsp" flush="true"/>
-
 <!-- 모달창 -->
 	<!-- 환급 모달창 -->			
 	<div class="withdraw modal">
@@ -303,6 +300,11 @@ $(function() {
 
 		</div>
 	</div>
+	</div>
+	</div>
+			<jsp:include page="../home/Footer.jsp" flush="true"/>
+		</div>
+
 </body>
 
 </html>
