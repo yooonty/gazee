@@ -207,30 +207,20 @@ $(function() {
 			</div>
 			
 			<div class="record">
-				<div class="btn-record-group">
-					<button id="total" class="not-clicked">전체</button><br>
-					<button id="charge"  class="not-clicked">충전</button><br>
-					<button id="buy"  class="not-clicked">거래</button><br>
-					<button id="withdraw" class="not-clicked">출금</button>
+				<div class="record-box">
+				<div class="title-record">사용 내역</div>
+				<div class="date-box">
+					<span class="text-date-select">조회 기간</span>
+					<div class="date-start"><input type="date" class="input-date-start"></div>
+					<span class="dash">-</span>
+					<div class="date-end"><input type="date" class="input-date-end"></div>
+					<span><button class="btn-date-search">조회</button></span>
 				</div>
-				<div class="table">
-					<table>
-						<tr class="title">
-							<td class="date">날짜</td>
-							<td class="trans">비고</td>
-							<td class="price">금액</td>
-						</tr>
-						<tr>
-						<td class="date">2023-05-17 03:04:11</td>
-						<td class="trans">충전</td>
-						<td class="price number">20000</td>
-						</tr>
-						<tr>
-						<td class="date">2023-05-16 13:04:11</td>
-						<td class="trans">환급</td>
-						<td class="price number">50000</td>
-						</tr>
-					</table>
+				</div>
+				<div class="text-date-limit">
+				최대 3년 전까지 내역만 조회 가능합니다.
+				</div>
+				<div id="transaction-record-table">
 				</div>
 			</div>
 			
