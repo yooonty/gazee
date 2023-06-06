@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+body {
+    background: #f2f7f9;
+}
+
+#admin_menu_container {
+    position: relative ;
+    width: 80%;
+    height: 80%;
+    margin: 20px;
+    padding: 20px;
+    padding-top: 0px;
+    display: flex;
+    background: #ffffff;
+}
+
+.paging {
+    width: 20px;
+    height: 20px;
+    font-size: 1.0rem;
+}
+
+.active {
+    background: #693faa;
+    color: white;
+    width: 20px;
+    height: 20px;
+    font-size: 1.0rem;
+}
+
+.details{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    padding-top: 0px;
+    grid-gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.details .recentOrders{
+    position: relative;
+    background: #fff;
+    padding: 20px;
+}
+
+.details .recentOrders tr{
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.details .recentOrders table tbody tr:last-child{
+    border-bottom: none;
+}
+.details .recentOrders table tbody tr:hover{
+    background: #c3a7ef;
+    color: #fff;
+}
+.details .recentOrders table tbody tr td{
+    padding: 10px 0 10px 0;
+}
+.details .recentOrders table tbody tr td:nth-child(2) ,
+.details .recentOrders table thead tr td:nth-child(2){
+    text-align: right;
+    padding-right: 20px;
+}
+.details .recentOrders table tbody tr td:nth-child(3) ,
+.details .recentOrders table thead tr td:nth-child(3){
+    text-align: center;
+}
+
+@media (max-width:480px) {
+    .details .recentOrders {
+        overflow-x: auto;
+    }
+
+    .details .recentOrders table {
+        width: 600px;
+    }
+}

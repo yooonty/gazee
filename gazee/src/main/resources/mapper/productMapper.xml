@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+
+    <!-- ALL -->
+    <select id="all" resultType="productVO">
+        SELECT *
+        FROM product
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="productVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY product_id) AS product_id, saved_time, product_name, member_id, price, product_views
+              FROM product p) p2
+        WHERE p2.product_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 등록 된 상품 갯수 카운트 -->
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM product
+    </select>
+
+    <!-- 오늘 등록 된 상품 Read -->
+    <select id="listProductToday" resultType="productVO">
+        SELECT *
+        FROM product WHERE DATE(saved_time) = CURDATE();
+    </select>
+
+    <!-- Member ID로 상품 정보 Read -->
+    <select id="productOneById" parameterType="String" resultType="productVO">
+        SELECT *
+        FROM product
+        WHERE member_id = #{id}
+    </select>
+
+    <!-- 검색 기능 -->
+    <select id="search" parameterType="java.util.Map" resultType="productVO">
+        SELECT *
+        FROM product
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+
+    <!-- Order의 order_id로 해당 주문의 판매상품 가격 Read -->
+    <select id="priceByOrderNo" parameterType="int" resultType="int">
+        SELECT price
+        FROM tb_order o JOIN product p ON o.product_id = p.product_id
+        WHERE p.product_id = #{productId};
+    </select>
+
+</mapper>

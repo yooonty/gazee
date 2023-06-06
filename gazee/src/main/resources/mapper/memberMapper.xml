@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+    <!-- ALL -->
+    <select id="all" resultType="memberVO">
+        SELECT *
+        FROM member
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="memberVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS no, id, name, nickname, email, join_date
+              FROM member m
+              WHERE m.user_level = 1) m2
+        WHERE m2.no BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM member
+    </select>
+
+    <!-- 관리자 제외 일반 회원 ALL -->
+    <select id="allExceptAdmin" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE user_level = 1
+    </select>
+
+    <!-- 관리자 계정 SELECT -->
+    <select id="readAdmin" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE user_level = 0
+    </select>
+
+    <!-- Email 검색으로 PW 변경 -->
+    <update id="updatePw">
+        UPDATE member
+        SET pw = #{pw}
+        WHERE email = #{email}
+    </update>
+
+    <!-- Email로 회원 검색 -->
+    <select id="checkAdmin" parameterType="String" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE email = #{email}
+    </select>
+
+    <!-- ID로 회원 검색-->
+    <select id="one" parameterType="String" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE id = #{id}
+    </select>
+
+    <!-- 관리자 페이지 내 검색창 -->
+    <select id="search" parameterType="java.util.Map" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+
+    <!-- 정지 회원 검색 -->
+    <select id="suspended" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE status = '정지'
+    </select>
+
+    <!-- 회원의 출금 계좌와 은행 Read -->
+    <select id="listBankAccount" parameterType="String" resultType="memberVO">
+        SELECT bank, account
+        FROM member
+        WHERE id = #{id}
+    </select>
+
+    <!-- 이번 주 새로 가입한 멤버 -->
+    <select id="newMemberThisWeek" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE join_date BETWEEN DATE_ADD(NOW(), INTERVAL -1 WEEK ) AND NOW()
+    </select>
+
+    <!-- 최근 한달 간 가입한 멤버 -->
+    <select id="memberOfPastThirtyDays" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE join_date > DATE_SUB(NOW(), INTERVAL 30 DAY)
+    </select>
+
+    <!-- 제재 대상 회원 목록 (누적 신고 횟수가 3, 5, 7 이면서 상태가 '정상'인 회원) -->
+    <select id="needPenaltyList" resultType="memberVO">
+        SELECT *
+        FROM member
+        WHERE id IN (SELECT member_id
+                     FROM report_count
+                     WHERE count IN (3, 5, 7))
+          AND status = '정상';
+    </select>
+
+    <!-- 제재 실행 -->
+    <update id="executeSuspension" parameterType="String">
+        UPDATE member
+        SET status = '정지'
+        WHERE id = #{memberId}
+    </update>
+
+    <!-- 제재 해제 -->
+    <update id="releaseSuspension" parameterType="String">
+        UPDATE member
+        SET status = '정상'
+        WHERE id = #{memberId}
+    </update>
+
+</mapper>

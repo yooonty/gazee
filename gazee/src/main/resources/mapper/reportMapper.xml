@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+
+    <!-- 신고 글 등록 -->
+    <insert id="register" parameterType="reportVO">
+        insert into report(report_title, report_content, report_writer, report_category, report_secret, temporary)
+        values (#{reportTitle},
+                #{reportContent},
+                #{reportWriter},
+                #{reportCategory},
+                #{reportSecret},
+                #{temporary})
+    </insert>
+
+    <!-- 답변 등록 -->
+    <update id="reply" parameterType="reportVO">
+        update report
+        SET report_reply= #{reportReply}
+        WHERE report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 삭제 -->
+    <delete id="del" parameterType="reportVO">
+        delete
+        from report
+        where report_id = #{reportId}
+    </delete>
+
+    <!-- 신고글 제목 수정 -->
+    <update id="up" parameterType="reportVO">
+        update report
+        set reportTitle= #{reportTitle}
+        where report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 상세 -->
+    <select id="one" parameterType="Integer" resultType="reportVO">
+        select *
+        from report
+        where report_id = #{reportId}
+    </select>
+
+    <!-- 신고글 조회수 UP -->
+    <update id="viewUpdate" parameterType="Integer">
+        update report
+        set report_view= report_view + 1
+        where report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 전체 Read (non페이징) -->
+    <select id="nonPagedList" resultType="reportVO">
+        select * from report
+    </select>
+
+    <!-- 신고글 전체 Read (페이징) -->
+    <select id="pagedList" resultType="reportVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY report_id) AS paged_report_id, report_id, report_category, report_writer, report_title, report_date
+              FROM report r WHERE temporary = 1) r2
+        WHERE r2.paged_report_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 답변이 필요한 신고글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="reportVO">
+        select *
+        from report
+        WHERE report_reply IS NULL
+    </select>
+
+    <!--  답변이 필요한 신고글 불러오기 (페이징) -->
+    <select id="pagedNeedReply" resultType="reportVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY report_id) AS paged_report_id, report_id, report_category, report_writer, report_title, report_date
+              FROM report r WHERE report_reply IS NULL) r2
+        WHERE r2.paged_report_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="countPagedNeedReply" resultType="Integer">
+        SELECT count(*) FROM customer_service WHERE cs_reply IS NULL
+    </select>
+
+    <select id="category" parameterType="Map" resultType="reportVO">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc)as report_no, r.*
+              from report r
+              where r.report_category = #{category1}) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+
+    <!-- 작성 된 신고글 갯수 카운트 -->
+    <select id="count" resultType="Integer">
+        select count(*)
+        from report where temporary = 1
+    </select>
+
+    <select id="countCategory" parameterType="String" resultType="Integer">
+        select count(*)
+        from report
+        where report_category = #{category1}
+    </select>
+
+    <select id="countSearch" parameterType="String" resultType="Integer">
+        select count(*)
+        from report
+        where report_title like concat('%', #{search1}, '%')
+    </select>
+
+    <!-- 관리자 신고글 리스트 (페이징) -->
+    <select id="searchAll" resultType="reportVO" parameterType="Map">
+        select *
+        from (select ROW_NUMBER() over(order by report_id desc) as report_no, r.*
+              from report r
+              where r.report_title like concat('%', #{search1}, '%')) r2
+        where r2.report_no between #{start} and #{end}
+    </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+
+    <!-- ALL -->
+    <select id="listOrder" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+    </select>
+
+    <!-- 최근 10건의 거래 -->
+    <select id="recent" resultType="orderVO">
+        SELECT * FROM tb_order
+        ORDER BY no DESC
+            LIMIT 10;
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedAll" resultType="orderVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS no, seller_id, buyer_id, seller_confirm, buyer_confirm, transaction_id
+              FROM tb_order o WHERE complete_status = 1 AND set_status = 0) o2
+        WHERE o2.no BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT count(*) FROM tb_order where complete_status = 1 AND set_status = 0
+    </select>
+
+
+    <!-- 정산이 필요한 거래 Read -->
+    <select id="listOrderNeedToSet" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+        WHERE seller_confirm = 1
+          AND buyer_confirm = 1
+          AND set_status = 0
+    </select>
+
+    <!-- 진행 중인 거래 Read -->
+    <select id="listOrderInProgress" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+        WHERE set_status = 0
+    </select>
+
+    <!-- 정산 상태 업데이트 -->
+    <update id="updateSetStatus" parameterType="int">
+        UPDATE tb_order
+        SET set_status = 1
+        WHERE product_id = #{id}
+    </update>
+
+    <!-- 정산 완료 된 거래 Read -->
+    <select id="listOrderFinished" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+        WHERE set_status = 1
+    </select>
+
+    <!-- 총 거래량(금액) -->
+    <select id="sumTotalTrading" resultType="int">
+        SELECT SUM(p.price) AS total_trading
+        FROM tb_order o JOIN product p ON o.product_id = p.product_id
+        WHERE o.set_status = 1;
+    </select>
+
+    <!-- 검색 기능 -->
+    <select id="search" parameterType="java.util.Map" resultType="orderVO">
+        SELECT *
+        FROM tb_order
+        WHERE ${searchType} = #{searchIndex}
+    </select>
+</mapper>
