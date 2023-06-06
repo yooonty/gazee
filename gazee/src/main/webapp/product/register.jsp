@@ -44,6 +44,7 @@
 	
 	$(function() {
 		var sessionId = "<%= session.getAttribute("id") %>";
+		var fileInput = $("#uploadForm input[type='file']")[0];
 		
 		function uploadFiles() {
 			var formData = new FormData($("#uploadForm")[0]);
@@ -118,7 +119,9 @@
 				alert("필수값을 입력해주세요.")
 			}else if(save == 1 && dealDirect==0 && dealDelivery==0){
 				alert("거래방식을 정해주세요.")
-			}
+			}else if(fileInput.files.length === 0) {
+		        alert("사진을 등록해주세요.");
+		    }
 			else{
 				$.ajax({
 					url : "register",
@@ -135,9 +138,8 @@
 						temporary : save
 					},
 					success : function(x) {
-						
+						uploadFiles();
 						if(save==1) {
-							uploadFiles();
 							alert("판매글을 등록했습니다.")
 						}else if(save==0) {
 							alert("글을 임시저장했습니다.")
