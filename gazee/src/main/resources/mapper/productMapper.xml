@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+
+	<select id="best" resultType="productVO">
+		select *
+		from product
+		where product_views >= 100
+		limit 5
+	</select>
+
+	<select id="userBest" resultType="ProductVO" parameterType="String">
+		select * from product 
+		where category = (select category from 
+		(select category , count(*) as category_count
+		from recently_viewed rv, product p
+		where rv.member_id = #{memberId} and rv.product_id = p.product_id
+		group by category) as result
+		order by category_count desc
+		limit 1)
+		limit 5
+	</select>
+	
+	<select id="wekaBest" resultType="productVO" parameterType="String">
+		select *
+		from product
+		where category = #{category}
+		limit 5
+	</select>
+	
+	<select id="searchAll" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where product_name like concat('%', #{search}, '%')) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+
+	<select id="searchAllOnSale" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where product_name like concat('%', #{search}, '%') and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+
+	<select id="categoryAll" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where category = #{category}) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+
+	<select id="categoryAllOnSale" resultType="productVO"  parameterType="Map">
+		select * from (
+		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
+		from product p
+		where category = #{category} and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)) product2
+		where product2.product_no between #{start} and #{end}
+	</select>
+	
+	<select id="countSearch" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where product_name like concat('%', #{search}, '%')
+	</select>
+
+	<select id="countSearchOnSale" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where product_name like concat('%', #{search}, '%') and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)
+	</select>
+
+	<select id="countCategory" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where category = #{category}
+	</select>
+
+	<select id="countCategoryOnSale" resultType="Integer" parameterType="String">
+		select count(*) from product
+		where category = #{category} and product_id not in 
+		(select product_id 
+		from tb_order to2 
+		where complete_status = 1)
+	</select>
+
+	<update id="viewsCount" parameterType="Integer">
+		update product 
+		set product_views = product_views + 1
+		where product_id = #{productId}
+	</update>
+	
+	<insert id="register" parameterType="productVO">
+		INSERT INTO product
+		(member_id, category, product_name, product_content, price, deal_direct,
+		`direct_address(x)`, `direct_address(y)`, deal_delivery,
+		product_views, temporary, `saved_time`)
+		VALUES(#{memberId}, #{category}, #{productName}, #{productContent}, #{price},
+		#{dealDirect}, #{directAddressx}, #{directAddressy}, #{dealDelivery},
+		0, #{temporary}, #{savedTime});
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
