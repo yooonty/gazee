@@ -9,19 +9,15 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Component;
 
-
-//스프링에 dao는 싱글톤으로 하나만 만들어서 사용할게!라고 설정해야함.
-//2가지 방법으로 할 수 있음.
-//어노테이션(표시)방법, xml방법
 @Component
-public class ProductDAO { // DAO는 테이블 당 하나씩
+public class ProductDAO {
 	
-	//MyBatis부품!
 	@Autowired
-	SqlSessionTemplate my;
-	
+    SqlSessionTemplate my;
 	
 	public List<ProductVO> best() {
 		List<ProductVO> list = my.selectList("product.best");
@@ -74,12 +70,34 @@ public class ProductDAO { // DAO는 테이블 당 하나씩
 		return my.update("product.viewsCount", productId);
 	}
 	
-	/* 판매하기 */
+	public ProductVO productone(int productId) {
+		ProductVO bag = my.selectOne("product.productOne", productId);
+		return bag;
+	}
+	
+	public int sellTimeUpdate(int productId) {
+		int result = my.update("product.sellTimeUpdate", productId);
+		return result;
+	}
+	
+	public int sellTimeDelete(int productId) {
+		int result = my.update("product.sellTimeDelete", productId);
+		return result;
+	}
+	
+	public ProductVO productDetail(int productId) {
+		ProductVO bag = my.selectOne("product.productDetail",productId);
+		return bag;
+	}
+	
+	public List<ProductVO> list() {
+		List<ProductVO> list = my.selectList("product.all");
+		return list;
+	}
+	
 	public int register(ProductVO product) {
-		//product.setSavedTime(Timestamp.valueOf(LocalDateTime.now()));
 		product.setSavedTime(getTime());
 		int result = my.insert("product.register", product);
-		System.out.println("myBatis 처리, DAO 완료");
 		return result;
 	}
 	
@@ -96,7 +114,17 @@ public class ProductDAO { // DAO는 테이블 당 하나씩
 		
 		return timestamp;
 	}
+	public void productUpdate(ProductVO product) {
+		product.setSavedTime(getTime());
+		my.update("product.productUpdate", product);
+	}
 	
-	/* 상세페이지 */
+	public void productDelete(ProductVO product) {
+		my.delete("product.productDelete", product);
+	}
+	public ProductVO checkTemporaryProduct (ProductVO product) {
+		ProductVO bag = my.selectOne("product.checkTemporaryProduct",product);
+		return bag;
+	}
 
 }

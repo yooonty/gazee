@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.productImage.ProductImageDAO;
 import com.multi.gazee.productImage.ProductImageVO;
+import com.multi.gazee.productLikes.ProductLikesDAO;
+import com.multi.gazee.service.ProductService;
 import com.multi.gazee.transactionHistory.TransactionHistoryDAO;
 import com.multi.gazee.weka.WekaRecommendService;
 
@@ -34,6 +36,12 @@ public class ProductController {
 
 	@Autowired
 	TransactionHistoryDAO dao4;
+	
+	@Autowired
+	ProductLikesDAO like;
+	
+	@Autowired
+	ProductService service;
 
 	@RequestMapping("product/best")
 	public String best(Model model) {
@@ -273,16 +281,68 @@ public class ProductController {
 		return "product/productList";
 	}
 	
-	/* 판매하기 */
+	@RequestMapping("product/detail")
+	public void productDetail(HttpSession session, Model model, int productId) {
+		service.productDetail(model, productId);
+	}
+
+	@RequestMapping("product/detail_owner")
+	public void productDetailOwner(HttpSession session, Model model, int productId) {
+		service.productDetail(model, productId);
+	}
+
+	@RequestMapping("product/list")
+	public void list(Model model) {
+		service.productList(model);
+	}
+	
+	@RequestMapping("product/imgslide")
+	public void imgslide(Model model, int productId) {
+		service.productImgSlide(model, productId);
+	}
+
 	@RequestMapping("product/register")
 	public void productRegister(HttpSession session, ProductVO product, HttpServletResponse response) {
-		System.out.println("product/register 호출" + product);
-		int result = dao.register(product);
-		if (result == 1) {
-			response.setStatus(HttpServletResponse.SC_OK);
-		} else {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
+		service.productRegister(session, product, response);
+	}
+	
+	@RequestMapping("product/productUpdate") // product수정
+	public void productUpdate(HttpSession session, Model model, ProductVO bag, int productId) {
+		service.productUpdate(bag);
+	}
+
+	@RequestMapping("product/productUpdateSel") // product수정
+	public void productUpdateSel(HttpSession session, Model model, ProductVO bag, int productId) {
+		service.productUpdateSelect(model, productId);
+	}
+
+	@RequestMapping("product/checkTemporaryProduct")
+	public void checkTemporaryProduct(HttpSession session, Model model, ProductVO bag) {
+		service.checkTemporaryProduct(model, bag);
+	}
+
+	@RequestMapping("product/productOne")
+	@ResponseBody
+	public ProductVO productOne(int productId) {
+		return service.productOne(productId);
+	}
+
+	@RequestMapping("product/sellTimeUpdate")
+	@ResponseBody
+	public int sellTimeUpdate(int productId) {
+		return service.sellTimeUpdate(productId);
+	}
+
+	@RequestMapping("product/sellTimeDelete")
+	@ResponseBody
+	public int sellTimeDelete(int productId) {
+		return service.sellTimeDelete(productId);
+	}
+
+	@RequestMapping("product/sellTimeCheck")
+	@ResponseBody
+	public ProductVO sellTimeCheck(int productId) {
+		return service.sellTimeCheck(productId);
 	}
 
 }
