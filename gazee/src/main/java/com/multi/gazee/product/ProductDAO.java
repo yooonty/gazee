@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductDAO {
-	
+
 	@Autowired
-    SqlSessionTemplate my;
+	SqlSessionTemplate my;
 	
 	public List<ProductVO> best() {
 		List<ProductVO> list = my.selectList("product.best");
@@ -70,7 +70,11 @@ public class ProductDAO {
 		return my.update("product.viewsCount", productId);
 	}
 	
-	public ProductVO productone(int productId) {
+	public String checkSeller(int productId) {
+		return my.selectOne("product.checkSeller",productId);
+	} 
+	
+	public ProductVO productOne(int productId) {
 		ProductVO bag = my.selectOne("product.productOne", productId);
 		return bag;
 	}
@@ -114,6 +118,7 @@ public class ProductDAO {
 		
 		return timestamp;
 	}
+	
 	public void productUpdate(ProductVO product) {
 		product.setSavedTime(getTime());
 		my.update("product.productUpdate", product);

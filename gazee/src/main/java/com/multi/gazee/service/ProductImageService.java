@@ -1,51 +1,26 @@
 package com.multi.gazee.service;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Service;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.util.IOUtils;
-@PropertySource("classpath:application.properties")
-@Service
-public class ProductImageService {
-	
+import com.multi.gazee.product.ProductVO;
+import com.multi.gazee.productImage.ProductImageVO;
+import com.multi.gazee.productLikes.ProductLikesVO;
 
-	@Autowired
-	private AmazonS3 s3Client;
+public interface ProductImageService {
 	
-	@Value("${productImgbucketName}")
-    private String bucketName;
+	String uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException;
 	
+	void uploadMultipleFileHandler(List<MultipartFile> multiFileList, ProductImageVO productImage, HttpSession session);
 	
-	public String uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException {
-		// content length 설정
-	    ObjectMetadata metadata = new ObjectMetadata();
-		String filePath = storedFileName;
-		byte[] bytes = IOUtils.toByteArray(multipartFile.getInputStream());
-		metadata.setContentLength(bytes.length);
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-		
-		// 1. bucket name, 2. key : full path to the file 3. file : new File로 생성한 file instance  
-		// 2. PutObjectRequest로 구현 가능 
-		s3Client.putObject(new PutObjectRequest(bucketName, filePath, byteArrayInputStream, metadata));
-		
-		return s3Client.getUrl(bucketName, filePath).toString();
-	}
-
-	public void deleteObject( String storedFileName) throws AmazonServiceException {
-		s3Client.deleteObject(new DeleteObjectRequest(bucketName , storedFileName));
-	}
-
+	void productImageDelete(int productId, Model model, ProductVO bag, ProductLikesVO likebag);
+	
+	String productImageThumbnail(int productId);
 }
 
 

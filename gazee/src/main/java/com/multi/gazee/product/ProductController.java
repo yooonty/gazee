@@ -81,12 +81,12 @@ public class ProductController {
 
 	@RequestMapping("product/wekaBest")
 	public String weka(String memberId, WekaRecommendService wekaRecommendService, Model model) throws Exception {
-		MemberVO vo = dao3.one(memberId);
+		MemberVO vo = dao3.selectOne(memberId);
 		Date now = new Date(); // 올해
 		Date birth = vo.getBirth(); // 태어난 해
 		int age = (now.getYear() - birth.getYear()); // 나이 계산
 		int gender = vo.getGender().equals("남성") ? 1 : 0; // 0은 여성, 1은 남성
-		int seed = dao4.checkBalance(memberId); // 회원의 보유잔액
+		int seed = dao4.select(memberId); // 회원의 보유잔액
 		double[] values = { age, gender, seed / 100 };
 		String category = wekaRecommendService.ml(values);
 		System.out.println("weka에게 추천받은 카테고리: " + category);
