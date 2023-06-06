@@ -22,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductDAO Pdao;
     
+    @Override
     public String searchProduct(String searchType, String searchIndex, Model model) throws Exception {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("searchType", searchType);
@@ -33,4 +34,3 @@ public class ProductServiceImpl implements ProductService {
         return "../admin/adminProductSearch";
     }
 }
-

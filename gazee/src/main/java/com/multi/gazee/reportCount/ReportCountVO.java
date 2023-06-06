@@ -28,11 +28,4 @@ public class ReportCountVO {
     public void setCount(int count) {
         this.count = count;
     }
-    
-    @Override
-    public String toString() {
-        return "ReportCountVO [no=" + no + ", memberId=" + memberId + ", count=" + count + "]";
-    }
-    
-    
 }

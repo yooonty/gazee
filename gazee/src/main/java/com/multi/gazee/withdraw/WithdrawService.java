@@ -3,8 +3,16 @@ package com.multi.gazee.withdraw;
 import org.springframework.ui.Model;
 
 public interface WithdrawService {
-    String searchWithdraw(String searchType, String searchIndex, Model model) throws Exception;
-    String searchBalance(String memberId, Model model) throws Exception;
-    String getBalanceList(Model model) throws Exception;
+    
+    /* ADMIN  출금 목록 */
     String getWithdrawList(Model model) throws Exception;
+    
+    /* ADMIN 출금 검색 */
+    String searchWithdraw(String searchType, String searchIndex, Model model) throws Exception;
+    
+    /* ADMIN 잔액 READ */
+    String searchBalance(String memberId, Model model) throws Exception;
+    
+    /* ADMIN 회원별 잔액 목록 */
+    String getBalanceList(Model model) throws Exception;
 }

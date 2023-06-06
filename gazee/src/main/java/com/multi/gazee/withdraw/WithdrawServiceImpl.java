@@ -24,17 +24,27 @@ public class WithdrawServiceImpl implements WithdrawService {
     @Autowired
     TransactionHistoryDAO Tdao;
     
+    @Override
+    public String getWithdrawList(Model model) {
+        List<WithdrawVO> withdrawList = Wdao.listWithdraw();
+        model.addAttribute("withdrawList", withdrawList);
+        
+        return "../admin/adminMoneyWithdrawList";
+    }
+    
+    @Override
     public String searchWithdraw(String searchType, String searchIndex, Model model) throws Exception {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("searchType", searchType);
         parameterMap.put("searchIndex", searchIndex);
         
-        List<WithdrawVO> oneWhereList = Wdao.oneWhere(parameterMap);
+        List<WithdrawVO> oneWhereList = Wdao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
         return "../admin/adminMoneyWithdrawSearch";
     }
     
+    @Override
     public String searchBalance(String memberId, Model model) throws Exception {
         int balance = Tdao.getBalance(memberId);
         model.addAttribute("memberId", memberId);
@@ -43,13 +53,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         return "../admin/adminMoneyBalanceSearch";
     }
     
-    public String getWithdrawList(Model model) {
-        List<WithdrawVO> withdrawList = Wdao.listWithdraw();
-        model.addAttribute("withdrawList", withdrawList);
-        
-        return "../admin/adminMoneyWithdrawList";
-    }
-    
+    @Override
     public String getBalanceList(Model model) {
         List<MemberVO> memberList = Mdao.listExceptAdmin();
         List<Integer> balanceList = new ArrayList<>();
@@ -64,4 +68,3 @@ public class WithdrawServiceImpl implements WithdrawService {
         return "../admin/adminMoneyBalanceList";
     }
 }
-

@@ -64,63 +64,83 @@ public class OrderVO {
 	public void setBuyerId(String buyerId) {
 		this.buyerId = buyerId;
 	}
+	
 	public int getSellerConfirm() {
 		return sellerConfirm;
 	}
+	
 	public void setSellerConfirm(int sellerConfirm) {
 		this.sellerConfirm = sellerConfirm;
 	}
+	
 	public int getBuyerConfirm() {
 		return buyerConfirm;
 	}
+	
 	public void setBuyerConfirm(int buyerConfirm) {
 		this.buyerConfirm = buyerConfirm;
 	}
+	
 	public int getCompleteStatus() {
 		return completeStatus;
 	}
+	
 	public void setCompleteStatus(int completeStatus) {
 		this.completeStatus = completeStatus;
 	}
+	
 	public int getSetStatus() {
 		return setStatus;
 	}
+	
 	public void setSetStatus(int setStatus) {
 		this.setStatus = setStatus;
 	}
+	
 	public Timestamp getPaymentTime() {
 		return paymentTime;
 	}
+	
 	public void setPaymentTime(Timestamp paymentTime) {
 		this.paymentTime = paymentTime;
 	}
+	
 	public String getTrackingNo() {
 		return trackingNo;
 	}
+	
 	public void setTrackingNo(String trackingNo) {
 		this.trackingNo = trackingNo;
 	}
+	
 	public String getDeliveryCom() {
 		return deliveryCom;
 	}
+	
 	public void setDeliveryCom(String deliveryCom) {
 		this.deliveryCom = deliveryCom;
 	}
+	
 	public String getAddress() {
 		return address;
 	}
+	
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
 	public int getCanceled() {
 		return canceled;
 	}
+	
 	public void setCanceled(int canceled) {
 		this.canceled = canceled;
 	}
+	
 	public String getCancelTransactionId() {
 		return cancelTransactionId;
 	}
+	
 	public void setCancelTransactionId(String cancelTransactionId) {
 		this.cancelTransactionId = cancelTransactionId;
 	}

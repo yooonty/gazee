@@ -27,16 +27,19 @@ public class MemberDAO {
 		int result = my.update("member.updatePw", vo);
 	}
 	
+	/* 전체 회원 목록 (non-페이징) */
 	public List<MemberVO> list() {
 		List<MemberVO> memberList = my.selectList("member.all");
 		return memberList;
 	}
 	
+	/* 전체 회원 목록 (페이징) */
 	public List<MemberVO> pagedList(PageVO pageVo) {
 		List<MemberVO> pagedMemberList = my.selectList("member.pagedAll", pageVo);
 		return pagedMemberList;
 	}
 	
+	/* 전체 회원 수*/
 	public int count() {
 		return my.selectOne("member.count");
 	}
@@ -99,4 +102,3 @@ public class MemberDAO {
 		my.update("member.releaseSuspension", memberId);
 	}
 }
-

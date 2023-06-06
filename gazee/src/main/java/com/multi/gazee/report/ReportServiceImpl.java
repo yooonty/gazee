@@ -21,6 +21,7 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     MemberDAO Mdao;
     
+    @Override
     public String getReportList(PageVO pageVo, int pageNumber, Model model) {
         List<ReportVO> reportList = Rdao.nonPagedList();
     
@@ -40,6 +41,7 @@ public class ReportServiceImpl implements ReportService {
         return "../admin/adminReportList";
     }
     
+    @Override
     public String reportOne(int id, Model model) {
         ReportVO reportOne = Rdao.one(id);
         String reportee = reportOne.getReportee();
@@ -51,6 +53,7 @@ public class ReportServiceImpl implements ReportService {
         return "../admin/adminReportOne";
     }
     
+    @Override
     public String reportReply(int reportId, String replyContent, Model model) {
         ReportVO vo = Rdao.one(reportId);
         vo.setReportReply(replyContent);

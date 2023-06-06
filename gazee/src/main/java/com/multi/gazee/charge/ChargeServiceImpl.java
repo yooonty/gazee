@@ -10,6 +10,7 @@ public class ChargeServiceImpl implements ChargeService {
     @Autowired
     ChargeDAO Cdao;
     
+    @Override
     public String getChargeList(Model model) {
         List<ChargeVO> chargeList = Cdao.listCharge();
         model.addAttribute("chargeList", chargeList);

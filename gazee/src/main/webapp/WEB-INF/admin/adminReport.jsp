@@ -168,7 +168,6 @@
                 <button class="paging" title="${page.index}" onclick="loadPage(${page.index})">${page.index}</button>
             </c:forEach>
         </div>
-
     </div>
 </div>
 </html>

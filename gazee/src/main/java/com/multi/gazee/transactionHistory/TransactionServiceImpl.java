@@ -92,6 +92,4 @@ public class TransactionServiceImpl implements TransactionService{
 		
 		return historyDAO.insert(transactionHistoryVO);
 	};
-	
-
 }

@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     ThirtyDaysScheduler thirtyDaysScheduler;
     
+    @Override
     public String getMemberList(PageVO pageVo, Model model) {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
@@ -70,6 +71,7 @@ public class MemberServiceImpl implements MemberService {
         return "../admin/adminMemberList";
     }
     
+    @Override
     public String getMemberThisWeekList(Model model) {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
@@ -88,6 +90,7 @@ public class MemberServiceImpl implements MemberService {
         return "../admin/adminMemberThisWeekList";
     }
     
+    @Override
     public String getMemberThisMonthList(Model model) {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
@@ -104,6 +107,7 @@ public class MemberServiceImpl implements MemberService {
         return "../admin/adminMemberThisMonthList";
     }
     
+    @Override
     public String getMemberSuspendedList(Model model) {
         List<MemberVO> memberList = Mdao.list();
         List<MemberVO> memberExceptAdminList = Mdao.listExceptAdmin();
@@ -120,6 +124,7 @@ public class MemberServiceImpl implements MemberService {
         return "../admin/adminMemberSuspendedList";
     }
     
+    @Override
     public String searchMember(String searchType, String searchIndex, Model model) throws Exception {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("searchType", searchType);
@@ -130,6 +135,7 @@ public class MemberServiceImpl implements MemberService {
         return "../admin/adminMemberSearch";
     }
     
+    @Override
     public String executeSuspension(String memberId, String period) throws Exception {
         if (period.equals("seven")) {
             Mdao.executeSuspension(memberId);
@@ -147,6 +153,7 @@ public class MemberServiceImpl implements MemberService {
         }
     }
     
+    @Override
     public String releaseSuspension(String reporteeId, String penaltyType) throws Exception {
         MemberVO vo = Mdao.one(reporteeId);
         String currentStatus = vo.getStatus();
@@ -158,4 +165,3 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 }
-

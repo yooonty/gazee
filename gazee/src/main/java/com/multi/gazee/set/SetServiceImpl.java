@@ -27,6 +27,7 @@ public class SetServiceImpl implements SetService {
     @Autowired
     TransactionService transactionService;
     
+    @Override
     public String settlement(int productId, String sellerId, String orderTransactionId) throws Exception{
         int price = Pdao.priceByOrderNo(productId);
         MemberVO memberVo = Mdao.one(sellerId);

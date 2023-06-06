@@ -14,12 +14,14 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
     @Autowired
     CustomerServiceDAO CSdao;
     
+    @Override
     public String csOne(int id, Model model) {
         CustomerServiceVO csOne = CSdao.one(id);
         model.addAttribute("csOne", csOne);
         return "../admin/adminCsOne";
     }
     
+    @Override
     public String getCsList(PageVO pageVo, int pageNumber, Model model) {
         List<CustomerServiceVO> csList = CSdao.nonPagedList();
         
@@ -39,6 +41,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
         return "../admin/adminCsList";
     }
     
+    @Override
     public String csReply(int csId, String replyContent) {
         CustomerServiceVO vo = CSdao.one(csId);
         vo.setCsReply(replyContent);

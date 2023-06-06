@@ -11,4 +11,3 @@ public class BcryptServiceImpl implements BcryptService {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
-

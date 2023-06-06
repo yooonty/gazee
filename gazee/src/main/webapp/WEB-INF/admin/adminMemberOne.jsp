@@ -45,27 +45,6 @@
             </tbody>
         </table>
     </div>
-   <%-- <div class="recentCustomers">
-        <div class="cardHeader">
-            <h2>신고 목록</h2>
-        </div>
-        <table>
-            <thead>
-            <tr>
-                <td>제목</td>
-                <td>작성자</td>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${reportList}" var="bag">
-                <tr>
-                    <td>${bag.reportTitle}</td>
-                    <td>${bag.reportWriter}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>--%>
 </div>
 </body>
 </html>
