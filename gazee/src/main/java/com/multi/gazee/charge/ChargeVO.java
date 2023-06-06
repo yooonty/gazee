@@ -9,6 +9,8 @@ public class ChargeVO {
 	private Timestamp transactionTime;
 	private int payMethod;
 	private int amount;
+	private int canceled;
+	private String cancelTransactionId;
 	
 	public int getNo() {
 		return no;
@@ -45,6 +47,18 @@ public class ChargeVO {
 	}
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+	public int getCanceled() {
+		return canceled;
+	}
+	public void setCanceled(int canceled) {
+		this.canceled = canceled;
+	}
+	public String getCancelTransactionId() {
+		return cancelTransactionId;
+	}
+	public void setCancelTransactionId(String cancelTransactionId) {
+		this.cancelTransactionId = cancelTransactionId;
 	}
 	
 }
