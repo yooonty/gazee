@@ -12,6 +12,7 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+	margin-top: 50px;
 }
 
 #chatList {
