@@ -11,13 +11,6 @@ $(function() {
 		location.href = "../recentlyViewed/recentlyViewedList.jsp"
 	})
 	
-	$(".btn_myChatlist").click(function() {
-		var sessionId = "<%= session.getAttribute("id") %>";
-		if (sessionId != null) {
-			location.href = "../chat/gazeeChat.jsp";
-		}
-	})
-	
 	/* 채팅 페이지 */
 	$(".btn_myChatlist").click(function() {
 		location.href = "../chat/gazeeChat.jsp";

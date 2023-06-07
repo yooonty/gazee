@@ -1,9 +1,5 @@
 package com.multi.gazee.product;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -13,336 +9,188 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.multi.gazee.member.MemberDAO;
-import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.productImage.ProductImageDAO;
-import com.multi.gazee.productImage.ProductImageVO;
 import com.multi.gazee.productLikes.ProductLikesDAO;
+import com.multi.gazee.reportCount.ReportCountDAO;
 import com.multi.gazee.service.ProductService;
-import com.multi.gazee.transactionHistory.TransactionHistoryDAO;
 import com.multi.gazee.weka.WekaRecommendService;
 
-@Controller // 스프링에서 제어하는 역할로 등록!
+@Controller
 public class ProductController {
-
-	@Autowired // 만들어둔 싱글톤 주소 넣어줌.
-	ProductDAO dao; // 전역변수(글로벌 변수)
-
+	
+	@Autowired
+	ProductDAO dao;
+	
 	@Autowired
 	ProductImageDAO dao2;
-
-	@Autowired
-	MemberDAO dao3;
-
-	@Autowired
-	TransactionHistoryDAO dao4;
 	
 	@Autowired
 	ProductLikesDAO like;
 	
 	@Autowired
+	ReportCountDAO dao3;
+	
+	@Autowired
 	ProductService service;
-
+	
+	/* 메인페이지 - 상품 추천 */
 	@RequestMapping("product/best")
-	public String best(Model model) {
-		List<ProductVO> list = dao.best();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		/*
-		 * System.out.println(list); System.out.println(list.size());
-		 */
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		/*
-		 * System.out.println(list2); System.out.println(list2.size());
-		 */
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("mode", 0);
-		return "product/productList";
+	public String best(Model model) throws Exception {
+		return service.best(model);
 	}
-
+	
+	/* 메인페이지 - 유저 맞춤 추천 */
 	@RequestMapping("product/userBest")
-	public String userBest(String memberId, Model model) {
-		List<ProductVO> list = dao.userBest(memberId);
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		System.out.println(list);
-		System.out.println(list.size());
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		System.out.println(list2);
-		System.out.println(list2.size());
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("mode", 1);
-		return "product/productList";
+	public String userBest(String memberId, Model model) throws Exception {
+		return service.userBest(memberId, model);
 	}
-
+	
+	/* 메인페이지 - AI 추천 */
 	@RequestMapping("product/wekaBest")
-	public String weka(String memberId, WekaRecommendService wekaRecommendService, Model model) throws Exception {
-		MemberVO vo = dao3.selectOne(memberId);
-		Date now = new Date(); // 올해
-		Date birth = vo.getBirth(); // 태어난 해
-		int age = (now.getYear() - birth.getYear()); // 나이 계산
-		int gender = vo.getGender().equals("남성") ? 1 : 0; // 0은 여성, 1은 남성
-		int seed = dao4.select(memberId); // 회원의 보유잔액
-		double[] values = { age, gender, seed / 100 };
-		String category = wekaRecommendService.ml(values);
-		System.out.println("weka에게 추천받은 카테고리: " + category);
-		List<ProductVO> list = dao.wekaBest(category);
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		/*
-		 * System.out.println(list); System.out.println(list.size());
-		 */
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		} // ml에 의해 추천받아온다.
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("mode", 2);
-
-		return "product/productList";
+	public String wekaBest(String memberId, WekaRecommendService wekaRecommendService, Model model) throws Exception {
+		return service.wekaBest(memberId, wekaRecommendService, model);
 	}
 
+	/* 메인페이지 - 전체 상품 검색 */
 	@RequestMapping("product/searchList")
 	public void searchList(PageVO vo, String search, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("search", search);
-		System.out.println(map);
-		List<ProductVO> list;
-		list = dao.searchAll(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		int count = dao.countSearch(search);
-		System.out.println("all count>> " + count);
-		int pages = count / vo.getNum() + 1; // 전체 페이지 개수 구하기
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
-		model.addAttribute("search", search);
+		service.searchList(vo, search, model);
 	}
-
+	
+	/* 메인페이지 - 상품 검색 페이징 */
 	@RequestMapping("product/productList")
 	public void productList(PageVO vo, String search, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("search", search);
-		System.out.println(map);
-		List<ProductVO> list = dao.searchAll(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
+		service.productList(vo, search, model);
 	}
-
+	
+	/* 메인페이지 - 상품 검색 페이징2 */
+	@RequestMapping("product/productList2")
+	public String productList2(PageVO vo, String category, Model model) throws Exception {
+		return service.productList2(vo, category, model);
+	}
+	
+	/* 메인페이지 - 카테고리 검색 */
 	@RequestMapping("product/categoryList")
 	public void categoryList(PageVO vo, String category, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("category", category);
-		System.out.println(map);
-		List<ProductVO> list = dao.categoryAll(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		int count = dao.countCategory(category);
-		System.out.println("all count>> " + count);
-		int pages = count / vo.getNum() + 1; // 전체 페이지 개수 구하기
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
-		model.addAttribute("category", category);
+		service.categoryList(vo, category, model);
 	}
-
-	@RequestMapping("product/productList2")
-	public String productList2(PageVO vo, String category, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("category", category);
-		System.out.println(map);
-		List<ProductVO> list = dao.categoryAll(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		return "product/productList";
-	}
-
+	
+	/* 메인페이지 - 조회수 증가 */
 	@RequestMapping("product/viewsCount")
 	public void viewsCount(int productId) {
-		int result = dao.viewsCount(productId);
-		if (result == 1) {
-			System.out.println("뷰 증가");
-		} else {
-			System.out.println("뷰 증가 에러");
-		}
+		service.viewCount(productId);
 	}
-
-	/* 판매중인 상품 */
+	
+	/* 메인페이지 - 판매 중인 상품 */
 	@RequestMapping("product/searchListOnSale")
 	public void searchListOnSale(PageVO vo, String search, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("search", search);
-		System.out.println(map);
-		List<ProductVO> list;
-		list = dao.searchAllOnSale(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		int count = dao.countSearchOnSale(search);
-		System.out.println("all count>> " + count);
-		int pages = count / vo.getNum() + 1; // 전체 페이지 개수 구하기
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
-		model.addAttribute("search", search);
+		service.searchListOnSale(vo, search, model);
 	}
 	
+	/* 메인페이지 - 판매 중인 상품 페이징 */
 	@RequestMapping("product/productListOnSale")
-	public String productListOnSale(PageVO vo, String search, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("search", search);
-		System.out.println(map);
-		List<ProductVO> list = dao.searchAllOnSale(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		return "product/productList";
+	public String productListOnSale(PageVO vo, String search, Model model) throws Exception {
+		return service.productListOnSale(vo, search, model);
 	}
-	
+
+	/* 메인페이지 - 카테고리 - 판매 중인 상품 */
 	@RequestMapping("product/categoryListOnSale")
 	public void categoryListOnSale(PageVO vo, String category, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("category", category);
-		System.out.println(map);
-		List<ProductVO> list = dao.categoryAllOnSale(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		int count = dao.countCategoryOnSale(category);
-		System.out.println("all count>> " + count);
-		int pages = count / vo.getNum() + 1; // 전체 페이지 개수 구하기
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
-		model.addAttribute("category", category);
+		service.categoryListOnSale(vo, category, model);
 	}
 	
+	/* 메인페이지 - 카테고리 - 판매 중인 상품 페이징 */
 	@RequestMapping("product/productListOnSale2")
-	public String productListOnSale2(PageVO vo, String category, Model model) {
-		vo.setStartEnd(vo.getPage());
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		List<ProductImageVO> list2 = new ArrayList<ProductImageVO>();
-		map.put("start", vo.getStart());
-		map.put("end", vo.getEnd());
-		map.put("category", category);
-		System.out.println(map);
-		List<ProductVO> list = dao.categoryAllOnSale(map);
-		for (int i = 0; i < list.size(); i++) {
-			list2.add(dao2.one(list.get(i).getProductId()));
-		}
-		model.addAttribute("list", list);
-		model.addAttribute("list2", list2);
-		return "product/productList";
+	public String productListOnSale2(PageVO vo, String category, Model model) throws Exception {
+		return service.productListOnSale2(vo, category, model);
 	}
 	
+	/* 상품판매자 확인 */
+	@RequestMapping("product/checkSeller")
+	@ResponseBody
+	public String checkSeller(int productId) throws Exception {
+		return service.checkSeller(productId);
+	}
+	
+	/* 상품 상세페이지 */
 	@RequestMapping("product/detail")
 	public void productDetail(HttpSession session, Model model, int productId) {
 		service.productDetail(model, productId);
 	}
 
+	/* 상품 상세페이지 - 작성자 */
 	@RequestMapping("product/detail_owner")
 	public void productDetailOwner(HttpSession session, Model model, int productId) {
 		service.productDetail(model, productId);
 	}
-
-	@RequestMapping("product/list")
-	public void list(Model model) {
-		service.productList(model);
+	
+	/* 상품 상세페이지 - 로그인 안한경우 */
+	@RequestMapping("product/detail_nomember")
+	public void productDetailNoMember(HttpSession session, Model model, int productId) {
+		service.productDetail(model, productId);
 	}
 	
+	/* 상품 상세페이지 - 이미지 슬라이드 */
 	@RequestMapping("product/imgslide")
 	public void imgslide(Model model, int productId) {
 		service.productImgSlide(model, productId);
 	}
 
+	/* 상품 상세페이지 - 판매하기 */
 	@RequestMapping("product/register")
 	public void productRegister(HttpSession session, ProductVO product, HttpServletResponse response) {
 		service.productRegister(session, product, response);
 	}
 	
-	@RequestMapping("product/productUpdate") // product수정
+	/* 상품 상세페이지 - 판매글 수정 */
+	@RequestMapping("product/productUpdate")
 	public void productUpdate(HttpSession session, Model model, ProductVO bag, int productId) {
 		service.productUpdate(bag);
 	}
+	
+	/* 상품 상세페이지 - 판매글 삭제 */
+	@RequestMapping("product/productDelete")
+	public void productDelete(HttpSession session, Model model, ProductVO bag) {
+		service.productDelete(bag);
+	}
 
-	@RequestMapping("product/productUpdateSel") // product수정
+	/* 상품 상세페이지 - 판매하기 */
+	@RequestMapping("product/productUpdateSel")
 	public void productUpdateSel(HttpSession session, Model model, ProductVO bag, int productId) {
 		service.productUpdateSelect(model, productId);
 	}
 
+	/* 상품 판매 - 임시저장 확인 */
 	@RequestMapping("product/checkTemporaryProduct")
 	public void checkTemporaryProduct(HttpSession session, Model model, ProductVO bag) {
 		service.checkTemporaryProduct(model, bag);
 	}
 
+	/* 상품 상세 정보 */
 	@RequestMapping("product/productOne")
 	@ResponseBody
 	public ProductVO productOne(int productId) {
 		return service.productOne(productId);
 	}
 
+	/* 채팅 페이지 - [판매하기] 시간 업데이트 */
 	@RequestMapping("product/sellTimeUpdate")
 	@ResponseBody
 	public int sellTimeUpdate(int productId) {
 		return service.sellTimeUpdate(productId);
 	}
 
+	/* 채팅 페이지 - [판매하기] 시간 초기화 */
 	@RequestMapping("product/sellTimeDelete")
 	@ResponseBody
 	public int sellTimeDelete(int productId) {
 		return service.sellTimeDelete(productId);
 	}
 
+	/* 채팅 페이지 - [판매하기] 버튼 클릭 여부 확인 */
 	@RequestMapping("product/sellTimeCheck")
 	@ResponseBody
 	public ProductVO sellTimeCheck(int productId) {
 		return service.sellTimeCheck(productId);
 	}
-
 }

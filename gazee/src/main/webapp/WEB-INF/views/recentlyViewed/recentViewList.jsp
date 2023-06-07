@@ -5,20 +5,19 @@
 <script>
 /* 페이지 클릭시 다른 페이지로 */
 $('.pages').click(function() {
-	alert($(this).text())
 	$.ajax({
-			url : "recentViewList",
-			data : {
-				memberId : 'hi',
-				page : $(this).text(),
-				num : 10
-			},
-			success : function(res) {
-				$('#recentlyViewedList').empty()
-				$('#recentlyViewedList').append(res)
-				$('html').scrollTop(0); // 페이지 맨 위로 이동
-			}
-		})
+		url : "recentViewList",
+		data : {
+			memberId : '<%= session.getAttribute("id")%>',
+			page : $(this).text(),
+			num : 10
+		},
+		success : function(res) {
+			$('#recentlyViewedList').empty()
+			$('#recentlyViewedList').append(res)
+			$('html').scrollTop(0); // 페이지 맨 위로 이동
+		}
+	})
 })
 </script>
 <table class="recentViewTable">

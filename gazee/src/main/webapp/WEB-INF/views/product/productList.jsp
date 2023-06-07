@@ -6,7 +6,8 @@
 <script type="text/javascript">
 $('.item').click(function() {
 	var productId = $(this).find('.itemNo').text()
-	location.href = "../product/gazeeDetail.jsp?productId=" + productId
+	var memberId = $(this).find('.itemSeller').text()
+	location.href = "../product/productDetail.jsp?productId=" + productId;
 })
 </script>
 <div class="recommend">
@@ -24,14 +25,14 @@ $('.item').click(function() {
 <c:forEach var="i" begin="1" end="${fn:length(list)}">
 	<div class="item">
 		<div class="itemNo" style="display: none;">${list[i-1].productId}</div>
-		<img class="itemImage" alt="제품이미지" src="http://erxtjrehmojx17106475.cdn.ntruss.com/${list2[i-1].productImageName}?type=f&w=195&h=195">
-		<div class="itemContent">
+		<img class="itemImage" alt="제품이미지" src="http://awswlqccbpkd17595311.cdn.ntruss.com/${list2[i-1].productImageName}?type=f&w=195&h=195">
+		<div class="itemCategory" style="color: #693FAA;">
+			${list[i-1].category}
+		</div>
+		<div class="itemProductName">
 			${list[i-1].productName}<!-- 출력용(expression language-EL) -->
 		</div>
-		<div class="itemContent">
-			${list[i-1].productContent}
-		</div>
-		<div class="itemContent">
+		<div class="itemPrice">
 			<fmt:formatNumber value="${list[i-1].price}" pattern="#,###"/>원
 		</div>
 	</div>

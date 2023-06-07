@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="recentlyViewed">
-
+	<!-- 최근 본 상품 추가 -->
 	<insert id="recentView" parameterType="Map">
 		insert ignore 
 		into recently_viewed 
 		values (null,#{memberId},#{productId})
 	</insert>
 	
+	<!-- 최근 본 상품 개수 -->
 	<select id="recentViewCount" resultType="Integer" parameterType="String">
 		select count(*)
 		from recently_viewed
 		where member_id = #{memberId}
 	</select>
 	
+	<!-- 최근 본 상품 목록 -->
 	<select id="recentViewList" resultType="productVO" parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by recent_id desc) as recent_no, p.*
@@ -22,22 +24,11 @@
 		where recent2.recent_no between #{start} and #{end}
 	</select>
 	
+	<!-- 최근 본 상품 개수 제한 -->
 	<delete id="recentViewControl" parameterType="String">
 		delete from recently_viewed 
 		where member_id = #{memberId}
 		order by recent_id 
 		limit 1
 	</delete>
-	
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
