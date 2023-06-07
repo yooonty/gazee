@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.multi.gazee.admin.paging.AdminPageVO;
 import com.multi.gazee.customerService.CustomerServiceDAO;
 import com.multi.gazee.customerService.CustomerServiceVO;
 import com.multi.gazee.customerService.PageVO;
@@ -157,4 +158,39 @@ public class CustomerServiceServiceImpl implements CustomerServiceService{
 			model.addAttribute("bag",bag2);
 		}
 	}
+	
+	@Override
+    public String csOne(int id, Model model) {
+        CustomerServiceVO csOne = dao.adminOne(id);
+        model.addAttribute("csOne", csOne);
+        return "admin/adminCsOne";
+    }
+    
+    @Override
+    public String getCsList(AdminPageVO pageVo, int pageNumber, Model model) {
+        List<CustomerServiceVO> csList = dao.nonPagedList();
+        
+        /* 페이징 */
+        pageVo.setPage(pageNumber);
+        pageVo.setStartEnd(pageVo.getPage());
+        List<CustomerServiceVO> pagedList = dao.pagedList(pageVo);
+        int currentPage = pageVo.getPage();
+        int count = dao.count();
+        int pages = (int) (count / 10.0 + 1);
+    
+        model.addAttribute("pagedList", pagedList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pages", pages);
+        model.addAttribute("count", count);
+        model.addAttribute("csList", csList);
+        return "admin/adminCsList";
+    }
+    
+    @Override
+    public String csReply(int csId, String replyContent) {
+        CustomerServiceVO vo = dao.one(csId);
+        vo.setCsReply(replyContent);
+        dao.replyRegister(vo);
+        return "admin/adminCs";
+    }
 }

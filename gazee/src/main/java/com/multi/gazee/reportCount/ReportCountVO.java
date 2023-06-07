@@ -26,6 +26,4 @@ public class ReportCountVO {
 	public String toString() {
 		return "ReportCountVO [no=" + no + ", memberId=" + memberId + ", count=" + count + "]";
 	}
-
-
 }

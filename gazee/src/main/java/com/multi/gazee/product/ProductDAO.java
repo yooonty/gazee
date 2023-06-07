@@ -6,12 +6,15 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Component;
+
+import com.multi.gazee.admin.paging.AdminPageVO;
 
 @Component
 public class ProductDAO {
@@ -90,7 +93,7 @@ public class ProductDAO {
 	}
 	
 	public ProductVO productDetail(int productId) {
-		ProductVO bag = my.selectOne("product.productDetail",productId);
+		ProductVO bag = my.selectOne("product.productOne",productId);
 		return bag;
 	}
 	
@@ -130,6 +133,41 @@ public class ProductDAO {
 	public ProductVO checkTemporaryProduct (ProductVO product) {
 		ProductVO bag = my.selectOne("product.checkTemporaryProduct",product);
 		return bag;
+	}
+	
+	/* 상품 목록 (페이징) */
+	public List<ProductVO> pagedList(AdminPageVO pageVo) {
+		List<ProductVO> pagedProductList = my.selectList("product.pagedAll", pageVo);
+		return pagedProductList;
+	}
+	
+	/* 전체 상품 갯수 COUNT */
+	public int count() {
+		return my.selectOne("product.count");
+	}
+	
+	/* 오늘 등록된 상품 목록*/
+	public List<ProductVO> listProductToday() {
+		List<ProductVO> productTodayList = my.selectList("product.listProductToday");
+		return productTodayList;
+	}
+	
+	/* ONE */
+	public List<ProductVO> productOneById(String id) {
+		List<ProductVO> productOneById = my.selectList("product.productOneById", id);
+		return productOneById;
+	}
+	
+	/* Order No로 Price 가져오기 */
+	public int priceByOrderNo(int productId) {
+		int price = my.selectOne("product.priceByOrderNo", productId);
+		return price;
+	}
+	
+	/* ADMIN 상품 관리 내 검색 */
+	public List<ProductVO> search(Map parameterMap) {
+		List<ProductVO> search = my.selectList("product.search", parameterMap);
+		return search;
 	}
 
 }

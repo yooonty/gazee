@@ -1,6 +1,7 @@
 package com.multi.gazee.member;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -12,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.multi.gazee.admin.paging.AdminPageVO;
 import com.multi.gazee.order.OrderVO;
 import com.multi.gazee.productLikes.ProductLikesVO;
 
@@ -19,19 +21,19 @@ import com.multi.gazee.productLikes.ProductLikesVO;
 public class MemberDAO { // CRUD
 	
 	@Autowired
-	SqlSessionTemplate gazee;
+	SqlSessionTemplate my;
 	
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	private int authNumber;
 	
 	public MemberVO login(String id) {
-		MemberVO result = gazee.selectOne("member.login", id);
+		MemberVO result = my.selectOne("member.login", id);
 		return result;
 	}
 	
 	public MemberVO logincheck(String id) {
-		MemberVO result = gazee.selectOne("member.logincheck", id);
+		MemberVO result = my.selectOne("member.logincheck", id);
 		return result;
 	}
 	
@@ -42,21 +44,30 @@ public class MemberDAO { // CRUD
 			bag.setGender("남성");
 		}
 		System.out.println(bag);
-		gazee.insert("member.create", bag);
+		my.insert("member.create", bag);
 	}
 	
 	public MemberVO idCheck(String id) {
-		MemberVO vo = gazee.selectOne("member.searchOne", id);
+		MemberVO vo = my.selectOne("member.searchOne", id);
 		return vo;
 	}
 	
+	public MemberVO nicknameCheck(String id) {
+		MemberVO vo = my.selectOne("member.nickOne", id);
+		return vo;
+	}
+	
+	public void nick(MemberVO bag) {
+		my.update("member.nick", bag);
+	}
+	
 	public MemberVO selectOne(String id) {
-		MemberVO bag = gazee.selectOne("member.searchOne", id);
+		MemberVO bag = my.selectOne("member.searchOne", id);
 		return bag;
 	}
 	
 	public MemberVO emailCheck(String email) {
-		MemberVO vo = gazee.selectOne("member.emailCheck", email);
+		MemberVO vo = my.selectOne("member.emailCheck", email);
 		return vo;
 	}
 	
@@ -98,30 +109,30 @@ public class MemberDAO { // CRUD
 	}
 	
 	public void leave(MemberVO bag) {
-		gazee.update("member.leave", bag);
+		my.update("member.leave", bag);
 	}
 	
 	public void updatePw(MemberVO bag) {
-		gazee.update("member.updatePw", bag);
+		my.update("member.updatePw", bag);
 	}
 	
 	public String getId(String email) {
-		MemberVO memberVO = gazee.selectOne("member.emailCheck", email);
+		MemberVO memberVO = my.selectOne("member.emailCheck", email);
 		String id = memberVO.getId();
 		return id;
 	}
 	
 	public MemberVO findPw(String id) {
-		MemberVO vo = gazee.selectOne("member.searchOne", id);
+		MemberVO vo = my.selectOne("member.searchOne", id);
 		return vo;
 	}
 	
 	public void updateuser(MemberVO bag) {
-		gazee.update("member.updateuser", bag);
+		my.update("member.updateuser", bag);
 	}
 	
 	public void profileImg(MemberVO bag) {
-		gazee.update("member.profileImg", bag);
+		my.update("member.profileImg", bag);
 	}
 	
 	public void trackingNo(OrderVO bag) {
@@ -132,32 +143,131 @@ public class MemberDAO { // CRUD
 		} else {
 			bag.setDeliveryCom("로젠택배");
 		}
-		gazee.update("member.trackingNo", bag);
+		my.update("member.trackingNo", bag);
 	}
 	
 	public void buyerCon(MemberVO bag) {
-		gazee.update("member.buyerCon", bag);
+		my.update("member.buyerCon", bag);
 	}
 	
 	public void logoutTimeUpdate(String id) {
-		gazee.update("member.logoutTimeUpdate", id);
+		my.update("member.logoutTimeUpdate", id);
 	}
 	
 	public List<OrderVO> purchsList(String id) {
-		List<OrderVO> list = gazee.selectList("member.purchsList", id);
+		List<OrderVO> list = my.selectList("member.purchsList", id);
 		System.out.println("DAO" + list.size());
 		return list;
 	}
 
 	public List<OrderVO> sellList(String id) {
-		List<OrderVO> list = gazee.selectList("member.sellList", id);
+		List<OrderVO> list = my.selectList("member.sellList", id);
 		System.out.println("DAO" + list.size());
 		return list;
 	}
 
 	public List<ProductLikesVO> basketList(String id) {
-		List<ProductLikesVO> list = gazee.selectList("member.basketList", id);
+		List<ProductLikesVO> list = my.selectList("member.basketList", id);
 		System.out.println("DAO" + list.size());
 		return list;
+	}
+	
+	
+	// admin
+	
+	
+	/* Admin 계정 정보 One */
+	public MemberVO readAdmin() throws Exception {
+		return my.selectOne("member.readAdmin");
+	}
+	
+	/* email로 Admin 체크 */
+	public MemberVO checkAdmin(String email) throws Exception {
+		return my.selectOne("member.checkAdmin", email);
+	}
+	
+	/* Admin 암호 UPDATE */
+	public void adminUpdatePw(MemberVO vo) throws Exception {
+		int result = my.update("member.updatePwByEmail", vo);
+	}
+	
+	/* 전체 회원 목록 (non-페이징) */
+	public List<MemberVO> list() {
+		List<MemberVO> memberList = my.selectList("member.all");
+		return memberList;
+	}
+	
+	/* 전체 회원 목록 (페이징) */
+	public List<MemberVO> pagedList(AdminPageVO pageVo) {
+		List<MemberVO> pagedMemberList = my.selectList("member.pagedAll", pageVo);
+		return pagedMemberList;
+	}
+	
+	/* 전체 회원 수*/
+	public int count() {
+		return my.selectOne("member.count");
+	}
+	
+	/* Admin 제외 회원 List */
+	public List<MemberVO> listExceptAdmin() {
+		List<MemberVO> memberList = my.selectList("member.allExceptAdmin");
+		return memberList;
+	}
+	
+	/* 이번 주 가입 회원 */
+	public List<MemberVO> newMemberThisWeek() {
+		List<MemberVO> newMemberThisWeekList = my.selectList("member.newMemberThisWeek");
+		return newMemberThisWeekList;
+	}
+	
+	/* 지난 30일 가입 회원 */
+	public List<MemberVO> memberOfPastThirtyDays() {
+		List<MemberVO> memberOfPastThirtyDaysList = my.selectList("member.memberOfPastThirtyDays");
+		return memberOfPastThirtyDaysList;
+	}
+	
+	/* 회원 별 계좌 READ */
+	public List<MemberVO> listBankAccount(String id) {
+		List<MemberVO> bankAccountList = my.selectList("member.listBankAccount", id);
+		return bankAccountList;
+	}
+	
+	/* 제재 중인 회원 목록 */
+	public List<MemberVO> suspendedList() {
+		List<MemberVO> suspendedList = my.selectList("member.suspended");
+		return suspendedList;
+	}
+	
+	/* 제재가 필요한 회원 목록 (제재 횟수가 3/5/7) */
+	public List<MemberVO> needPenaltyList() {
+		List<MemberVO> needPenaltyList = my.selectList("member.needPenaltyList");
+		return needPenaltyList;
+	}
+	
+	/* One (by ID) */
+	public MemberVO adminOne(String id) {
+		MemberVO oneById = my.selectOne("member.searchOne", id);
+		return oneById;
+	}
+	
+	/* 회원관리 내 검색 */
+	public List<MemberVO> adminSearch(Map parameterMap) {
+		List<MemberVO> search = my.selectList("member.search", parameterMap);
+		return search;
+	}
+	
+	/* 제재 실행 */
+	public void executeSuspension(String memberId) {
+		my.update("member.executeSuspension", memberId);
+	}
+	
+	/* 제재 해제 */
+	public void releaseSuspension(String memberId) {
+		my.update("member.releaseSuspension", memberId);
+	}
+	
+	/* ADMIN 회원 삭제 */
+	public void adminDeleteMember(int no) {
+		my.update("member.adminDeleteMember", no);
 	}
 }

@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.multi.gazee.admin.paging.AdminPageVO;
 import com.multi.gazee.customerService.PageVO;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberVO;
 import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
+import com.multi.gazee.reportCount.ReportCountDAO;
+import com.multi.gazee.reportCount.ReportCountVO;
 import com.multi.gazee.reportImg.ReportImgDAO;
 import com.multi.gazee.reportImg.ReportImgVO;
 
@@ -27,6 +30,8 @@ public class ReportServiceImpl implements ReportService{
 	ReportImgDAO dao2;
 	@Autowired
 	MemberDAO memberDao;
+	@Autowired
+	ReportCountDAO RCDao;
 	
 	public void reportWrite(ReportVO bag, HttpSession session) {
 		bag.setReportWriter((String)session.getAttribute("id"));
@@ -156,4 +161,46 @@ public class ReportServiceImpl implements ReportService{
 			model.addAttribute("bag",bag2);
 		}
 	}
+	
+	@Override
+    public String getReportList(AdminPageVO pageVo, int pageNumber, Model model) {
+        List<ReportVO> reportList = dao.nonPagedList();
+    
+        /* 페이징 */
+        pageVo.setPage(pageNumber);
+        pageVo.setStartEnd(pageVo.getPage());
+        List<ReportVO> pagedReportList = dao.pagedList(pageVo);
+        int currentPage = pageVo.getPage();
+        int count = dao.count();
+        int pages = (int) (count / 10.0 + 1);
+    
+        model.addAttribute("pagedReportList", pagedReportList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pages", pages);
+        model.addAttribute("count", count);
+        model.addAttribute("reportList", reportList);
+        return "admin/adminReportList";
+    }
+    
+    @Override
+    public String adminReportOne(int id, Model model) {
+        ReportVO reportOne = dao.one(id);
+        String reportee = reportOne.getReportee();
+        ReportCountVO countOne = RCDao.adminOne(reportee);
+        MemberVO reporteeInfo = memberDao.selectOne(reportee);
+        model.addAttribute("reportOne", reportOne);
+        model.addAttribute("countOne", countOne);
+        model.addAttribute("reporteeInfo", reporteeInfo);
+        return "admin/adminReportOne";
+    }
+    
+    @Override
+    public String reportReply(int reportId, String replyContent, Model model) {
+        ReportVO vo = dao.one(reportId);
+        vo.setReportReply(replyContent);
+        dao.replyRegister(vo);
+        List<ReportVO> nonPagedReportList = dao.nonPagedList();
+        model.addAttribute("reportList", nonPagedReportList);
+        return "admin/adminReport";
+    }
 }

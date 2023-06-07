@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cs">
 
-
+    <update id="reply" parameterType="customerServiceVO">
+        update customer_service
+        SET cs_reply = #{csReply}
+        WHERE cs_id = #{csId}
+    </update>
+    
     <insert id="register" parameterType="customerServiceVO" useGeneratedKeys="true" keyProperty= "csId">
 		insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary) 
 		values (#{csTitle}, 
@@ -27,12 +32,13 @@
 		select * from customer_service
 		where cs_id =#{csId}
 	</select>
-	
+		
 	<update id="viewUpdate" parameterType="Integer">
 		update customer_service set cs_view= cs_view + 1
 		where cs_id =#{csId}
 	</update>
 	
+
 	<select id="all"  parameterType="pageVO" resultType="customerServiceVO">
 		select * 
 		from (
@@ -49,7 +55,7 @@
 		where cs.cs_category=#{category1} and cs.temporary=1) cs2
 		where cs2.cs_no between #{start} and #{end}
 	</select>
-	
+
 	<select id="count" resultType="Integer">
 		select count(*) from customer_service cs
 		where cs.temporary =1
@@ -85,5 +91,57 @@
 	<select id="checkTemporaryCs" resultType="customerServiceVO" parameterType="customerServiceVO">
 		select * from customer_service where cs_Writer= #{csWriter} and `temporary`= 0
 	</select>
+    <insert id="register" parameterType="customerServiceVO">
+        insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary)
+        values (#{csTitle},
+                #{csContent},
+                #{csWriter},
+                #{csCategory},
+                #{temporary})
+    </insert>
 
+    <!-- 답변 등록 -->
+    <update id="reply" parameterType="customerServiceVO">
+        update customer_service
+        SET cs_reply = #{csReply}
+        WHERE cs_id = #{csId}
+    </update>
+    
+    <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="customerServiceVO">
+        select *
+        from customer_service
+        WHERE cs_reply IS NULL
+    </select>
+
+    <!--  답변이 필요한 문의글 불러오기 (페이징) -->
+    <select id="pagedNeedReply" resultType="customerServiceVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY cs_id) AS paged_cs_id, cs_id, cs_category, cs_writer, cs_title, cs_date
+              FROM customer_service cs WHERE cs_reply IS NULL) cs2
+        WHERE cs2.paged_cs_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="countPagedNeedReply" resultType="Integer">
+        SELECT count(*) FROM customer_service WHERE cs_reply IS NULL
+    </select>
+
+    <select id="nonPagedList" resultType="customerServiceVO">
+        select * from customer_service
+    </select>
+
+    <!-- Paged ALL -->
+    <select id="pagedList" resultType="customerServiceVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY cs_id) AS paged_cs_id, cs_id, cs_category, cs_writer, cs_title, cs_date
+              FROM customer_service cs WHERE temporary = 1) cs2
+        WHERE cs2.paged_cs_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="customerServiceVO">
+        select *
+        from customer_service
+        WHERE cs_reply IS NULL
+    </select>
 </mapper>

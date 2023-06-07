@@ -85,17 +85,51 @@
 	<select id="checkTemporaryReport" resultType="reportVO" parameterType="reportVO">
 		select * from report where report_Writer= #{reportWriter} and `temporary`= 0
 	</select>
-	
-	
+
+    <!-- 답변 등록 -->
+    <update id="reply" parameterType="reportVO">
+        update report
+        SET report_reply= #{reportReply}
+        WHERE report_id = #{reportId}
+    </update>
+
+    <!-- 신고글 상세 -->
+    <select id="one" parameterType="Integer" resultType="reportVO">
+        select *
+        from report
+        where report_id = #{reportId}
+    </select>
+
+    <!-- 신고글 전체 Read (non페이징) -->
+    <select id="nonPagedList" resultType="reportVO">
+        select * from report
+    </select>
+
+    <!-- 신고글 전체 Read (페이징) -->
+    <select id="pagedList" resultType="reportVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY report_id) AS paged_report_id, report_id, report_category, report_writer, report_title, report_date
+              FROM report r WHERE temporary = 1) r2
+        WHERE r2.paged_report_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <!-- 답변이 필요한 신고글 불러오기 (non페이징) -->
+    <select id="nonPagedNeedReply" resultType="reportVO">
+        select *
+        from report
+        WHERE report_reply IS NULL
+    </select>
+
+    <!--  답변이 필요한 신고글 불러오기 (페이징) -->
+    <select id="pagedNeedReply" resultType="reportVO" parameterType="pageVO">
+        SELECT *
+        FROM (SELECT ROW_NUMBER() over(ORDER BY report_id) AS paged_report_id, report_id, report_category, report_writer, report_title, report_date
+              FROM report r WHERE report_reply IS NULL) r2
+        WHERE r2.paged_report_id BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="countPagedNeedReply" resultType="Integer">
+        SELECT count(*) FROM customer_service WHERE cs_reply IS NULL
+    </select>
+
 </mapper>
-
-
-
-
-
-
-
-
-
-
-

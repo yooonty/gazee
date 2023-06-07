@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
+import com.multi.gazee.admin.paging.AdminPageVO;
 import com.multi.gazee.customerService.PageVO;
 import com.multi.gazee.report.ReportVO;
 
@@ -28,4 +29,13 @@ public interface ReportService {
 	String goToReportUpdate(Model model, int id) throws Exception;
 	
 	void checkTemporaryReport(Model model, ReportVO bag);
+	
+	 /* ADMIN 신고 목록 */
+    String getReportList(AdminPageVO pageVo, int pageNumber, Model model) throws Exception;
+    
+    /* ADMIN 신고 상세 */
+    String adminReportOne(int id, Model model) throws Exception;
+    
+    /* ADMIN 신고 답변 */
+    String reportReply(int reportId, String replyContent, Model model) throws Exception;
 }

@@ -66,4 +66,7 @@ public interface ProductService {
 	String productListOnSale2(PageVO vo, String category, Model model) throws Exception;
 	
 	String checkSeller(int productId) throws Exception;
+	
+	/* ADMIN 상품 검색 */
+    String searchProduct(String searchType, String searchIndex, Model model) throws Exception;
 }

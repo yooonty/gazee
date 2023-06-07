@@ -5,6 +5,7 @@ package com.multi.gazee.report;
  *
  */
 public class ReportVO {
+	private int pagedReportId;
 	private int reportId;
 	private int reportNo;
 	private String reportTitle;
@@ -16,8 +17,13 @@ public class ReportVO {
 	private String reportReply;
 	private int reportSecret;
 	private int temporary;
-	
-	
+	private String reportee;
+	public int getPagedReportId() {
+		return pagedReportId;
+	}
+	public void setPagedReportId(int pagedReportId) {
+		this.pagedReportId = pagedReportId;
+	}
 	public int getReportId() {
 		return reportId;
 	}
@@ -41,6 +47,12 @@ public class ReportVO {
 	}
 	public void setReportCategory(String reportCategory) {
 		this.reportCategory = reportCategory;
+	}
+	public String getReportContent() {
+		return reportContent;
+	}
+	public void setReportContent(String reportContent) {
+		this.reportContent = reportContent;
 	}
 	public String getReportWriter() {
 		return reportWriter;
@@ -78,21 +90,11 @@ public class ReportVO {
 	public void setTemporary(int temporary) {
 		this.temporary = temporary;
 	}
-	public String getReportContent() {
-		return reportContent;
+	public String getReportee() {
+		return reportee;
 	}
-	public void setReportContent(String reportContent) {
-		this.reportContent = reportContent;
+	public void setReportee(String reportee) {
+		this.reportee = reportee;
 	}
-	@Override
-	public String toString() {
-		return "ReportVO [reportId=" + reportId + ", reportNo=" + reportNo + ", reportTitle=" + reportTitle
-				+ ", reportCategory=" + reportCategory + ", reportContent=" + reportContent + ", reportWriter="
-				+ reportWriter + ", reportDate=" + reportDate + ", reportView=" + reportView + ", reportReply="
-				+ reportReply + ", reportSecret=" + reportSecret + ", temporary=" + temporary + "]";
-	}
-	
-	
-	
-	
+
 }

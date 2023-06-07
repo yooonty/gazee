@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="withdraw">
-<insert id="insert" parameterType="withdrawVO">
-	INSERT INTO withdraw
-	(transaction_id, member_id, transaction_time, bank, account, requested_amount, commission, total_amount)
-	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{bank}, #{account}, #{requestedAmount}, #{commission}, #{totalAmount});
-</insert>
+	<insert id="insert" parameterType="withdrawVO">
+		INSERT INTO withdraw
+		(transaction_id, member_id, transaction_time, bank, account, requested_amount, commission, total_amount)
+		VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{bank}, #{account}, #{requestedAmount}, #{commission}, #{totalAmount});
+	</insert>
+
+    <!-- ALL -->
+    <select id="listWithdraw" resultType="withdrawVO">
+        SELECT *
+        FROM withdraw
+    </select>
+
+    <!-- Transaction ID로 출금내역 Read -->
+    <select id="oneWithdrawById" parameterType="String" resultType="withdrawVO">
+        SELECT *
+        FROM withdraw
+        WHERE transaction_id = #{id}
+    </select>
+
+    <!-- 수수료 수입 합계 -->
+    <select id="sumCommission" resultType="int">
+        SELECT SUM(commission) AS total_commission
+        FROM withdraw
+    </select>
+
+    <!-- 검색 기능 -->
+    <select id="search" parameterType="java.util.Map" resultType="withdrawVO">
+        SELECT *
+        FROM withdraw
+        WHERE ${searchType} = #{searchIndex}
+    </select>
 
 </mapper>

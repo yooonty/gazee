@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -419,4 +420,15 @@ public class ProductServiceImpl implements ProductService{
 		return productVO;
 	}
 	
+	@Override
+    public String searchProduct(String searchType, String searchIndex, Model model) throws Exception {
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("searchType", searchType);
+        parameterMap.put("searchIndex", searchIndex);
+        
+        List<ProductVO> oneWhereList = productDao.search(parameterMap);
+        model.addAttribute("searchList", oneWhereList);
+        
+        return "admin/adminProductSearch";
+    }
 }

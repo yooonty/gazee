@@ -2,26 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="history">
 
-<select id="select" parameterType="String" resultType="_int">
-	SELECT COALESCE(balance, 0)
-	FROM transaction_history
-	WHERE member_id=#{id}
-	ORDER BY transaction_time DESC
-	LIMIT 1;
-</select>
+    <!-- ALL -->
+    <select id="all" resultType="historyVO">
+        SELECT *
+        FROM transaction_history
+    </select>
 
-<insert id="insert" parameterType="historyVO">
-	INSERT INTO transaction_history
-	(transaction_id, member_id, transaction_time, amount, balance)
-	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
-</insert>
+    <!-- ONE -->
+    <select id="one" parameterType="String" resultType="historyVO">
+        select *
+        from transaction_history
+        where member_id = #{id}
+    </select>
 
-<select id="selectList" parameterType="hashMap" resultType="historyVO">
-	SELECT *
-	FROM transaction_history
-	WHERE member_id = #{id} 
-	AND transaction_time BETWEEN #{start} AND #{end}
-	ORDER BY transaction_time DESC
-</select>
+    <!-- 잔액 조회 -->
+    <select id="getBalance" parameterType="String" resultType="int">
+        SELECT COALESCE(balance, 0)
+        FROM transaction_history
+        WHERE member_id = #{id}
+        ORDER BY transaction_time DESC LIMIT 1;
+    </select>
 
+    <!-- Transaction History에 Insert -->
+    <insert id="insert" parameterType="historyVO">
+        INSERT INTO transaction_history
+            (transaction_id, member_id, transaction_time, amount, balance)
+        VALUES (#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
+    </insert>
+
+	<select id="select" parameterType="String" resultType="_int">
+		SELECT COALESCE(balance, 0)
+		FROM transaction_history
+		WHERE member_id=#{id}
+		ORDER BY transaction_time DESC
+		LIMIT 1;
+	</select>
+	
+	<insert id="insert" parameterType="historyVO">
+		INSERT INTO transaction_history
+		(transaction_id, member_id, transaction_time, amount, balance)
+		VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
+	</insert>
+	
+	<select id="selectList" parameterType="hashMap" resultType="historyVO">
+		SELECT *
+		FROM transaction_history
+		WHERE member_id = #{id} 
+		AND transaction_time BETWEEN #{start} AND #{end}
+		ORDER BY transaction_time DESC
+	</select>
 </mapper>
