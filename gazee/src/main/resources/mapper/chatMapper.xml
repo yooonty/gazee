@@ -9,7 +9,7 @@
 	
 	<!-- 마지막 메세지 시간 업데이트 -->
 	<update id="lastMessageTimeUpdate" parameterType="chatVO">
-		update chat set last_message_time = #{lastMessageDate} where room_id = ${roomId}
+		update chat set last_message_time = current_timestamp where room_id = ${roomId}
 	</update>
 	
 	<!-- 기존 채팅방 존재 여부 확인 -->
