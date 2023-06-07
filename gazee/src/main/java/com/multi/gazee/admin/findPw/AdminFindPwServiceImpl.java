@@ -19,9 +19,9 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
     @Autowired
     BcryptServiceImpl bcry = new BcryptServiceImpl();
     
-    @Value("${host.SMTP.id}")
+    @Value("${mailSender.username}")
     private String hostSmtpId;
-    @Value("${host.SMTP.pwd}")
+    @Value("${mailSender.password}")
     private String hostSmtpPwd;
     
     
