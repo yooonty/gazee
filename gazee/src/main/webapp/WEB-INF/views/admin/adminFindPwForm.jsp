@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="resources/css/findPw.css" rel="stylesheet" type="text/css">
+    <link href="resources/css/adminFindPw.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <meta charset="UTF-8">
     <title>가지가지 관리자 비밀번호 찾기</title>
@@ -21,7 +21,7 @@
                 },
                 success: function (result) {
                     alert(result);
-                    location.href = "/admin"
+                    location.href = "admin"
                 },
                 error: function (xhr, status, error) {
                     alert("에러 발생: " + error);
