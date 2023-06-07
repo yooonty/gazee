@@ -44,7 +44,7 @@
       			<p id="no" style="display: none">${list2[i-1].no}</p>
       	<tbody>
 		    <tr>
-		    <td><img alt="제품이미지" src="http://awswlqccbpkd17595311.cdn.ntruss.com/${list7[i-1].productImageName}?type=f&w=60&h=60"></td>
+		    <td><img alt="제품이미지" src="http://awswlqccbpkd17595311.cdn.ntruss.com/${list8[i-1].productImageName}?type=f&w=60&h=60"></td>
 			<td>
 			<a href="../product/productDetail.jsp?productId=${list6[i-1].productId}">
                 ${list6[i-1].productName}

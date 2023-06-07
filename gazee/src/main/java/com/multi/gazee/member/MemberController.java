@@ -461,7 +461,7 @@ public class MemberController {
     public String profile(String id, Model model) {
     	System.out.println("프로파일 이미지>>"+id);
     	MemberVO bag = dao.selectOne(id);
-    	String profileImgAddr = "url('http://zurvmfyklzsa17604146.cdn.ntruss.com/" + bag.getProfileImg() + "?type=f&w=50&h=50')";
+    	String profileImgAddr = "url('http://zurvmfyklzsa17604146.cdn.ntruss.com/" + bag.getProfileImg() + "?type=f&w=120&h=120')";
     	return profileImgAddr;
     }
 }

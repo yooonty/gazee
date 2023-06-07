@@ -40,7 +40,7 @@ $('.item').click(function() {
     <c:forEach var="i" begin="1" end="${fn:length(list)}">
     <tr class="item">
         <td class="itemNo" style="display: none; cursor: pointer;">${list[i-1].productId}</td>
-        <td><img class="recentItemImage" alt="제품이미지" src="http://erxtjrehmojx17106475.cdn.ntruss.com/${list2[i-1].productImageName}?type=f&w=60&h=80"></td>
+        <td><img class="recentItemImage" alt="제품이미지" src="http://awswlqccbpkd17595311.cdn.ntruss.com/${list2[i-1].productImageName}?type=f&w=60&h=80"></td>
         <td>${list[i-1].productName}</td>
         <td>${list[i-1].productContent}</td>
         <td>${list[i-1].category}</td>

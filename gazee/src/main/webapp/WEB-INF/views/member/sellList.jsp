@@ -44,8 +44,8 @@ $(function() {
 	        var tr = btn.parent().parent();
 	        var td = tr.children();
 	        
-	        var trackingNo = td.eq(6).text().trim();
-	        var deliveryCom = td.eq(5).text();
+	        var trackingNo = td.eq(7).text().trim();
+	        var deliveryCom = td.eq(6).text();
 	 		console.log(trackingNo)       
 	 		console.log(deliveryCom)       
 		    e.preventDefault();
