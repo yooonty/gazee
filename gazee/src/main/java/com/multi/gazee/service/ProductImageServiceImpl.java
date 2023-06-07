@@ -26,6 +26,7 @@ import com.multi.gazee.productImage.ProductImageDAO;
 import com.multi.gazee.productImage.ProductImageVO;
 import com.multi.gazee.productLikes.ProductLikesDAO;
 import com.multi.gazee.productLikes.ProductLikesVO;
+import com.multi.gazee.recentlyViewed.RecentlyViewedDAO;
 
 @PropertySource("classpath:application.properties")
 @Service
@@ -45,6 +46,9 @@ public class ProductImageServiceImpl implements ProductImageService {
 	
 	@Autowired
 	ProductLikesDAO like;
+	
+	@Autowired
+	RecentlyViewedDAO recent;
 	
 	public String uploadObject(MultipartFile multipartFile, String storedFileName) throws IOException {
 		ObjectMetadata metadata = new ObjectMetadata();
@@ -108,8 +112,10 @@ public class ProductImageServiceImpl implements ProductImageService {
 		}
 		model.addAttribute("bag", bag);
 		like.likeDelete(likebag);
+		recent.recentViewDelete(productId);
 		dao2.productImageDelete(productId);
 		dao.productDelete(bag);
+		
 	}
 	
 	public String productImageThumbnail(int productId) {

@@ -31,6 +31,10 @@ public class RecentlyViewedDAO {
 			return my.delete("recentlyViewed.recentViewControl", memberId);
 		}
 		
+		public void recentViewDelete(int productId) {
+			my.delete("recentlyViewed.recentViewDelete", productId);
+		}
+		
 		/*
 		 * public int count() { return my.selectOne("recentlyViewed.count"); }
 		 */
