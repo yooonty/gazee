@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
 /* 페이지 클릭시 다른 페이지로 */
 $('.pages').click(function() {
@@ -19,6 +20,11 @@ $('.pages').click(function() {
 		}
 	})
 })
+
+$('.item').click(function() {
+	var productId = $(this).find('.itemNo').text()
+	location.href = "../product/productDetail.jsp?productId=" + productId;
+})
 </script>
 <table class="recentViewTable">
     <thead>
@@ -32,13 +38,15 @@ $('.pages').click(function() {
     </thead>
     <tbody>
     <c:forEach var="i" begin="1" end="${fn:length(list)}">
-    <tr>
-        <td style="display: none;">${list[i-1].productId}</td>
+    <tr class="item">
+        <td class="itemNo" style="display: none; cursor: pointer;">${list[i-1].productId}</td>
         <td><img class="recentItemImage" alt="제품이미지" src="http://erxtjrehmojx17106475.cdn.ntruss.com/${list2[i-1].productImageName}?type=f&w=60&h=80"></td>
         <td>${list[i-1].productName}</td>
         <td>${list[i-1].productContent}</td>
         <td>${list[i-1].category}</td>
-        <td>${list[i-1].price}원</td>
+        <td>
+        	<fmt:formatNumber value="${list[i-1].price}" pattern="#,###"/>원
+    	</td>
     </tr>
 	</c:forEach>
     </tbody>
