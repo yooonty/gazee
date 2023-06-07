@@ -10,7 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,600,0,0" />
+<link href="../resources/css/alarm.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../resources/js/stomp.js"></script>
+<script type="text/javascript" src="../resources/js/WebSocket.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
+<script type="text/javascript" src="../resources/js/sockjs-0.3.4.js"></script>
+
 <script>
 $(function() {
 	var balance;
@@ -21,6 +26,13 @@ $(function() {
 	var minDate = new Date(new Date().setFullYear(today.getFullYear() - 3)).toISOString().substring(0, 10);
 	var maxDate = today.toISOString().substring(0, 10);
 	var endDate = "";
+	
+	var sessionId = "<%= session.getAttribute("id") %>";
+
+	if (sessionId !== "null") {
+		handlePageLoad(sessionId);
+		unreadMessageCheck(sessionId);
+	}
 	
 	function numberToString(amount) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -298,6 +310,7 @@ $(function() {
 	</div>
 	</div>
 	</div>
+			<jsp:include page="../home/SideBar.jsp" flush="true"/>
 			<jsp:include page="../home/Footer.jsp" flush="true"/>
 		</div>
 
