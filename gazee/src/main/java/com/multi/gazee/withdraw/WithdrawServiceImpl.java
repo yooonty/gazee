@@ -29,7 +29,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         List<WithdrawVO> withdrawList = Wdao.listWithdraw();
         model.addAttribute("withdrawList", withdrawList);
         
-        return "../admin/adminMoneyWithdrawList";
+        return "admin/adminMoneyWithdrawList";
     }
     
     @Override
@@ -41,7 +41,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         List<WithdrawVO> oneWhereList = Wdao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
-        return "../admin/adminMoneyWithdrawSearch";
+        return "admin/adminMoneyWithdrawSearch";
     }
     
     @Override
@@ -50,7 +50,7 @@ public class WithdrawServiceImpl implements WithdrawService {
         model.addAttribute("memberId", memberId);
         model.addAttribute("balance", balance);
         
-        return "../admin/adminMoneyBalanceSearch";
+        return "admin/adminMoneyBalanceSearch";
     }
     
     @Override
@@ -65,6 +65,6 @@ public class WithdrawServiceImpl implements WithdrawService {
     
         model.addAttribute("memberList", memberList);
         model.addAttribute("balanceList", balanceList);
-        return "../admin/adminMoneyBalanceList";
+        return "admin/adminMoneyBalanceList";
     }
 }

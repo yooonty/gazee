@@ -30,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
         pageVo.setStartEnd(pageVo.getPage());
         List<ReportVO> pagedReportList = Rdao.pagedList(pageVo);
         int currentPage = pageVo.getPage();
-        int count = Mdao.count();
+        int count = Rdao.count();
         int pages = (int) (count / 10.0 + 1);
     
         model.addAttribute("pagedReportList", pagedReportList);
@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
         model.addAttribute("pages", pages);
         model.addAttribute("count", count);
         model.addAttribute("reportList", reportList);
-        return "../admin/adminReportList";
+        return "admin/adminReportList";
     }
     
     @Override
@@ -50,7 +50,7 @@ public class ReportServiceImpl implements ReportService {
         model.addAttribute("reportOne", reportOne);
         model.addAttribute("countOne", countOne);
         model.addAttribute("reporteeInfo", reporteeInfo);
-        return "../admin/adminReportOne";
+        return "admin/adminReportOne";
     }
     
     @Override
@@ -60,6 +60,6 @@ public class ReportServiceImpl implements ReportService {
         Rdao.replyRegister(vo);
         List<ReportVO> nonPagedReportList = Rdao.nonPagedList();
         model.addAttribute("reportList", nonPagedReportList);
-        return "../admin/adminReport";
+        return "admin/adminReport";
     }
 }

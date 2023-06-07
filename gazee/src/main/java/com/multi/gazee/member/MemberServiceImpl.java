@@ -1,6 +1,7 @@
 package com.multi.gazee.member;
 
 import com.multi.gazee.admin.paging.PageVO;
+import com.multi.gazee.product.ProductDAO;
 import com.multi.gazee.report.ReportDAO;
 import com.multi.gazee.report.ReportVO;
 import com.multi.gazee.reportCount.ReportCountDAO;
@@ -68,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("listSize", listSize);
         model.addAttribute("pages", pages);
         
-        return "../admin/adminMemberList";
+        return "admin/adminMemberList";
     }
     
     @Override
@@ -87,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         
-        return "../admin/adminMemberThisWeekList";
+        return "admin/adminMemberThisWeekList";
     }
     
     @Override
@@ -104,7 +105,7 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         
-        return "../admin/adminMemberThisMonthList";
+        return "admin/adminMemberThisMonthList";
     }
     
     @Override
@@ -121,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
         model.addAttribute("memberOfPastThirtyDaysList", memberOfPastThirtyDaysList);
         model.addAttribute("suspendedList", suspendedList);
         
-        return "../admin/adminMemberSuspendedList";
+        return "admin/adminMemberSuspendedList";
     }
     
     @Override
@@ -132,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
         List<MemberVO> oneWhereList = Mdao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
-        return "../admin/adminMemberSearch";
+        return "admin/adminMemberSearch";
     }
     
     @Override
@@ -163,5 +164,11 @@ public class MemberServiceImpl implements MemberService {
             Mdao.releaseSuspension(reporteeId);
             return "제재가 해제되었습니다.";
         }
+    }
+    
+    @Override
+    public String adminDeleteMember(int no) throws Exception {
+        Mdao.adminDeleteMember(no);
+        return "회원 삭제가 완료 되었습니다.";
     }
 }

@@ -18,7 +18,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
     public String csOne(int id, Model model) {
         CustomerServiceVO csOne = CSdao.one(id);
         model.addAttribute("csOne", csOne);
-        return "../admin/adminCsOne";
+        return "admin/adminCsOne";
     }
     
     @Override
@@ -38,7 +38,7 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
         model.addAttribute("pages", pages);
         model.addAttribute("count", count);
         model.addAttribute("csList", csList);
-        return "../admin/adminCsList";
+        return "admin/adminCsList";
     }
     
     @Override
@@ -46,6 +46,6 @@ public class CustomerServiceServiceImpl implements CustomerServiceService {
         CustomerServiceVO vo = CSdao.one(csId);
         vo.setCsReply(replyContent);
         CSdao.replyRegister(vo);
-        return "../admin/adminCs";
+        return "admin/adminCs";
     }
 }

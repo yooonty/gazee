@@ -14,6 +14,6 @@ public class ChargeServiceImpl implements ChargeService {
     public String getChargeList(Model model) {
         List<ChargeVO> chargeList = Cdao.listCharge();
         model.addAttribute("chargeList", chargeList);
-        return "../admin/adminMoneyChargeList";
+        return "admin/adminMoneyChargeList";
     }
 }

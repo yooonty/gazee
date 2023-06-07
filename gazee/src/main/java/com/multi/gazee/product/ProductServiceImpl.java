@@ -1,5 +1,6 @@
 package com.multi.gazee.product;
 
+import com.multi.gazee.admin.paging.PageVO;
 import com.multi.gazee.member.MemberDAO;
 import com.multi.gazee.member.MemberService;
 import com.multi.gazee.member.MemberVO;
@@ -31,6 +32,6 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVO> oneWhereList = Pdao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
-        return "../admin/adminProductSearch";
+        return "admin/adminProductSearch";
     }
 }

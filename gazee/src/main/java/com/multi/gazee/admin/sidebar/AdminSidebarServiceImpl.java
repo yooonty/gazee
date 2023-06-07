@@ -73,7 +73,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("setList", setList);
         model.addAttribute("sum", sumCommission);
         model.addAttribute("total", sumTotalTrading);
-        return "../admin/adminDashboard";
+        return "admin/adminDashboard";
     }
     
     public String loadMember(PageVO pageVo, int pageNumber, Model model) throws Exception {
@@ -116,7 +116,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("balanceList", balanceList);
         model.addAttribute("sellingProductQtyList", sellingProductQtyList);
         
-        return "../admin/adminMember";
+        return "admin/adminMember";
     }
     
     
@@ -147,7 +147,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("orderList", orderList);
         model.addAttribute("orderFinishedList", orderFinishedList);
         model.addAttribute("sum", sum);
-        return "../admin/adminProduct";
+        return "admin/adminProduct";
     }
     
     public String loadOrder(Model model) {
@@ -167,7 +167,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("sum", sum);
         model.addAttribute("setList", setList);
         
-        return "../admin/adminOrder";
+        return "admin/adminOrder";
     }
     
     public String loadMoney(Model model) {
@@ -196,7 +196,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("balanceList", balanceList);
         model.addAttribute("sum", sum);
         
-        return "../admin/adminMoney";
+        return "admin/adminMoney";
     }
     
     public String loadCs(PageVO pageVo, int pageNumber, Model model) {
@@ -217,7 +217,7 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("count", count);
         model.addAttribute("csList", nonPagedCsList);
         model.addAttribute("nonPagedNeedReplyList", nonPagedNeedReplyList);
-        return "../admin/adminCs";
+        return "admin/adminCs";
     }
     
     public String loadReport(PageVO pageVo, int pageNumber, Model model) {
@@ -255,19 +255,19 @@ public class AdminSidebarServiceImpl implements AdminSidebarService {
         model.addAttribute("needPenaltyList", needPenaltyList);
         model.addAttribute("countList", countList);
         
-        return "../admin/adminReport";
+        return "admin/adminReport";
     }
     
     public String loadInfo(Model model) throws Exception {
         MemberVO memberVo = Mdao.readAdmin();
         model.addAttribute("adminOne", memberVo);
-        return "../admin/adminInfo";
+        return "admin/adminInfo";
     }
     
     public String loadInfoEdit(Model model) throws Exception {
         MemberVO memberVo = Mdao.readAdmin();
         model.addAttribute("adminOne", memberVo);
-        return "../admin/adminInfoEdit";
+        return "admin/adminInfoEdit";
     }
 }
 

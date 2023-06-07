@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class MemberVO {
+    private int pagedNo;
     private int no;
     private String id;
     private String pw;
@@ -20,6 +21,14 @@ public class MemberVO {
     private Timestamp joinDate;
     private String profileImg;
     private Timestamp logoutTime;
+    
+    public int getPagedNo() {
+        return pagedNo;
+    }
+    
+    public void setPagedNo(int pagedNo) {
+        this.pagedNo = pagedNo;
+    }
     
     public int getNo() {
         return no;

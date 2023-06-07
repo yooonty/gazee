@@ -78,7 +78,7 @@ public class AdminController {
     
     @RequestMapping(value = "findPwForm.do")
     public String findPwForm() throws Exception {
-        return "../admin/adminFindPwForm";
+        return "admin/adminFindPwForm";
     }
     
     @RequestMapping(value = "findPw.do", method = RequestMethod.POST)
@@ -102,7 +102,7 @@ public class AdminController {
     
     @RequestMapping(value = "main.do")
     public String goToMain() {
-        return "../admin/adminSidebar";
+        return "admin/adminSidebar";
     }
     
     @RequestMapping(value = "gazee.do")
@@ -176,6 +176,13 @@ public class AdminController {
     public String searchMember(@RequestParam("search_type") String searchType, @RequestParam("search_index") String searchIndex, Model model) throws Exception {
         return memberService.searchMember(searchType, searchIndex, model);
     }
+    
+    @RequestMapping(value = "adminMemberDelete.do", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String adminDeleteMember(@RequestParam("no") int no) throws Exception {
+        return memberService.adminDeleteMember(no);
+    }
+    
     
     /* Execute suspension */
     
