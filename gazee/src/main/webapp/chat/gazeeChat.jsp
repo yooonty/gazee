@@ -135,8 +135,7 @@
 									/* 토글 메뉴 - 신고하기 */
 									let btn_report = $("#btn_report");
 									btn_report.on('click', function() {
-										console.log('신고하기')
-										disconnect(roomId);
+										location.href = "../report/reportList?page=1&mode=1";
 									})
 									
 									/* [판매자]일 때 [판매하기] 버튼을 눌러 결제요청 */
@@ -168,6 +167,7 @@
 																	productId : productId
 																},
 																success: function(result) {
+																	console.log(result.sellTime)
 																	if (result.sellTime) {
 																		alert('거래 중인 상품입니다.')
 																	} else{
@@ -300,12 +300,12 @@
 				
 				/* 내 보유 가지씨앗 가져오기 */
 				$.ajax({
-					url: '../pay/record',
+					url: '../pay/userInfo',
 					data: {
 						memberId: buyerId
 					},
-					success: function(balance) {
-						balance = balance;
+					success: function(memberInfo) {
+						balance = memberInfo.balance;
 						let myBalance = document.getElementById('myBalance')
 						let formattedMyBalance = formatNumber(balance);
 						myBalance.textContent = formattedMyBalance + '원';

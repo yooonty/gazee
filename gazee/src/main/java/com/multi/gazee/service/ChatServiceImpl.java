@@ -121,10 +121,12 @@ public class ChatServiceImpl implements ChatService {
 			int roomId = list.get(i).getRoomId();
 			ChatMessageVO chatMessageVO = messageDao.lastMessageList(roomId);
 			if (chatMessageVO != null) {
-				//mongoDB의 Timestamp는 Bson타입이라 1000L를 곱해줘야한다.
-				Date date = new Date(chatMessageVO.getDate().getTime() * 1000L);
+				Timestamp date = chatMessageVO.getTime();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				calendar.add(Calendar.HOUR_OF_DAY, 9);
 				SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-				String time = format.format(date);
+				String time = format.format(calendar.getTime());
 				lastMessage.add(chatMessageVO.getContent());
 				lastMessageTime.add(time);
 			} else {
@@ -291,9 +293,9 @@ public class ChatServiceImpl implements ChatService {
 		ChatMessageVO chatMessageVO = chatMessageDao.lastMessageList(roomId);
 		if (chatMessageVO != null) {
 			ChatVO chatVO = new ChatVO();
-			Date date = new Date(chatMessageVO.getDate().getTime() * 1000L);
+			Timestamp time = chatMessageVO.getTime();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String timestamp = format.format(date);
+			String timestamp = format.format(time);
 			try {
 				Date date2 = format.parse(timestamp);
 				Timestamp timestamp2 = new Timestamp(date2.getTime());
@@ -315,8 +317,6 @@ public class ChatServiceImpl implements ChatService {
 	
 	/* 메세지 전송 output */
 	public ChatOutputMessageVO chatMessage(ChatMessageVO message, String roomId) {
-		BsonTimestamp timestamp = new BsonTimestamp((int) (System.currentTimeMillis() / 1000), 0);
-		message.setDate(timestamp);
 		message.setRoomId(Integer.parseInt(roomId));
 		chatMessageDao.insert(message);
 		ChatOutputMessageVO output = new ChatOutputMessageVO();

@@ -1,13 +1,13 @@
 package com.multi.gazee.chat;
 
-import org.bson.BsonTimestamp;
+import java.sql.Timestamp;
 
 public class ChatMessageVO {
 	
 	private int roomId;
 	private String sender;
 	private String content;
-	private BsonTimestamp date;
+	private Timestamp time;
 	
 	public int getRoomId() {
 		return roomId;
@@ -27,17 +27,10 @@ public class ChatMessageVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public BsonTimestamp getDate() {
-		return date;
+	public Timestamp getTime() {
+		return time;
 	}
-	public void setDate(BsonTimestamp date) {
-		this.date = date;
+	public void setTime(Timestamp time) {
+		this.time = time;
 	}
-	
-	@Override
-	public String toString() {
-		return "ChatMessageVO [roomId=" + roomId + ", sender=" + sender + ", content=" + content + ", date=" + date
-				+ ", time=" + "]";
-	}
-	
 }

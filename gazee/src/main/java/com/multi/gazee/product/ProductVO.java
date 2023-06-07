@@ -17,6 +17,7 @@ public class ProductVO {
 	int productViews;
 	int temporary;
 	Timestamp savedTime;
+	Timestamp sellTime;
 	
 	public int getProductId() {
 		return productId;
@@ -95,5 +96,11 @@ public class ProductVO {
 	}
 	public void setSavedTime(Timestamp savedTime) {
 		this.savedTime = savedTime;
+	}
+	public Timestamp getSellTime() {
+		return sellTime;
+	}
+	public void setSellTime(Timestamp sellTime) {
+		this.sellTime = sellTime;
 	}
 }

@@ -1,7 +1,9 @@
 package com.multi.gazee.chat;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -21,29 +23,26 @@ import org.springframework.stereotype.Repository;
 public class ChatMessageDAO {
 	
 	@Autowired
-	MongoTemplate mongo;
-	
-	@Autowired
 	SqlSessionTemplate my;
 	
 	public void insert(ChatMessageVO chatMessageVO) {
-		mongo.insert(chatMessageVO, "chat_logs");
+		my.insert("chat.chatSave", chatMessageVO);
 	}
 	
 	public ArrayList<ChatOutputMessageVO> list(int roomId) {
-		Query query = new Query(new Criteria("roomId").is(roomId)).limit(20);
-		query.with(new Sort(Sort.Direction.DESC, "date"));
-		List<ChatMessageVO> list = mongo.find(query, ChatMessageVO.class, "chat_logs");
+		List<ChatMessageVO> list = my.selectList("chat.getChatLogs", roomId);
 		ArrayList<ChatOutputMessageVO> arrList = new ArrayList<ChatOutputMessageVO>();
 		for (ChatMessageVO x : list) {
 			ChatOutputMessageVO chatOutputMessageVO = new ChatOutputMessageVO();
 			chatOutputMessageVO.setRoomId(String.valueOf(x.getRoomId()));
 			chatOutputMessageVO.setSender(x.getSender());
 			chatOutputMessageVO.setContent(x.getContent());
-			//mongoDB의 timestamp는 BSON 타입이라 Date로 변환 후 String을 따로 저장하는게 낫다.
-			Date date = new Date(x.getDate().getTime() * 1000L);
+			Timestamp date = x.getTime();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(Calendar.HOUR_OF_DAY, 9);
 			SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-			String time = format.format(date);
+			String time = format.format(calendar.getTime());
 			chatOutputMessageVO.setTime(time);
 			arrList.add(chatOutputMessageVO);
 		}
@@ -52,9 +51,7 @@ public class ChatMessageDAO {
 	}
 	
 	public ChatMessageVO lastMessageList(int roomId) {
-		Query query = new Query(new Criteria("roomId").is(roomId)).limit(1);
-		query.with(new Sort(Sort.Direction.DESC, "date"));
-		ChatMessageVO chatMessageVO = mongo.findOne(query, ChatMessageVO.class, "chat_logs");
+		ChatMessageVO chatMessageVO = my.selectOne("chat.lastMessage", roomId);
 		return chatMessageVO;
 	}
 }

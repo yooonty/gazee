@@ -44,6 +44,21 @@
 		WHERE c.last_message_time > m.logout_time
 	</select>
 	
+	<!-- 채팅 내역 불러오기 -->
+	<select id="getChatLogs" parameterType="Integer" resultType="chatMessageVO">
+		select * from chat_logs where room_id = #{roomId} order by time DESC limit 20
+	</select>
+	
+	<!-- 최근 메세지 불러오기 -->
+	<select id="lastMessage" parameterType="Integer" resultType="chatMessageVO">
+		select * from chat_logs where room_id = #{roomId} order by time DESC limit 1
+	</select>
+	
+	<!-- 채팅 내역 저장 -->
+	<insert id="chatSave" parameterType="chatMessageVO">
+		insert into chat_logs value (#{roomId}, #{sender}, #{content}, current_timestamp)
+	</insert>
+	
 </mapper>
 
 
