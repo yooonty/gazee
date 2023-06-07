@@ -38,12 +38,6 @@
 		LIMIT 1;
 	</select>
 	
-	<insert id="insert" parameterType="historyVO">
-		INSERT INTO transaction_history
-		(transaction_id, member_id, transaction_time, amount, balance)
-		VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{amount}, #{balance});
-	</insert>
-	
 	<select id="selectList" parameterType="hashMap" resultType="historyVO">
 		SELECT *
 		FROM transaction_history

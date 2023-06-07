@@ -91,21 +91,6 @@
 	<select id="checkTemporaryCs" resultType="customerServiceVO" parameterType="customerServiceVO">
 		select * from customer_service where cs_Writer= #{csWriter} and `temporary`= 0
 	</select>
-    <insert id="register" parameterType="customerServiceVO">
-        insert into customer_service(cs_title, cs_content, cs_writer, cs_category, temporary)
-        values (#{csTitle},
-                #{csContent},
-                #{csWriter},
-                #{csCategory},
-                #{temporary})
-    </insert>
-
-    <!-- 답변 등록 -->
-    <update id="reply" parameterType="customerServiceVO">
-        update customer_service
-        SET cs_reply = #{csReply}
-        WHERE cs_id = #{csId}
-    </update>
     
     <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
     <select id="nonPagedNeedReply" resultType="customerServiceVO">
@@ -138,10 +123,4 @@
         WHERE cs2.paged_cs_id BETWEEN #{start} AND #{end}
     </select>
 
-    <!-- 답변이 필요한 문의글 불러오기 (non페이징) -->
-    <select id="nonPagedNeedReply" resultType="customerServiceVO">
-        select *
-        from customer_service
-        WHERE cs_reply IS NULL
-    </select>
 </mapper>
