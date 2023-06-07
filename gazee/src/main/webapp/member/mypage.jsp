@@ -22,6 +22,10 @@
 		 var session = '<%= session.getAttribute("id")%>'
 		 console.log(session)
 		 
+		 function numberToString(amount) {
+			 return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+		}
+		 
 		 if (session !== "null") {
 			/* 웹소켓 연결 */
 			handlePageLoad(session);
@@ -55,13 +59,13 @@
 		})
 		
 		$.ajax({
-			url: '../pay/record',
+			url: '../pay/userInfo',
 			data: {
 				memberId: session
 			},
 			success: function(result) {
 				let userAmount = document.getElementById('userAmount');
-				userAmount.textContent = result;
+				userAmount.textContent = numberToString(result.balance);
 			}
 		})
 		
@@ -242,7 +246,7 @@ input[id="hamburger"]+label {
 					<div style="width: 1px; background: #cdcdcd;"></div>
 					<div style="display: flex; flex-flow: column; width: 50%; justify-content: center;">
 						<span style="font-size: 18px;">보유 가지머니</span>
-						<a href="#"><span style="font-size: 36px; font-weight: bold;" id="userAmount"></span></a>
+						<a href="../pay/main.jsp"><span style="font-size: 36px; font-weight: bold;" id="userAmount"></span></a>
 					</div>
 				</div>
 
