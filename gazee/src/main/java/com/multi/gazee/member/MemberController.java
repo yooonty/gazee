@@ -1,5 +1,6 @@
 package com.multi.gazee.member;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -158,25 +159,25 @@ public class MemberController {
 		}
     }
     
-	//아이디 찾기 이메일 인증
+  //아이디 찾기 이메일 인증
     @RequestMapping(value = "member/IdcheckMail", produces = "application/text; charset=utf8")
-    @ResponseBody
-    public String IdcheckMail(@ModelAttribute("email") String email) {
-    	return dao.joinEmail(email);
+ @ResponseBody
+    public String IdcheckMail(@ModelAttribute("email") String email) throws IOException {
+        return dao.joinEmail(email);
     } 
     
     //이메일 인증
     @RequestMapping(value = "member/mailCheck", produces = "application/text; charset=utf8")
-  	@ResponseBody
-  	public String mailCheck(@ModelAttribute("email") String email) {
-  	    return dao.joinEmail(email);
-  	}
+ @ResponseBody
+    public String mailCheck(@ModelAttribute("email") String email) throws IOException {
+    return dao.joinEmail(email);
+    }
     
     //비밀번호 찾기 이메일 인증
     @RequestMapping(value = "member/checkMail", produces = "application/text; charset=utf8")
-    @ResponseBody
-    public String PwcheckMail(@ModelAttribute("email") String email) {
-    	return dao.joinEmail(email);
+ @ResponseBody
+    public String PwcheckMail(@ModelAttribute("email") String email) throws IOException {
+    return dao.joinEmail(email);
     }
     
     // 회원 탈퇴 
