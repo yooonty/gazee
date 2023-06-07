@@ -74,7 +74,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
                 
                 // 화면에 표시할 ID 세팅
                 model.addAttribute("username", adminVo.getId());
-                return "../admin/adminSidebar";
+                return "admin/adminSidebar";
                 
             } else {
                 model.addAttribute("msg", "ID 또는 비밀번호를 확인하세요.");
@@ -83,7 +83,7 @@ public class AdminLoginServiceImpl implements AdminLoginService {
             model.addAttribute("msg", "회원으로 등록되지 않은 ID입니다.");
         }
         
-        return "../admin/adminLogin";
+        return "admin/adminLogin";
     }
     
     @Override
@@ -117,12 +117,12 @@ public class AdminLoginServiceImpl implements AdminLoginService {
             String userId = (String) request.getSession().getAttribute("username");
             if (StringUtils.isNotEmpty(userId)) {
                 model.addAttribute("username", userId);
-                return "../admin/adminSidebar";
+                return "admin/adminSidebar";
             }
         }
         
         // 로그인 만료 or 비 로그인 상태
-        return "../admin/adminLogin";
+        return "admin/adminLogin";
     }
     
     public String invalidateSession(HttpServletRequest request) {

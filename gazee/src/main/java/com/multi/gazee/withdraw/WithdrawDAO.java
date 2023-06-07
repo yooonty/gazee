@@ -1,6 +1,5 @@
 package com.multi.gazee.withdraw;
 
-import com.multi.gazee.order.OrderVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,8 +25,12 @@ public class WithdrawDAO {
     
     /* 총 수수료 합 (수입) */
     public int sumCommission() {
-        int totalCommission = my.selectOne("withdraw.sumCommission");
-        return totalCommission;
+        Integer totalCommission = my.selectOne("withdraw.sumCommission");
+        if (totalCommission == null) {
+            return 0;
+        } else {
+            return totalCommission;
+        }
     }
     
     /* 출금내역 내 검색*/

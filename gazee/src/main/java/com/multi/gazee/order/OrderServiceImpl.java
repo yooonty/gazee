@@ -19,21 +19,21 @@ public class OrderServiceImpl implements OrderService {
     public String getOrderList(Model model) {
         List<OrderVO> orderList = Odao.listOrder();
         model.addAttribute("orderList", orderList);
-        return "../admin/adminOrderList";
+        return "admin/adminOrderList";
     }
     
     @Override
     public String getloadOrderInProgressList(Model model) {
         List<OrderVO> orderInProgressList = Odao.listOrderInProgress();
         model.addAttribute("orderInProgressList", orderInProgressList);
-        return "../admin/adminOrderInProgressList";
+        return "admin/adminOrderInProgressList";
     }
     
     @Override
     public String getOrderFinishedList(Model model) {
         List<OrderVO> orderFinishedList = Odao.listOrderFinished();
         model.addAttribute("orderFinishedList", orderFinishedList);
-        return "../admin/adminOrderFinishedList";
+        return ".admin/adminOrderFinishedList";
     }
     
     @Override
@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderVO> oneWhereList = Odao.search(parameterMap);
         model.addAttribute("searchList", oneWhereList);
         
-        return "../admin/adminOrderSearch";
+        return "admin/adminOrderSearch";
     }
     
 }

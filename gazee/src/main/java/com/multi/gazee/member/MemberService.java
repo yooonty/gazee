@@ -25,4 +25,7 @@ public interface MemberService {
     
     /* ADMIN 제재 해제 */
     String releaseSuspension(String memberId, String penaltyType) throws Exception;
+    
+    /* ADMIN 회원 삭제 */
+    String adminDeleteMember(int no) throws Exception;
 }

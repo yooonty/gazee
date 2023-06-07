@@ -11,10 +11,10 @@
     <!-- Paged ALL -->
     <select id="pagedAll" resultType="memberVO" parameterType="pageVO">
         SELECT *
-        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS no, id, name, nickname, email, join_date
+        FROM (SELECT ROW_NUMBER() over(ORDER BY no) AS pagedNo, no, id, name, nickname, email, join_date, status
               FROM member m
               WHERE m.user_level = 1) m2
-        WHERE m2.no BETWEEN #{start} AND #{end}
+        WHERE m2.pagedNo BETWEEN #{start} AND #{end}
     </select>
 
     <select id="count" resultType="Integer">
@@ -115,4 +115,18 @@
         WHERE id = #{memberId}
     </update>
 
+    <!-- ADMIN 회원 삭제 -->
+    <update id="adminDeleteMember"  parameterType="int">
+        UPDATE member
+        SET name = '탈퇴',
+            tel = '탈퇴',
+            address = '탈퇴',
+            email = '탈퇴',
+            account = '탈퇴',
+            bank = '탈퇴',
+            profile_img = '탈퇴',
+            status = '정지',
+            user_level = 3
+        WHERE no = #{no};
+    </update>
 </mapper>
