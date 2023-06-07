@@ -12,7 +12,7 @@ public class ReportCountDAO {
 	SqlSessionTemplate my;
 	
 	public ReportCountVO reportCount(String memberId) {
-		ReportCountVO bag = my.selectOne("reportCount.reportCount",memberId);
+		ReportCountVO bag = my.selectOne("reportCount.one",memberId);
 		return bag;
 	}
 	
@@ -30,7 +30,7 @@ public class ReportCountDAO {
     
     /* ONE */
     public ReportCountVO adminOne(String id) {
-        ReportCountVO bag = my.selectOne("reportCount.reportCount", id);
+        ReportCountVO bag = my.selectOne("reportCount.one", id);
         return bag;
     }
 }

@@ -19,8 +19,7 @@ public class WekaRecommendService {
 		// 1. 데이터 로딩(수집)
 		// Instances data = new Instances(new BufferedReader(new
 		// FileReader("data/titanic2_pre.arff")));
-		String path2 = "C:\\Users\\gram\\Documents\\gazeegazee\\gazee";
-		String file2 = path2 + "\\data\\customer_shopping_data_pre.csv";
+		String file2 = "customer_shopping_data_pre.csv";
 
 		System.out.println(file2);
 		CSVLoader loader = new CSVLoader();
@@ -50,7 +49,7 @@ public class WekaRecommendService {
 
 		// 모델을 읽어와서, test데이터에 있는 것 꺼내서 검증해보자.
 
-		Classifier model = (Classifier) SerializationHelper.read(path2 + "\\model\\customer_shopping.model");
+		Classifier model = (Classifier) SerializationHelper.read("customer_shopping.model");
 
 		double result = model.classifyInstance(instances.firstInstance());
 

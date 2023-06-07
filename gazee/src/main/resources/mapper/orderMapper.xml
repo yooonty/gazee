@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="order">
 
+<insert id="insert" parameterType="orderVO">
+		insert into tb_order values (null, #{transactionId}, #{roomId}, #{dealType}, #{productId}, #{sellerId}, #{buyerId}, 1, 0, 0, 0, #{paymentTime}, null, null, #{address}, 0, 0);
+	</insert>
+	
+	<select id="check" parameterType="Integer" resultType="orderVO">
+		select * from tb_order where product_id = #{productId} order by canceled DESC limit 1
+	</select>
+	
+	<select id="getOrderInfo" parameterType="Integer" resultType="orderVO">
+		select * from tb_order where no = #{no}
+	</select>
+
     <!-- ALL -->
     <select id="listOrder" resultType="orderVO">
         SELECT *

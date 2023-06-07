@@ -1,66 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	<!-- 판매 게시글 작성 -->
-	<insert id="register" parameterType="productVO" useGeneratedKeys="true" keyProperty="productId">
-		INSERT INTO product
-		(member_id, category, product_name, product_content, price, deal_direct,
-		`direct_addressx`, `direct_addressy`, deal_delivery,
-		product_views, temporary, `saved_time`)
-		VALUES(#{memberId}, #{category}, #{productName}, #{productContent}, #{price},
-		#{dealDirect}, #{directAddressx}, #{directAddressy}, #{dealDelivery},
-		0, #{temporary}, #{savedTime});
-	</insert>
-	
-	<!-- 판매글 수정 -->
-	<update id="productUpdate" parameterType="productVO">
-		update product set category=#{category}, product_name=#{productName}, product_content=#{productContent}, price=#{price}, deal_direct=#{dealDirect}, `direct_addressx`=#{directAddressx}, `direct_addressy`=#{directAddressy}, deal_delivery=#{dealDelivery}, product_views=0, `saved_time`=#{savedTime},`temporary` = #{temporary} where member_id = #{memberId} and product_id=#{productId}
-	</update>
-	
-	<!-- 판매글 삭제 -->
-	<delete id="productDelete" parameterType="productVO">
-		delete from product where member_id = #{memberId} and product_id = #{productId}
-	</delete>
-	
-	<!-- 상품 하나 -->
-	<select id="productOne" parameterType="Integer" resultType="productVO">
-		select * from product where product_id = #{productId}
-	</select>
-	
-	<!-- 상품 판매자 확인 -->
-	<select id="checkSeller" parameterType="Integer" resultType="String">
-		select member_id from product p where product_id = #{productId}
-	</select>
-	
-	<!-- 상품 전체검색 -->
-	<select id="all" resultType="ProductVO">
-		select * from product
-	</select>
-	
-	<!-- [판매하기] 클릭 시간 업데이트 -->
-	<update id="sellTimeUpdate" parameterType="Integer">
-		update product set sell_time = current_time where product_id = #{productId}
-	</update>
-	
-	<!-- [판매하기] 클릭 시간 삭제 -->
-	<update id="sellTimeDelete" parameterType="Integer">
-		update product set sell_time = null where product_id = #{productId}
-	</update>
-
-	<!-- 임시저장 여부 확인 -->
-	<select id="checkTemporaryProduct" resultType="productVO" parameterType="productVO">
-		select * from product where member_id = #{memberId} and `temporary` = 0
-	</select>
-	
-	<!-- 인기 상품 추천 -->
 	<select id="best" resultType="productVO">
 		select *
-		from product where temporary = 1
-		order by product_views 
-		limit 5 
+		from product
+		where product_views >= 100
+		limit 5
 	</select>
 
-	<!-- 사용자 맞춤형 추천 -->
 	<select id="userBest" resultType="ProductVO" parameterType="String">
 		select * from product 
 		where category = (select category from 
@@ -69,134 +16,169 @@
 		where rv.member_id = #{memberId} and rv.product_id = p.product_id
 		group by category) as result
 		order by category_count desc
-		limit 1) and temporary = 1
+		limit 1)
 		limit 5
 	</select>
 	
-	<!-- AI 추천 -->
 	<select id="wekaBest" resultType="productVO" parameterType="String">
 		select *
 		from product
-		where category = #{category} and temporary = 1
+		where category = #{category}
 		limit 5
 	</select>
 	
-	<!-- 상품 전체 검색 (판매완료 포함) -->
 	<select id="searchAll" resultType="productVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
 		from product p
-		where product_name like concat('%', #{search}, '%') and temporary = 1) product2
+		where product_name like concat('%', #{search}, '%')) product2
 		where product2.product_no between #{start} and #{end}
 	</select>
 
-	<!-- 상품 전체 검색 (판매 중) -->
 	<select id="searchAllOnSale" resultType="productVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
 		from product p
-		where product_name like concat('%', #{search}, '%') and temporary = 1 and product_id not in 
+		where product_name like concat('%', #{search}, '%') and product_id not in 
 		(select product_id 
 		from tb_order to2 
 		where complete_status = 1)) product2
 		where product2.product_no between #{start} and #{end}
 	</select>
 
-	<!-- 상품 카테고리 전체 검색 (판매완료 포함) -->
 	<select id="categoryAll" resultType="productVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
 		from product p
-		where category = #{category} and temporary = 1 ) product2
+		where category = #{category}) product2
 		where product2.product_no between #{start} and #{end}
 	</select>
 
-	<!-- 상품 카테고리 검색 (판매 중) -->
 	<select id="categoryAllOnSale" resultType="productVO"  parameterType="Map">
 		select * from (
 		select ROW_NUMBER() over(order by product_id desc) as product_no, p.*
 		from product p
-		where category = #{category} and temporary = 1 and product_id not in 
+		where category = #{category} and product_id not in 
 		(select product_id 
 		from tb_order to2 
 		where complete_status = 1)) product2
 		where product2.product_no between #{start} and #{end}
 	</select>
 	
-	<!-- 키워드 검색 - 상품 개수 -->
 	<select id="countSearch" resultType="Integer" parameterType="String">
 		select count(*) from product
-		where product_name like concat('%', #{search}, '%') and temporary = 1
+		where product_name like concat('%', #{search}, '%')
 	</select>
 
-	<!-- 키워드 검색 - [판매 중] 상품 개수 -->
 	<select id="countSearchOnSale" resultType="Integer" parameterType="String">
 		select count(*) from product
-		where product_name like concat('%', #{search}, '%') and temporary = 1 and product_id not in 
+		where product_name like concat('%', #{search}, '%') and product_id not in 
 		(select product_id 
 		from tb_order to2 
 		where complete_status = 1)
 	</select>
 
-	<!-- 키워드 검색 - 상품 개수 -->
 	<select id="countCategory" resultType="Integer" parameterType="String">
 		select count(*) from product
-		where category = #{category} and temporary = 1
+		where category = #{category}
 	</select>
 
-	<!-- 키워드 검색 - [판매 중] 상품 개수 -->
 	<select id="countCategoryOnSale" resultType="Integer" parameterType="String">
 		select count(*) from product
-		where category = #{category} and temporary = 1 and product_id not in 
+		where category = #{category} and product_id not in 
 		(select product_id 
 		from tb_order to2 
 		where complete_status = 1)
 	</select>
 
-	<!-- 조회수 증가 -->
 	<update id="viewsCount" parameterType="Integer">
 		update product 
 		set product_views = product_views + 1
 		where product_id = #{productId}
 	</update>
 	
-	<!-- Paged ALL -->
+	
+	
+	<insert id="register" parameterType="productVO"  useGeneratedKeys="true" keyProperty="productId">
+		INSERT INTO product
+		(member_id, category, product_name, product_content, price, deal_delivery, deal_direct, `direct_addressx`, `direct_addressy`, product_views, `temporary`, saved_time)
+		VALUES(#{memberId}, #{category}, #{productName}, #{productContent}, #{price}, #{dealDelivery}, #{dealDirect}, #{directAddressx}, #{directAddressy}, 0, #{temporary}, #{savedTime});
+	</insert>
+	
+	<select id="productDetail" resultType="ProductVO" parameterType="Integer">
+	  select * from product where product_id = #{productId}
+	</select>
+	<select id="all" resultType="ProductVO">
+	  select * from product	
+	</select>
+
+    <!-- Paged ALL -->
     <select id="pagedAll" resultType="productVO" parameterType="pageVO">
         SELECT *
         FROM (SELECT ROW_NUMBER() over(ORDER BY product_id) AS product_id, saved_time, product_name, member_id, price, product_views
               FROM product p) p2
         WHERE p2.product_id BETWEEN #{start} AND #{end}
     </select>
-    
+
     <!-- 등록 된 상품 갯수 카운트 -->
     <select id="count" resultType="Integer">
         SELECT count(*) FROM product
     </select>
-    
+
     <!-- 오늘 등록 된 상품 Read -->
     <select id="listProductToday" resultType="productVO">
         SELECT *
         FROM product WHERE DATE(saved_time) = CURDATE();
     </select>
-    
+
     <!-- Member ID로 상품 정보 Read -->
     <select id="productOneById" parameterType="String" resultType="productVO">
         SELECT *
         FROM product
         WHERE member_id = #{id}
     </select>
-    
+
     <!-- 검색 기능 -->
     <select id="search" parameterType="java.util.Map" resultType="productVO">
         SELECT *
         FROM product
         WHERE ${searchType} = #{searchIndex}
     </select>
-    
+
     <!-- Order의 order_id로 해당 주문의 판매상품 가격 Read -->
     <select id="priceByOrderNo" parameterType="int" resultType="int">
         SELECT price
         FROM tb_order o JOIN product p ON o.product_id = p.product_id
         WHERE p.product_id = #{productId};
     </select>
+    
+    <delete id="productDelete" parameterType="productVO">
+		delete from product where member_id = #{memberId} and product_id = #{productId}
+	</delete>
+	
+	<select id="checkTemporaryProduct" resultType="productVO" parameterType="productVO">
+		select * from product where member_id = #{memberId} and `temporary` = 0
+	</select>
+	
+	<update id="productUpdate" parameterType="productVO">
+		update product set category=#{category}, product_name=#{productName}, product_content=#{productContent}, price=#{price}, deal_direct=#{dealDirect}, `direct_addressx`=#{directAddressx}, `direct_addressy`=#{directAddressy}, deal_delivery=#{dealDelivery}, product_views=0, `saved_time`=#{savedTime},`temporary` = #{temporary} where member_id = #{memberId} and product_id=#{productId}
+	</update>
+	
+	<update id="sellTimeUpdate" parameterType="Integer">
+		update product set sell_time = current_time where product_id = #{productId}
+	</update>
+	
+	<update id="sellTimeDelete" parameterType="Integer">
+		update product set sell_time = null where product_id = #{productId}
+	</update>
+	
+	<select id="productOne" parameterType="Integer" resultType="productVO">
+		select * from product where product_id = #{productId}
+	</select>
+	<select id="checkSeller" parameterType="Integer" resultType="String">
+		select member_id 
+		from product p 
+		where product_id = #{productId}
+	</select>
+	
 </mapper>

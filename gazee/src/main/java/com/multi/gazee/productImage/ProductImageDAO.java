@@ -17,21 +17,21 @@ public class ProductImageDAO {
 	}
 	
 	public List<ProductImageVO> productImage(int productId) {
-		List<ProductImageVO> list = my.selectList("productImage.productImage",productId);
+		List<ProductImageVO> list = my.selectList("productImg.productImage",productId);
 		return list;
 	}
 	
 	public void productImageDelete(int productId) {
-		my.delete("productImage.productImageDelete", productId);
+		my.delete("productImg.productImageDelete", productId);
 	}
 	
 	public int productImageUpload(ProductImageVO productImage) {
-		int result = my.insert("productImage.productImageUpload", productImage);
+		int result = my.insert("productImg.productImageUpload", productImage);
 		return result;
 	}
 	
 	public ProductImageVO productImageThumbnail(int productId) {
-		ProductImageVO bag = my.selectOne("productImage.productImageThumbnail",productId);
+		ProductImageVO bag = my.selectOne("productImg.productImageThumbnail",productId);
 		return bag;
 	}
 	

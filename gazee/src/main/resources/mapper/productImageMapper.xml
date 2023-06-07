@@ -12,6 +12,25 @@
 		limit 1
 	</select>
 	
+		<select id="productImage" resultType="ProductImageVO" parameterType="Integer">
+		select * from product_image where product_id = #{productId}
+	</select>
+	
+	<select id="productImageThumbnail" resultType="ProductImageVO" parameterType="Integer">
+		select * from product_image where product_id = #{productId} AND product_image_order = 1
+	</select>
+
+	<delete id="productImageDelete"  parameterType="productVO">
+		delete from product_image where product_id = #{productId}
+	</delete>
+	
+	<insert id="productImageUpload" parameterType="ProductImageVO">
+		INSERT INTO product_image
+		(product_id, product_image_name, product_image_order)
+		VALUES(#{productId}, #{productImageName}, #{productImageOrder});
+	</insert>
+	
+	
 </mapper>
 
 

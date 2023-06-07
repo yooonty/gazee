@@ -123,7 +123,6 @@ public class ProductController {
 	public void productDetailOwner(HttpSession session, Model model, int productId) {
 		service.productDetail(model, productId);
 	}
-	
 	/* 상품 상세페이지 - 로그인 안한경우 */
 	@RequestMapping("product/detail_nomember")
 	public void productDetailNoMember(HttpSession session, Model model, int productId) {
