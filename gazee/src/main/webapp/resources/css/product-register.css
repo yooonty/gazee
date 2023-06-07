@@ -1,0 +1,134 @@
+@charset "EUC-KR";
+
+#main {
+	width: 1000px;
+	display: flex;
+	margin: 0 auto;
+	flex-direction: column;
+}
+
+#title {
+	font-size: large;
+	width: 100%;
+	height: 30px;
+}
+
+#register_table {
+	width: 100%;
+	position: relative;
+	font-size: medium;
+}
+
+.each-row {
+	height: 100px;
+}
+
+.content-row {
+	height: 300px;
+}
+
+.attribute {
+	width: 100px;
+	text-align: center;
+}
+
+.content {
+	width: 900px;
+}
+
+.content textarea {
+	width: 900px;
+	height: 300px;
+}
+
+.hAddr {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	border-radius: 2px;
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	z-index: 1;
+	padding: 5px;
+}
+.bAddr {
+	display: block;
+    background: #50627F;
+    color: #fff;
+    text-align: center;
+    height: 24px;
+    line-height:22px;
+    border-radius:4px;
+    padding:0px 10px;
+    width: max-content;
+}
+
+.bAddr:has:has {
+	border: none;
+	background: unset;
+}
+
+#centerAddr {
+	display: block;
+	margin-top: 2px;
+	font-weight: normal;
+}
+
+#map {
+	visibility: hidden;
+	position: absolute;
+	top: 30px;
+	right: 10px;
+	width: 400px;
+	height: 362px;
+}
+
+.deal-type {
+	width: 70px;
+	height: 70px;
+	cursor: pointer;
+}
+
+th, td {
+	border-bottom: 1px solid #ddd;
+}
+
+.prd-info, select {
+	width: 100%;
+	padding: 12px 20px;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.deal {
+	display: flex;
+	height: 100px;
+	align-items: center;
+}
+
+.address {
+	margin-left: 10px;
+	visibility: hidden;
+}
+
+.search {
+	width: 290px;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.wrap {
+	width: 100%;
+	height: 100vh-200px;
+}

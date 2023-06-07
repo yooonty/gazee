@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("/resources/img/error_access_denied.png");
+}

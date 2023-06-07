@@ -1,0 +1,559 @@
+@charset "UTF-8";
+
+p {
+	margin: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 채팅창 div */
+.chat {
+	box-sizing: border-box;
+	background-color: transparent;
+	width: 1000px;
+	height: 560px;
+	border: 1px solid #D8D8D8;
+	display: flex;
+	flex-flow: row;
+	position: relative;
+}
+
+/* 채팅logo */
+#chatIcon {
+	display: flex;
+	align-items: center;
+}
+
+/* 채팅목록 div */
+.chatList_wrap {
+	width: 250px;
+	padding: 0;
+	border-right: 1px solid #D8D8D8;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/* 채팅목록 ul */
+.myChatList {
+	list-style: none;
+	padding: 0 0 100px 0;
+	margin: 0;
+	text-align: left;
+	color: #595959;
+}
+
+/* 목록 각각의 div */
+.chatList {
+	display: flex;
+	align-items: center;
+	background-color: #fff;
+    border-bottom: 1px solid #D8D8D8;
+    padding: 25px 20px;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* 채팅방 나가기 버튼 */
+.roomDelete {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0 10px;
+}
+
+/* 채팅상대 프로필 */
+.chatPartnerProfile {
+	width: 40px;
+	height: 40px;
+	border-radius: 50px;
+	background-image: url("http://erxtjrehmojx17106475.cdn.ntruss.com/person2.png?type=f&w=30&h=30");
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-color: #d9d9d9;
+	overflow: hidden;
+}
+
+/* 최근 메세지 시간 */
+.recentMessageDate {
+	text-align: right;
+	font-size: 14px;
+	color: #bdbdbd;
+}
+
+.newMessage {
+	width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    background: #ce0000;
+    position: absolute;
+    top: 15px;
+    visibility: hidden;
+}
+
+/* 채팅상대 아이디 span */
+.chatRoomName {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+/* 목록의 최근 메세지 p태그 */
+.recentMessage {
+	margin: 5px 0 0 0;
+	opacity: 0.9;
+	font-size: 14px;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+..myChatList > li {
+	background-color: #fff;
+	border-bottom: 1px solid #D8D8D8;
+}
+
+/* 현재 채팅방 div */
+.chatRoomEntry {
+	width: 750px;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+}
+
+/* 현재 채팅방 채팅 공간 */
+.chatArea {
+	flex: 1;
+	display: flex;
+	flex-flow: column;
+	position: relative;
+	padding: 10px 20px 20px 20px;
+	overflow-y: auto;
+	background-color: #fff;
+}
+
+/* 현재 채팅방 헤더 */
+.chatRoomHeader {
+	padding: 20px 40px;
+	background-color: #fff;
+	opacity: 0.9;
+	border-bottom: 1px solid #D8D8D8;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* 채팅 입력 div */
+.chatWrite_wrap {
+	padding: 20px;
+	display: flex;
+	flex-flow: row;
+	background-color: #fff;
+}
+
+/* 채팅 입력 textarea div */
+#inp_chatArea {
+	width: 90%;
+	border: 1px solid #D8D8D8;
+	padding: 10px 20px;
+}
+
+/* 채팅 입력 textarea */
+#chatMessageText {
+	width: 100%;
+	height: 24px;
+	overflow: auto;
+	border: none;
+	outline: none;
+	resize: none;
+	padding: 0;
+	font-size: 15px;
+}
+
+/* 전송 버튼 div */
+#btn_chatSubmit {
+	width: 10%;
+}
+
+/* 채팅 전송 버튼 */
+#btn_chatSubmit>button {
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	background-color: #693FAA;
+	color: #fff;
+	border-color: transparent;
+}
+
+/* 채팅방 제목 div */
+.chatRoomTitle_wrap {
+	width: 150px;
+	text-align: left;
+	display: flex;
+	flex-flow: column;
+}
+
+/* 구매 상품 */
+#productTitle {
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	write-space: nowrap;
+}
+
+/* 상품 썸네일 */
+.productThumbnail {
+	width: 60px;
+	height: 50px;
+	border-radius: 0 0 10px 10px;
+	background-color: #d9d9d9;
+}
+
+/* 채팅상대 */
+#chatPartner {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+/* 거래방식 div */
+#dealType {
+	width: 90px;
+	height: 50px;
+	background: #FFFFFF;
+	border: 1px solid #D8D8D8;
+	border-radius: 39px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 거래방식 div text */
+#dealType>span {
+	color: #808080;
+	font-size: 15px;
+}
+
+/* 판매하기 버튼 */
+#btn_sell>button {
+	cursor: pointer;
+	width: 110px;
+	height: 50px;
+	background: #693FAA;
+	border-color: transparent;
+	color: #fff;
+	font-size: 15px;
+	border-radius: 39px;
+}
+
+/* 결제된 상품일 때 */
+#btn_yet>button, #btn_done>button {
+	width: 110px;
+	height: 50px;
+	background: #363636;
+	border-color: transparent;
+	color: #fff;
+	font-size: 15px;
+	border-radius: 39px;
+}
+
+/* 채팅 로그 div */
+.chatLog {
+	padding: 0 20px;
+}
+
+/* 상대방 채팅 */
+.chat_partner {
+	width: 100%;
+	display: flex;
+	align-content: flex-start;
+	align-items: center;
+}
+
+.chat_partner > div:nth-child(2) {
+	max-width: 400px;
+	word-wrap: break-word;
+	background: #F2F2F2;
+	border-radius: 5px;
+	padding: 15px 20px;
+	text-align: left;
+}
+
+/* 내 채팅 */
+.chat_me {
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.chat_me > div:nth-child(1) {
+	max-width: 400px;
+	word-wrap: break-word;
+	background: rgb(226, 218, 237 , 0.41);
+	border-radius: 5px;
+	padding: 15px 20px;
+	text-align: left;
+}
+
+/* 메세지 margin */
+.message {
+	margin-top: 20px;
+	gap: 10px;
+}
+
+/* 메세지 시간 */
+.messageTime {
+	font-size: 12px;
+	color: #bdbdbd;
+	margin-top: auto;
+}
+
+/* 거래 상태 */
+#status {
+	font-size: 12px;
+	background-color: #404040;
+	color: #fff;
+	padding: 3px;
+	border-radius: 10px 10px 0 0;
+}
+
+/* 거래 날짜, 시간 잡는 input */
+#dealDirectDate {
+	 padding: 5px 10px 10px 10px;
+	 posision: absolute;
+	 border: 1px solid #d8d8d8;
+	 border-radius: 10px 0 0 10px;
+	 position: absolute;
+	 background: #fff;
+	 left: 500px;
+	 top: 130px;
+	 z-index: 1;
+	 box-shadow: 5px 5px 7px 0px #d7d7d763;
+}
+
+#btn_dealDirectDate {
+	cursor: pointer;
+    position: absolute;
+    border-radius: 0 10px 10px 0;
+    top: 130px;
+    left: 690px;
+    z-index: 2;
+    height: 40px;
+    border:  none;
+    background: #693FAA;
+    color: #fff;
+    padding: 1px 11px 3px 10px;
+    font-size: 12px;
+}
+
+/* 토글 메뉴 */
+.menu-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 20px;
+  cursor: pointer;
+}
+
+/* 토글 메뉴 - 드롭 다운 메뉴 */
+#toggle_menu_list {
+	background-color: #fff;
+	border: 1px solid #d8d8d8;
+	border-radius: 10px;
+	margin: 0px;
+	position: absolute;
+	z-index: 2;
+	top: 80px;
+	left: 840px;
+	display: none;
+	list-style: none;
+	padding: 0;
+	box-shadow: 6px 10px 10px 0px #d7d7d763
+}
+
+#toggle_menu_list > li {
+	padding: 10px;
+	cursor: pointer;
+}
+
+#toggle_menu_list > li:hover {
+	background-color: #f7f7f7;
+	transition: 0.5s;
+}
+
+/* 결제요청 채팅 div */
+#paymentMessage_wrap {
+	text-align: left;
+	display: flex;
+	flex-flow: column;
+	gap: 10px;
+}
+
+/* 결제 요청 버튼 */
+#btn_payment, #btn_myPage, #btn_trackingNo, #btn_trackingNoCheck {
+	border: none;
+	background: #693FAA;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* 결제 내역 확인 모달창 */
+#payment_modal {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0, 0, 0, 0.6);
+	align-items: center;
+	justify-content: center;
+	z-index: 3;
+}
+
+/* 모달 내부 div */
+.payment_modal_body {
+	width: 800px;
+    background-color: #fff;
+    display: flex;
+    position: relative;
+}
+
+/* 모달 내용 div */
+.modal_content {
+	width:700px;
+	padding: 50px;
+	margin:auto;
+}
+
+/* payment 모달창 닫기 버튼 */
+.btn_payment_modal_close {
+	position: absolute;
+    left: 750px;
+    top: 30px;
+    cursor: pointer;
+}
+
+/* 모달 - 상품 이미지 */
+.modal_productImg {
+	width: 50%;
+	height:360px;
+	background: #f7f7f7;
+	border-radius: 50px;
+	background-repeat: no-repeat;
+}
+
+/* 모달 - 상품 정보 */
+.modal_productInfo {
+	width: 50%;
+	padding: 5px 30px;
+	text-align: left;
+	display: flex;
+    flex-flow: column;
+    gap: 5px;
+}
+
+/* 최종결제버튼 */
+#btn_finalPayment {
+	cursor: pointer;
+	border: none;
+	background: #693FAA;
+	height: 40px;
+	margin: 10px 0;
+	color: #fff;
+	border-radius: 10px;
+	font-size: 16px;
+}
+
+/* 주소입력창 */
+.address_input {
+	margin: 0.2em 0;
+    font-size: 14px;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-color: #dbdbdb #d2d2d2 #d0d0d0 #d2d2d3;
+    box-shadow: inset 0.1em 0.1em 0.15em rgba(0,0,0,.1);
+    vertical-align: middle;
+    line-height: 1.25em;
+    outline: 0;
+}
+
+/* 우편번호 찾기 버튼 */
+.btn_address {
+    padding: 0.35em 1em;
+    margin: 0.4em 0.15em;
+    border: 1px solid #ccc;
+    border-color: #dbdbdb #d2d2d2 #b2b2b2 #d2d2d3;
+    cursor: pointer;
+    color: #464646;
+    border-radius: 0.2em;
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1.25em;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f2f2f2));
+}
+
+/* 가지페이 결제 잔액 부족시 충전안내 모달 */
+#gazeepay_modal {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.6);
+	justify-content: center;
+	display: none;
+	z-index: 4;
+}
+
+.gazeepay_modal_body {
+	width: 300px;
+	height: 300px;
+	border-radius: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    position: relative;
+}
+
+/* 충전안내 모달창 닫기 버튼 */
+.btn_gazeepay_modal_close {
+	position: absolute;
+	left: 300px;
+	top: 20px;
+	cursor: pointer;
+}
+
+/* 충전안내 모달창 - 금액 정보 */
+.gazeepay_modal_amount {
+	display: flex;
+	flex-flow: column;
+	gap: 5px;
+	width: 260px;
+}
+
+.amount {
+	display: flex;
+	justify-content: space-between;
+	font-size: 18px;
+}
+
+.amount > span:nth-child(2) {
+	font-weight: bold;
+}
+
+.amount:nth-last-child(1) {
+	color: #693FAA;
+}
+
+/* 충전안내 모달창 - 충전버튼 */
+.btn_charge {
+	width: 100px;
+	height: 40px;
+	background: #693FAA;
+	color: #fff;
+	border-style: none;
+	border-radius: 10px;
+	cursor: pointer;
+}

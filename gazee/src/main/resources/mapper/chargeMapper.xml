@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="charge">
+	<insert id="insert" parameterType="chargeVO">
+	INSERT INTO gazee.charge
+	(transaction_id, member_id, transaction_time, pay_method, amount, cancel_transaction_id)
+	VALUES(#{transactionId}, #{memberId}, #{transactionTime}, #{payMethod}, #{amount}, #{cancelTransactionId});
+	</insert>
+	<update id="update" parameterType="String">
+	UPDATE charge
+	SET canceled=1
+	WHERE transaction_id=#{transactionId};
+	</update>
+	<select id="select" parameterType="String" resultType="chargeVO">
+	SELECT * FROM charge
+	WHERE transaction_id=#{cancelTransactionId}
+	</select>
+	<select id="listCharge" resultType="chargeVO">
+        SELECT *
+        FROM charge
+    </select>
+</mapper>

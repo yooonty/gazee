@@ -1,0 +1,182 @@
+/* content */
+.item {
+	width: 200px;
+	float: left;
+	margin-bottom: 10px;
+	text-align: left;
+	cursor: pointer;
+}
+
+.itemImage {
+	border-radius: 5%;
+	width: 195px;
+	height: 195px;
+}
+
+.itemPrice {
+	font-weight: bold;
+}
+.itemProductName {
+	white-space: nowrap;
+	font-size: 16px;
+    line-height: 1.45;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.itemSeller, .itemCategory{
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(153, 153, 153);
+    line-height: 1.38;
+    word-break: break-word;
+    padding-top: 3px;
+}
+
+/*슬라이드에 직접 적용되는 스타일*/
+[name="slide"] { display: none; } /*클래스 slidebox 내 name="slide"부분 */
+.slidebox { 
+    max-width: 1000px; 
+    width: 100%;
+    margin: 0 auto;
+	height: 300px;
+	border-radius: 30px;
+	overflow: hidden;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	cursor: pointer;
+}
+.slidebox img { /*자신의 넓이 이상으로 커지지 않도록 함, 반응형 사용 가능*/
+    /* max-width: 100%; */
+}
+.slidebox .slidelist {
+	padding-left: 0;
+    white-space: nowrap;
+    font-size:0; /*빈공간을 없애기 위함*/
+    overflow: hidden; /*초과해서 이미지가 나올 경우 나오지 않게 함*/
+}
+.slidebox .slideitem {
+    position: relative;
+    display: inline-block; /*세로 정렬을 가운데 맞추기 위함*/
+    vertical-align: middle;
+    width: 100%;
+    transition: all .35s; /*자연스러운 전환 속성을 위함*/
+}
+.slidebox .slideitem label {
+    position: absolute; /*자율 배치하는 값*/
+    z-index: 1; /*기본값 1*/
+    top: 50%;
+    transform: translateY(-50%); /*가운데 지정*/
+    padding: 20px;
+    border-radius: 50%; /*둥근 버튼 모양*/
+    cursor: pointer; /*마우스가 올라가면 커서가 포인터로 바뀌도록 함*/
+}
+label.left {
+    left: 20px;
+    background-position: center center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+label.right {
+    right: 20px;
+    background-position: center center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+.slidebox .slideitem span {
+    position: absolute; /*자율 배치하는 값*/
+    top: 50%;
+    transform: translateY(-50%); /*가운데 지정*/
+    cursor: pointer; /*마우스가 올라가면 커서가 포인터로 바뀌도록 함*/
+    color: white;
+}
+span.right {
+	width: 0;
+    right: 50px;
+}
+span.left {
+	width: 0;
+    left: 35px;
+}
+[id="slide01"]:checked ~ .slidelist .slideitem {transform:translateX(0); animation:slide01 15s infinite}
+[id="slide02"]:checked ~ .slidelist .slideitem {transform:translateX(-100%); animation:slide02 15s infinite}
+ 
+@keyframes slide01 {
+    0% {left: 0%;} /*첫 번째 스크린*/
+    48% {left: 0%;} /*두 번째로 위치 이동, 두 번쨰 스크린*/
+    50% {left: -100%;}/*세 번째로 위치 이동*/
+    98% {left: -100%;} /*네 번째 스크린*/
+    100% {left:0%} /*첫 번째 스크린 이동*/
+}
+@keyframes slide02 {
+    0% {left: 0%;} /*첫 번째 스크린*/
+    48% {left: 0%;} 
+    50% {left: 100%;}
+    98% {left: 100%;} /*첫 스크린 이동*/
+    100% {left:0%}
+}
+
+.title {
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-top: 8px;
+}
+
+.recommend {
+	height: 350px;
+	padding-top: 30px;
+}
+
+.categoryMenu {
+	cursor: pointer;
+}
+
+/* searchList.jsp, categoryList.jsp */
+#categoryWrap {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	transition: height 0.3s ease-in-out 0s;
+	margin-bottom: 50px;
+}
+
+.category {
+	width: 207px;
+	height: 48px;
+	background: rgb(255, 255, 255);
+	margin: 0px 1px 1px 0px;
+	border: 1px solid rgb(238, 238, 238);
+	display: flex;
+	align-items: center;
+	padding: 0 20px
+}
+
+#categoryTitle {
+	margin-top: 0;
+	text-align: center;
+	font-size: 24px;
+	font-weight: 500;
+}
+
+#searchHelper {
+	display: flex;
+	justify-content: space-between;
+}
+
+#searchOrder {
+	display: flex;
+	list-style-type: none;
+	margin: 0;
+	font-size: 14px;
+}
+
+.pages {
+	width: 34px;
+	height: 34px;
+	background-color: white;
+	border: 1px solid rgb(204, 204, 204);
+	color: rgb(155, 153, 169);
+	cursor: pointer;
+}

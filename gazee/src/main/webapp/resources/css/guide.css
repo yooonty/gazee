@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+.guide_wrap {
+	width: 80%;
+    margin: 20px auto;
+    background-image: url(../img/backgroundImg1.png);
+    background: size;
+    background-size: 300px 450px;
+    background-repeat: no-repeat;
+    background-position-x: 470px;
+    background-position-y: -50px;
+}
+.guide_title, .guide_content {
+	display: flex;
+	flex-flow: column;
+	align-items: flex-start;
+}
+
+.guide_content {
+	margin-top: 30px;
+}
+
+.guide_tag {
+	padding: 5px 10px;
+	background: #693FAA;
+	color: #fff;
+	border-radius: 10px;
+	font-size: 14px;
+	margin-bottom: 10px;
+}
+
+.guide_content_title {
+	font-size: 24px;
+}
+
+.guide_content_detail {
+	color: #9399ac;
+}
+
+.guide_content_img {
+	width: 50%;
+	height: 300px;
+	margin: 40px 0 50px auto;
+	background: #000;
+	border-radius: 10px;
+	box-shadow: 5px 5px 7px 0px #3d3d3d3b;
+}
+
+.guide_step_no {
+	font-weight: bold;
+	color: #693faa;
+	padding-left: 10px;
+}
+
+.guide_step {
+	font-size: 16px;
+	padding-left: 10px;
+}
+
+.guide_step_img {
+	width: 50%;
+	height: 100px;
+	margin: 20px 0 50px auto;
+	background: #000;
+	border-radius: 10px;
+	box-shadow: 5px 5px 7px 0px #3d3d3d3b;
+}
+
+.phoneImg {
+	position: absolute;
+    /* z-index: -1; */
+    right: 0;
+    left: 450px;
+    top: -50px;
+    width: 300px;
+    height: 450px;
+    background-image: url(../img/backgroundImg1.png);
+    background-size: cover;
+}
