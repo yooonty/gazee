@@ -170,6 +170,7 @@ span.left {
 	list-style-type: none;
 	margin: 0;
 	font-size: 14px;
+	gap: 10px;
 }
 
 .pages {
