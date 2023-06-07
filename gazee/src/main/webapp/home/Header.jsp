@@ -3,7 +3,7 @@
 <%
 	String mode = request.getParameter("mode");
 	String id = (String)session.getAttribute("id");
-%>	
+%>
 <script type="text/javascript">
 $(function() {
 	/* 검색창을 이용한 검색 */
@@ -33,7 +33,7 @@ $(function() {
 				<%
 					if(mode!=null){
 				%>
-				<a href="gazeeMain.jsp"> 
+				<a href="../home/gazeeMain.jsp"> 
 					<img src="../resources/img/gazee_logo.png" id="logo">
 				</a>
 				<%
@@ -57,7 +57,6 @@ $(function() {
 				%>
 				<li id="login"><a href="../member/mypage.jsp" style="color: #693faa !important;">${nickname}님</a></li>
 				<li class= "line">|</li>
-				<li><a href="../member/logout">로그아웃</a></li>
 				<li><a href="../member/logout" onclick="LocalStorageClear()">로그아웃</a></li>
 				<li class= "line">|</li>
 				<li><a href="../faq/faqlist?page=1&mode=1">고객센터</a></li>
