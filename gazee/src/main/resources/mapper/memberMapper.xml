@@ -127,13 +127,6 @@
         WHERE user_level = 0
     </select>
 
-    <!-- Email 검색으로 PW 변경 -->
-    <update id="updatePw">
-        UPDATE member
-        SET pw = #{pw}
-        WHERE email = #{email}
-    </update>
-
     <!-- Email로 회원 검색 -->
     <select id="checkAdmin" parameterType="String" resultType="memberVO">
         SELECT *

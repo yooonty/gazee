@@ -110,12 +110,6 @@
 	  select * from product	
 	</select>
 
-    <!-- ALL -->
-    <select id="all" resultType="productVO">
-        SELECT *
-        FROM product
-    </select>
-
     <!-- Paged ALL -->
     <select id="pagedAll" resultType="productVO" parameterType="pageVO">
         SELECT *

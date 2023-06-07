@@ -93,13 +93,6 @@
         WHERE report_id = #{reportId}
     </update>
 
-    <!-- 신고글 상세 -->
-    <select id="one" parameterType="Integer" resultType="reportVO">
-        select *
-        from report
-        where report_id = #{reportId}
-    </select>
-
     <!-- 신고글 전체 Read (non페이징) -->
     <select id="nonPagedList" resultType="reportVO">
         select * from report
