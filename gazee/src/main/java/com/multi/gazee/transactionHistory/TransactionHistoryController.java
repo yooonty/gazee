@@ -32,7 +32,6 @@ public class TransactionHistoryController {
 	@RequestMapping("pay/userInfo")
 	@ResponseBody
 	public HashMap<String, Object> checkBalance(HttpSession session, HttpServletResponse response) {
-		session.setAttribute("id", "testuser");
 		//1. 잔액 가져오기
 		int balance = transactionHistorydao.select(String.valueOf(session.getAttribute("id")));
 		//2. 멤버객체 가져오기(계좌정보)
