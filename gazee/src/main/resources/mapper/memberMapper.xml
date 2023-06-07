@@ -214,4 +214,8 @@
             user_level = 3
         WHERE no = #{no};
     </update>
+    
+    <select id="searchOneByNickname" parameterType="String" resultType="memberVO">
+		select * from member where nickname = #{nickname};
+	</select>
 </mapper>

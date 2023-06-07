@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.gazee.customerService.PageVO;
 import com.multi.gazee.reportImg.ReportImgDAO;
@@ -19,8 +20,9 @@ public class ReportController {
 	ReportService service;
 	
 	@RequestMapping("report/reportWrite")
-	public void reportWrite(ReportVO bag,  HttpSession session) {
-		service.reportWrite(bag, session);
+	@ResponseBody
+	public int reportWrite(ReportVO bag,  HttpSession session) {
+		return service.reportWrite(bag, session);
 	}
 	
 	@RequestMapping("report/reportDelete")
@@ -29,8 +31,9 @@ public class ReportController {
 	}
 	
 	@RequestMapping("report/reportUpdate")
-	public void reportUpdate(ReportVO bag) {
-		service.reportUpdate(bag);
+	@ResponseBody
+	public int reportUpdate(ReportVO bag) {
+		return service.reportUpdate(bag);
 	}
 
 	@RequestMapping("report/reportList")

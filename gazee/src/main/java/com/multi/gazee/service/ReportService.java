@@ -10,11 +10,11 @@ import com.multi.gazee.report.ReportVO;
 
 public interface ReportService {
 
-	void reportWrite(ReportVO bag, HttpSession session);
+	int reportWrite(ReportVO bag, HttpSession session);
 	
 	void reportDelete(ReportVO bag);
 	
-	void reportUpdate(ReportVO bag);
+	int reportUpdate(ReportVO bag);
 	
 	String reportList(PageVO vo, Model model, int mode) throws Exception;
 	

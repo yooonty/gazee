@@ -270,4 +270,9 @@ public class MemberDAO { // CRUD
 	public void adminDeleteMember(int no) {
 		my.update("member.adminDeleteMember", no);
 	}
+	
+	public MemberVO findByNickname(String nickname) {
+		MemberVO vo = my.selectOne("member.searchOneByNickname", nickname);
+		return vo;
+	}
 }

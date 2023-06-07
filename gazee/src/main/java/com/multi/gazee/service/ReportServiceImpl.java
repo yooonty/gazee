@@ -33,19 +33,34 @@ public class ReportServiceImpl implements ReportService{
 	@Autowired
 	ReportCountDAO RCDao;
 	
-	public void reportWrite(ReportVO bag, HttpSession session) {
-		bag.setReportWriter((String)session.getAttribute("id"));
-		dao.reportRegister(bag);
-		int reportId = bag.getReportId();
-		session.setAttribute("reportId", reportId);
+	public int reportWrite(ReportVO bag, HttpSession session) {
+		String reportee=bag.getReportee();
+		MemberVO vo = memberDao.findByNickname(reportee);
+		if(vo == null) {
+			return 2;
+		} else{
+			bag.setReportWriter((String)session.getAttribute("id"));
+			dao.reportRegister(bag);
+			int reportId = bag.getReportId();
+			session.setAttribute("reportId", reportId);
+			return 1;
+		}
 	}
 	
 	public void reportDelete(ReportVO bag) {
 		dao.reportDelete(bag);
 	}
 	
-	public void reportUpdate(ReportVO bag) {
-		dao.reportUpdate(bag);
+	public int reportUpdate(ReportVO bag) {
+		String reportee=bag.getReportee();
+		MemberVO vo = memberDao.findByNickname(reportee);
+		if(vo == null) {
+			return 2;
+		} else{
+			dao.reportUpdate(bag);
+			return 1;
+		}
+		
 	}
 	
 	public String reportList(PageVO vo, Model model, int mode) {

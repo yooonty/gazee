@@ -48,7 +48,7 @@
 							var reportee = $('.reportee').val();
 							var save= $(this).val();
 								
-							if (save == 1 && (reportCategory == null || reportTitle == null || reportContent == null)) {
+							if (save == 1 && (reportCategory == null || reportTitle == null || reportContent == null)|| reportee== null) {
 								alert("필수값을 입력해주세요");
 							} else {
 								$.ajax({
@@ -62,14 +62,20 @@
 										reportee : reportee
 									},
 									success : function(x) {
-										if (save == 1) {
+										if (x==1){
+											if (save == 1) {
 											uploadFiles();
-											alert("신고 게시글을 등록했습니다.");
+											alert("신고 게시글 등록이 완료되었습니다.");
 											location.href="reportList?page=1&mode=1"
-										} else if (save == 0) {
-											alert("글을 저장했습니다.");
-											location.href="reportList?page=1&mode=1"
+											} else if (save == 0) {
+												alert("글을 저장했습니다.");
+												location.href="reportList?page=1&mode=1"
+											}
+										} else{
+											alert("올바른 신고 대상자를 입력해주세요. (닉네임을 다시 확인해주시길 바랍니다.)")
 										}
+										
+										
 									}
 								})
 							}
