@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 @PropertySource("classpath:application.properties")
 @Service
@@ -76,7 +77,7 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
         String hostSMTP = "smtp.gmail.com";
         String hostSMTPid = hostSmtpId;
         String hostSMTPpwd = hostSmtpPwd;
-        
+    
         // 보내는 사람 EMail, 제목, 내용
         String fromEmail = "qlscmgns@gmail.comm";
         String fromName = "가지가지 관리자";
@@ -95,7 +96,6 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
         // 받는 사람 E-Mail 주소
         String mail = vo.getEmail();
         try {
-            
             HtmlEmail email = new HtmlEmail();
             email.setAuthentication(hostSMTPid, hostSMTPpwd);
             email.setDebug(true);
@@ -103,6 +103,13 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
             email.setSSLOnConnect(true);
             email.setHostName(hostSMTP);
             email.setSslSmtpPort("465");
+            
+            Properties props = System.getProperties();
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.port", "465");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
             
             email.setTLS(true);
             email.addTo(mail, charSet);
