@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>가지가지</title>
+<link rel="shortcut icon" href="../resources/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet"/>
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css">
@@ -59,10 +60,9 @@
 		$("#register").click(function() {
 			if (memberId !== "null") {
 				location.href = "../product/checkTemporaryProduct?memberId=" + memberId;
-			}else{
+			} else{
 				alert("판매하기는 로그인 후 이용해주세요!");
 			}
-			
 		})
 	})
 </script>
