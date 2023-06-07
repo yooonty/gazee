@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ page import="java.util.List" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript">	
 $(function() {
@@ -65,9 +67,11 @@ $(function() {
 	
 	$("#btnInvoice").click(function() {
 	 var deliveryCom = $('#deliveryCom option:selected').val();
+	 console.log(deliveryCom)
 	 const trackingNo = document.getElementById("trackingNo").value;
+	 console.log(trackingNo)
 	 	 
-		 $.ajax({
+	 $.ajax({
 		    url: "trackingNo",
 		    data: {
 		        no: modal_id,
@@ -75,21 +79,11 @@ $(function() {
 		        trackingNo: trackingNo
 		    },
 		    success: function(response) {
+		        console.log(response);
 		        var trackingInfo = response; // 응답으로 받은 트래킹 정보
 		        var b7 = document.getElementById("b7");
 		        b7.innerText = trackingInfo;
-		        $.ajax({
-					url: '../order/getOrderInfo',
-					data: {
-						no: modal_id
-					},
-					success: function(response) {
-						memberId = response.sellerId;
-						roomId = response.roomId;
-						trackingNoFinished(memberId, roomId);
-						location.reload();
-					}
-				})
+		        location.reload();
 		    },
 		    error: function() {
 		        console.log("오류 발생");
@@ -113,9 +107,10 @@ $(function() {
      <table class="table">
        <thead>
       <tr>
-        <th>판매자</th>
+        <th>상품사진</th>
+        <th>상품이름</th>
+        <th>금액</th>
         <th>구매자</th>
-        <th>거래방식</th>
         <th>판매상황</th>
         <th>택배/운송번호 등록하기</th>
         <th>택배사</th>
@@ -128,27 +123,30 @@ $(function() {
 	      	@SuppressWarnings("unchecked")
 			List<String> dealType = (List<String>)request.getAttribute("dealType");
       	%>
-      	<c:forEach var="vo" items="${sellList}" varStatus="status">
-			<p style="display: none">${vo.no}</p>		
+      		<c:forEach var="i" begin="1" end="${fn:length(list)}">
+      			<p id="no" style="display: none">${list[i-1].no}</p>
       	<tbody>
 		    <tr>
-		        <td>${vo.sellerId}</td>
-		        <td>${vo.buyerId}</td>
-		        <td>${vo.dealType}</td>
-		        <td id="order_status">
-		        	${sellStatus[status.index]}
-		        </td>
+		        <td><img alt="제품이미지" src="http://awswlqccbpkd17595311.cdn.ntruss.com/${list4[i-1].productImageName}?type=f&w=60&h=60"></td>	
 		        <td>
-                    <c:if test="${dealType[status.index] eq '택배거래'}">
-                        <button id="${vo.no}" class="btn_trackingNo" style="border-radius: 5px; background: #6f42c1; color: #FFFFFF;">운송장</button>
+		        <a href="../product/productDetail.jsp?productId=${list2[i-1].productId}">
+				    ${list2[i-1].productName}
+				</a>
+				</td>
+				<td><fmt:formatNumber value="${list2[i-1].price}" pattern="#,###"/></td>
+				<td>${list3[i-1].nickname}</td>
+		        <td>${sellStatus[i-1]}</td>
+		        <td>
+                    <c:if test="${dealType[i-1] eq '택배거래'}">
+                        <button id="${list[i-1].no}" class="btn_trackingNo" style="border-radius: 5px; background: #6f42c1; color: #FFFFFF;">운송장</button>
                     </c:if>
 		        </td>
-		        <td id="companyName">${vo.deliveryCom}</td>
+		        <td id="companyName">${list[i-1].deliveryCom}</td>
 		        <td>
-				  <a href="#" class="trackingNo" data-trackingno="${vo.trackingNo}">
-				    ${vo.trackingNo}
+				  <a href="#" class="trackingNo" data-trackingno="${list[i-1].trackingNo}">
+				    ${list[i-1].trackingNo}
 				  </a>
-				</td>
+				</td> 
 		        <td id="b7"></td>
 		    </tr>
 		</tbody>

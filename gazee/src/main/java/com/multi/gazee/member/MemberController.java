@@ -34,7 +34,7 @@ import com.multi.gazee.productLikes.ProductLikesVO;
 public class MemberController {
 	
 	@Autowired
-	MemberDAO dao;
+	MemberDAO dao; 
 	
 	@Autowired
 	ProductDAO dao2;
@@ -44,93 +44,34 @@ public class MemberController {
 	
 	@Autowired
 	ProductImageDAO dao4;
-	
-	@RequestMapping("member/nick")
-	@ResponseBody
-	public void nick(String id,HttpSession session) {
-		MemberVO check = dao.logincheck(id);
-		System.out.println("구분"+check);
-		session.setAttribute("nickname", check.getNickname());
-	}
-	
-	@RequestMapping("member/changeNick")
-    @ResponseBody
-    public String changeNick(HttpSession session, MemberVO bag,String nickname) {
-    	String id = (String)session.getAttribute("id");
-    	System.out.println("아이디 잘 들어갔는지"+id);
-    	if (nickname == null) {
-			return "0";
-		}else {
-			bag = dao.selectOne(id);
-			bag.setNickname(nickname);
-			System.out.println("닉네임 잘 들어갔는지"+nickname);
-			dao.nick(bag);
-			return "1";			
-		}
-    }
-	
-	// 회원정보수정/세션 잡혀있는 상태 패스워드 재설정
-    @RequestMapping(value = "member/ResetPw",produces = "application/text; charset=utf8")
-    @ResponseBody
-    public String ResetPw(HttpSession session,@ModelAttribute("pw") String pw,@ModelAttribute("pw2") String pw2, MemberVO bag) {
-    	String id = (String) session.getAttribute("id");
-    	bag = dao.selectOne(id);
-    	if (bag.getUserLevel() == 2) {
-    		return "없는 아이디입니다.";
-    	}else {			
-    		if (pw.equals(pw2)) {				
-    			Bcrypt bcry = new Bcrypt();
-    			String bcryPw = bcry.encrypt(pw);
-    			System.out.println("비크라이비번"+bcryPw);
-    			bag.setPw(bcryPw);
-    			System.out.println("컨트롤러 가방"+bag);
-    			dao.updatePw(bag);
-    			return "1";
-    		}else {
-    			return "0";
-    		}		
-    	}
-    }
-	
-	// 회원수정- 닉네임 중복체크
-		@RequestMapping(value = "member/nicknameCheck", method = { RequestMethod.GET }, produces = "application/text; charset=utf8")
-		@ResponseBody
-		public String nicknameCheck(HttpServletRequest req, HttpServletResponse resp, HttpSession session, String nickname) {
-			dao.nicknameCheck(nickname);
-			if (nickname.length() >= 3) {
-				if (dao.nicknameCheck(nickname) != null) {
-					return "중복되는 닉네임입니다";
-				} else {
-					return "변경 가능한 닉네임입니다.";	
-				}
-			}else {
-				return "3글자 이상으로 입력해야합니다.";
-			}
-		}
-	
+		
 	//비밀번호 암호화
     //로그인
 	@RequestMapping(value ="member/login" , produces = "application/text; charset=utf8")  
     @ResponseBody	
-    public String login(@RequestParam("id") String id,@RequestParam("pw") String pw, HttpSession session) {
+    public String login(@RequestParam("id") String id,@RequestParam("pw") String pw, HttpSession session,MemberVO bag) {
 		MemberVO check = dao.logincheck(id);
         System.out.println("테스트>>"+id);
         System.out.println(pw);
         System.out.println(check);
-       
-        if (check != null) {
-        	String hasedpw = check.getPw();        				
-        	if (BCrypt.checkpw(pw, hasedpw) == true) {
-                session.setAttribute("id", check.getId());
-                session.setAttribute("nickname", check.getNickname());
-                return "성공";
-            } else {
-                return "비밀번호가 다릅니다.다시 확인해 주세요.";
-            }
-        }else {
-            return "존재하지 않는 아이디입니다.";
-        }
-    }
+       if (check.getUserLevel() == 2) {
+    	   return "탈퇴한 아이디입니다";
+       }else {
+    	   if (check != null) {
+    		   String hasedpw = check.getPw();        				
+    		   if (BCrypt.checkpw(pw, hasedpw) == true) {
+    			   session.setAttribute("id", check.getId());
+    			   session.setAttribute("nickname", check.getNickname());
+    			   return "성공";
+    		   } else {
+    			   return "비밀번호가 다릅니다.다시 확인해 주세요.";
+    		   }
+    	   }else {
+    		   return "존재하지 않는 아이디입니다.";
+    	   }		
+       	}    
+	}
+		
 	
 	// 회원가입
     @RequestMapping("member/insert")
@@ -192,7 +133,7 @@ public class MemberController {
 			return "6자 이상으로 입력해야합니다.";
 		}
 	}
-	
+		
 	// PW찾기 id체크 
 	@RequestMapping(value = "member/PWidcheck", method = { RequestMethod.GET }, produces = "application/text; charset=utf8")
 	@ResponseBody
@@ -238,6 +179,26 @@ public class MemberController {
     	return dao.joinEmail(email);
     }
     
+    // 회원 탈퇴 
+    @RequestMapping(value = "member/delete", produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String delete(@ModelAttribute("pw") String pw, HttpSession session,RedirectAttributes rttr) {
+    	String id =(String)session.getAttribute("id");
+    	MemberVO bag = dao.selectOne(id); 	
+    	String hasedpw = bag.getPw();
+    	System.out.println("컨"+id);
+    	System.out.println("트"+pw);
+    	System.out.println("롤"+hasedpw);
+    	if (BCrypt.checkpw(pw, hasedpw) == true) {
+			dao.leave(bag);
+			session.invalidate();
+	    	return "탈퇴성공";
+		}else {
+			rttr.addFlashAttribute("msg", false);
+			return "탈퇴실패";			
+		}
+    }
+    
     // newPw_패스워드 재설정
     @RequestMapping(value = "member/updatePw",produces = "application/text; charset=utf8")
     @ResponseBody
@@ -255,16 +216,70 @@ public class MemberController {
 				dao.updatePw(bag);
 				return "비밀번호 재설정되었습니다.";
 			}else {
-				return "비밀번호가 일치하지 않습니다.";
+				return "비밀번호 확인이 어렵습니다.";
 			}		
 		}
 	}
+
+    // 회원정보수정/세션 잡혀있는 상태 패스워드 재설정
+    @RequestMapping(value = "member/ResetPw",produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String ResetPw(HttpSession session,@ModelAttribute("pw") String pw,@ModelAttribute("pw2") String pw2, MemberVO bag) {
+    	String id = (String) session.getAttribute("id");
+    	bag = dao.selectOne(id);
+    	if (bag.getUserLevel() == 2) {
+    		return "없는 아이디입니다.";
+    	}else {			
+    		if (pw.equals(pw2)) {				
+    			Bcrypt bcry = new Bcrypt();
+    			String bcryPw = bcry.encrypt(pw);
+    			System.out.println("비크라이비번"+bcryPw);
+    			bag.setPw(bcryPw);
+    			System.out.println("컨트롤러 가방"+bag);
+    			dao.updatePw(bag);
+    			return "1";
+    		}else {
+    			return "0";
+    		}		
+    	}
+    }
 	
     @RequestMapping("member/logout")
     public String logout(HttpSession session) {
     	dao.logoutTimeUpdate((String)session.getAttribute("id"));
         session.invalidate();
         return "redirect:member.jsp";
+    }
+    
+    // 회원수정- 닉네임 중복체크
+    @RequestMapping(value = "member/nicknameCheck", method = { RequestMethod.GET }, produces = "application/text; charset=utf8")
+    @ResponseBody
+    public String nicknameCheck(HttpServletRequest req, HttpServletResponse resp, HttpSession session, String nickname) {
+    	dao.nicknameCheck(nickname);
+    	if (nickname.length() >= 3) {
+    		if (dao.nicknameCheck(nickname) != null) {
+    			return "no";
+    		} else {
+    			return "ok";	
+    		}
+    	}else {
+    		return "3";
+    	}
+    }
+
+    @RequestMapping("member/changeNick")
+    @ResponseBody
+    public String changeNick(HttpSession session, MemberVO bag,String nickname) {
+    	String id = (String)session.getAttribute("id");
+    	if (nickname == null) {
+			return "0";
+		}else {
+			bag = dao.selectOne(id);
+			bag.setNickname(nickname);
+			dao.nick(bag);
+			session.setAttribute("nickname", nickname);
+			return "1";			
+		}
     }
     
     @RequestMapping("member/getId")
@@ -292,16 +307,20 @@ public class MemberController {
         List<OrderVO> list = dao.purchsList(id);
         List<OrderVO> list2 = dao.sellList(id);
         List<ProductVO> list3 = new ArrayList<ProductVO>();
-        List<ProductVO> list6 = new ArrayList<ProductVO>();        
         List<MemberVO> list4 = new ArrayList<MemberVO>();
         List<MemberVO> list5 = new ArrayList<MemberVO>();
+        List<ProductVO> list6 = new ArrayList<ProductVO>();        
+        List<ProductImageVO> list7 = new ArrayList<ProductImageVO>();
+        List<ProductImageVO> list8 = new ArrayList<ProductImageVO>();
         for (int i = 0; i < list.size(); i++) {
         	list3.add(dao2.productOne(list.get(i).getProductId()));
 			list4.add(dao.selectOne(list.get(i).getSellerId()));
+			list7.add(dao4.productImageThumbnail(list3.get(i).getProductId()));
 		}
         for (int i = 0; i < list2.size(); i++) {
+        	list5.add(dao.selectOne(list2.get(i).getBuyerId()));	
         	list6.add(dao2.productOne(list2.get(i).getProductId()));        	
-        	list5.add(dao.selectOne(list2.get(i).getBuyerId()));	      				
+        	list8.add(dao4.productImageThumbnail(list6.get(i).getProductId()));
 		}        
         model.addAttribute("list", list);
         model.addAttribute("list2", list2);
@@ -309,9 +328,11 @@ public class MemberController {
         model.addAttribute("list4", list4);
         model.addAttribute("list5", list5);      
         model.addAttribute("list6", list6);      
+        model.addAttribute("list7", list7);      
+        model.addAttribute("list8", list8);      
     }
     
- // 구매내역 리스트
+    // 구매내역 리스트
     @RequestMapping("member/purchsList")
     public void purchsList(String id, Model model) {
         List<OrderVO> list = dao.purchsList(id);     
@@ -319,10 +340,12 @@ public class MemberController {
         List<MemberVO> list3 = new ArrayList<MemberVO>();
         List<String> sellStatus = new ArrayList<String>();
         List<ChatVO> directDate = new ArrayList<ChatVO>();   
+        List<ProductImageVO> list4 = new ArrayList<ProductImageVO>();
         
         for (int i = 0; i < list.size(); i++) {
 			list2.add(dao2.productOne(list.get(i).getProductId()));
-			list3.add(dao.selectOne(list.get(i).getSellerId()));			
+			list3.add(dao.selectOne(list.get(i).getSellerId()));	
+			list4.add(dao4.productImageThumbnail(list2.get(i).getProductId()));
 			if(list.get(i).getSetStatus() == 1) {
 				sellStatus.add("정산 완료");
 			} else if (list.get(i).getCompleteStatus() == 1 && list.get(i).getSetStatus() == 0) {
@@ -336,14 +359,17 @@ public class MemberController {
 				directDate.add(null);
 			}
         }
+        
         model.addAttribute("list", list);
         model.addAttribute("list2", list2);
         model.addAttribute("list3", list3);
+        model.addAttribute("list4", list4);
         model.addAttribute("sellStatus", sellStatus);
         model.addAttribute("directDate", directDate);
     }
+
     
- // 판매내역 리스트
+    // 판매내역 리스트
     @RequestMapping("member/sellList")
     public void sellList(String id, Model model) {
         List<OrderVO> list = dao.sellList(id);
@@ -351,9 +377,11 @@ public class MemberController {
         List<MemberVO> list3 = new ArrayList<MemberVO>();
         List<String> sellStatus = new LinkedList<String>();
         List<String> dealType = new LinkedList<String>();
+        List<ProductImageVO> list4 = new ArrayList<ProductImageVO>();
         for (int i = 0; i < list.size(); i++) {
         	list2.add(dao2.productOne(list.get(i).getProductId()));
 			list3.add(dao.selectOne(list.get(i).getBuyerId()));	
+			list4.add(dao4.productImageThumbnail(list2.get(i).getProductId()));
 			if(list.get(i).getSetStatus() == 1) {
 				sellStatus.add("정산 완료");
 			} else if (list.get(i).getCompleteStatus() == 1 && list.get(i).getSetStatus() == 0) {
@@ -370,6 +398,7 @@ public class MemberController {
         model.addAttribute("list", list);
         model.addAttribute("list2", list2);
         model.addAttribute("list3", list3);
+        model.addAttribute("list4", list4);
         model.addAttribute("sellStatus", sellStatus);
         model.addAttribute("dealType", dealType);
     }
@@ -429,8 +458,9 @@ public class MemberController {
     @RequestMapping("member/profile")
     @ResponseBody
     public String profile(String id, Model model) {
+    	System.out.println("프로파일 이미지>>"+id);
     	MemberVO bag = dao.selectOne(id);
-    	String profileImgAddr = "url('http://zurvmfyklzsa17604146.cdn.ntruss.com/" + bag.getProfileImg() + "?type=f&w=120&h=120')";
+    	String profileImgAddr = "url('http://zurvmfyklzsa17604146.cdn.ntruss.com/" + bag.getProfileImg() + "?type=f&w=50&h=50')";
     	return profileImgAddr;
     }
 }
