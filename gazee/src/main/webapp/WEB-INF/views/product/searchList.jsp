@@ -57,6 +57,7 @@
 </head>
 <body>
 <div id="wrap">
+	<div id="newMessagePushAlarm"></div>
 	<div id = "header">
 		<jsp:include page="/home/Header.jsp" flush="true"/>
 	</div>
