@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>가지가지</title>
+<link rel="shortcut icon" href="../resources/favicon.ico">
 <link href="../resources/css/alarm.css" rel="stylesheet" type="text/css">
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
