@@ -29,8 +29,8 @@
 	        var tr = btn.parent().parent();
 	        var td = tr.children();
 	        
-	        var trackingNo = td.eq(5).text().trim();
-	        var deliveryCom = td.eq(4).text();
+	        var trackingNo = td.eq(6).text().trim();
+	        var deliveryCom = td.eq(5).text();
 	 		console.log(trackingNo)       
 	 		console.log(deliveryCom)       
 		    e.preventDefault();
