@@ -21,7 +21,7 @@ public class ProfileImgUploadController {
 	@Autowired
 	MemberDAO dao;
 	// 파일 업로드 처리
-	@RequestMapping(value = "member/profile", method = RequestMethod.POST)
+	@RequestMapping(value = "member/profileUpdate", method = RequestMethod.POST)
 	public @ResponseBody void uploadMultipleFileHandler(@RequestParam("file") List<MultipartFile> multiFileList, MemberVO bag,HttpSession session) {
 	    StringBuilder message = new StringBuilder();
 	    String id = (String)session.getAttribute("id");
