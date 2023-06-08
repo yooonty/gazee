@@ -41,7 +41,7 @@
                      
                   $('#content').html(result) 
                   //$('#foundId').text(result);                 
-                  alert(email)
+                 
                    $.ajax({
                       url : "getId",
                       data:{

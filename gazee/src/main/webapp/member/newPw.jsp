@@ -36,11 +36,13 @@
 		            data: {	      
 		            	id: id,
 		                pw: pw,
-		                pw: pw2
+		                pw2: pw2
 		                
 		            },
-		            success: function(result) {		         		              
+		            success: function(result) {	
+		            	alert("비밀번호가 재설정되었습니다.")
 		                console.log(result);
+						location.href="member.jsp"
 		            }		            
 		        });
 		    } else {
@@ -68,7 +70,7 @@
 	</script>
 	<div id="wrap">
 		 <h2>새 비밀번호 설정</h2>
-		<div id="content_wrap">
+		<!-- <div id="content_wrap"> -->
 			<div id="content">
 			   <div id = "PwresetBox">
 					<div class="head">
@@ -87,6 +89,6 @@
 					<font id="chkNotice" size="2"></font>
 			    </div>
 			</div>
-		</div>
+		<!-- </div> -->
 		<button type="submit" id="btn_ReSet">확 인</button>
 	</div>

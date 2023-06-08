@@ -210,10 +210,8 @@ public class MemberController {
 		}else {			
 			if (pw.equals(pw2)) {				
 				Bcrypt bcry = new Bcrypt();
-				String bcryPw = bcry.encrypt(pw);
-				System.out.println("비크라이비번"+bcryPw);
-				bag.setPw(bcryPw);
-				System.out.println("컨트롤러 가방"+bag);
+				String bcryPw = bcry.encrypt(pw);				
+				bag.setPw(bcryPw);				
 				dao.updatePw(bag);
 				return "비밀번호 재설정되었습니다.";
 			}else {
