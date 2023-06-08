@@ -46,25 +46,25 @@
 					<span class="guide_content_title">거래 <span style="font-weight: bold;">수수료 X</span></span>
 					<span class="guide_content_detail" style="margin-top: 5px;">[마이페이지]에서 충전해 수수료 없이 현금처럼 사용이 가능해요!</span>
 					<span class="guide_content_detail">[단, 가지머니 환급 시 수수료 5% 부과됩니다.]</span>
-					<div class="guide_content_img"></div>
+					<div class="guide_content_img"><img src="../resources/img/gazeeMoney1.png" width="100%;"></div>
 					
 					<div class="guide_tag">사기</div>
 					<span class="guide_content_title">사기 걱정 없이</span>
 					<span class="guide_content_title" style="font-weight: bold;">안전하게</span>
 					<span class="guide_content_detail" style="margin-top: 5px;">구매확정까지 결제금액을 가지가지에서 보관해요!</span>
-					<div class="guide_content_img"></div>
+					<div class="guide_content_img"><img src="../resources/img/gazeeMoney2.png" width="100%;"></div>
 					
 					<div class="guide_tag">개인정보</div>
 					<span class="guide_content_title">개인정보도</span>
 					<span class="guide_content_title" style="font-weight: bold;">안전하게</span>
 					<span class="guide_content_detail" style="margin-top: 5px;">가지머니를 통해 계좌번호 노출 걱정없이 거래해요!</span>
-					<div class="guide_content_img"></div>
+					<div class="guide_content_img"><img src="../resources/img/gazeeMoney3.png" width="100%;"></div>
 						
 					<div class="guide_tag">노쇼/네고</div>	
 					<span class="guide_content_title" style="font-weight: bold;">직거래 스트레스,</span>
 					<span class="guide_content_title">이젠 안녕!</span>
 					<span class="guide_content_detail" style="margin-top: 5px;">채팅방에서의 선결제 시스템으로 직거래 노쇼, 네고를 방지할 수 있어요!</span>
-					<div class="guide_content_img"></div>
+					<div class="guide_content_img"><img src="../resources/img/gazeeMoney4.png" width="100%;"></div>
 				</div>
 					<hr style="margin: 40px 0">
 				<div class="guide_content">
@@ -76,22 +76,22 @@
 						<span class="guide_step_no">Step 1.</span>
 						<span class="guide_step">거래방법을 선택 후 판매자에게 채팅을 걸어 메세지를 보내요</span>
 					</div>
-					<div class="guide_step_img"></div>
+					<div class="guide_step_img"><img src="../resources/img/deal1.png" width="100%;"></div>
 					
 					<div style="display: flex;">
 						<div style="width: 5px; background: #693faa; margin-right: 10px;"></div>
 						<span class="guide_step_no">Step 2.</span>
 						<span class="guide_step">협의가 이루어지면 판매자가 [판매하기] 버튼을 눌러 구매자에게 결제를 요청해요</span>
 					</div>
-					<div class="guide_step_img"></div>
+					<div class="guide_step_img"><img src="../resources/img/deal2.png" width="100%;"></div>
 					
 					<div style="display: flex; margin-bottom: 10px;">
 						<div style="width: 5px; background: #693faa; margin-right: 10px;"></div>
 						<span class="guide_step_no">Step 3.</span>
-						<span class="guide_step">결제가 완료되면 판매자는 구매 내역은 [마이페이지]에서 확인해요</span>
+						<span class="guide_step">결제가 완료되면 구매/판매 내역은 [마이페이지]에서 확인해요</span>
 					</div>
 					<span class="guide_content_detail" style="padding-left: 24px;">*택배거래 시 판매자는 [마이페이지]에서 운송장번호를 입력해주세요!</span>
-					<div class="guide_step_img"></div>
+					<div class="guide_step_img"><img src="../resources/img/deal3.png" width="100%;"></div>
 					
 					<div style="display: flex; margin-bottom: 10px;">
 						<div style="width: 5px; background: #693faa; margin-right: 10px;"></div>
@@ -100,7 +100,7 @@
 					</div>
 					<span class="guide_content_detail" style="padding-left: 24px;">결제금액은 구매확정이 이루어진 후 지급됩니다.</span>
 					<span class="guide_content_detail" style="padding-left: 24px;">직거래시 거래날짜로부터 24시간 후, 택배거래시 결제일로부터 일주일 후 자동으로 구매확정이 이루어집니다.</span>
-					<div class="guide_step_img"></div>
+					<div class="guide_step_img"><img src="../resources/img/deal4.png" width="100%;"></div>
 				</div>
 			</div>
 		</div>
