@@ -83,7 +83,18 @@ $(function() {
 		        var trackingInfo = response; // 응답으로 받은 트래킹 정보
 		        var b7 = document.getElementById("b7");
 		        b7.innerText = trackingInfo;
-		        location.reload();
+		        $.ajax({
+					url: '../order/getOrderInfo',
+					data: {
+						no: modal_id
+					},
+					success: function(response) {
+						memberId = response.sellerId;
+						roomId = response.roomId;
+						trackingNoFinished(memberId, roomId);
+						location.reload();
+					}
+				})
 		    },
 		    error: function() {
 		        console.log("오류 발생");
