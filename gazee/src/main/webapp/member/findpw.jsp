@@ -7,7 +7,7 @@
 <link rel="shortcut icon" href="../resources/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <link href="../resources/css/style.css" rel="stylesheet" type="text/css">
-<link href="../resources/css/FindPw.css" rel="stylesheet" type="text/css">
+<link href="../resources/css/findPw.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript">
    var code = 0;
@@ -45,7 +45,7 @@
                      alert("떙!")
                   }else {
                   $('#content').html(result) 
-                  alert(id)
+                  //alert(id)
                   }
                   //location.href="newPw.jsp"
                },//success

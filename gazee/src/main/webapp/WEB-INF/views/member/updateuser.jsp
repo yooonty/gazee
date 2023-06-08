@@ -236,7 +236,6 @@ button{
     margin: 20px;
 }
 </style>
-	
 		<div id="content">
 					 <div style="padding: 10px 0px; display: flex; gap: 50px;">
 					<div style="display: flex; gap: 40px; width: 50%;">				
