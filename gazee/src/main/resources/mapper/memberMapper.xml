@@ -42,6 +42,11 @@
 		update member set pw = #{pw} where id = #{id}
 	</update>
 	
+	<!-- 닉네임 재설정 -->
+	<update id="nick"  parameterType="memberVO">
+		update member set nickname = #{nickname} where id = #{id}
+	</update>
+	
 	<!-- 구매 확정 업데이트 -->
 	<update id="buyerCon"  parameterType="memberVO">
 		update tb_order set buyer_confirm = 1, complete_status = 1 where no = #{no}
