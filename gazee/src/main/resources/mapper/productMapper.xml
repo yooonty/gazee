@@ -4,7 +4,8 @@
 	<select id="best" resultType="productVO">
 		select *
 		from product
-		where product_views >= 100 and temporary = 1
+		where temporary = 1
+		order by product_views desc
 		limit 5
 	</select>
 
@@ -17,6 +18,7 @@
 		group by category) as result
 		order by category_count desc
 		limit 1) and temporary = 1
+		order by product_id desc
 		limit 5
 	</select>
 	
@@ -24,6 +26,7 @@
 		select *
 		from product
 		where category = #{category} and temporary = 1
+		order by product_id desc
 		limit 5
 	</select>
 	
