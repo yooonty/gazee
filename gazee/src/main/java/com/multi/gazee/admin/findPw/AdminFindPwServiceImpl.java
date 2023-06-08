@@ -47,6 +47,9 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
             out.print("관리자로 등록되지 않은 이메일입니다.");
             out.close();
         } else {
+            out.print("이메일로 임시 비밀번호를 발송하였습니다.");
+            out.close();
+            
             // 관리자 계정의 이메일 확인되면 임시 비밀번호 생성
             String pw = "";
             for (int i = 0; i < 12; i++) {
@@ -63,9 +66,6 @@ public class AdminFindPwServiceImpl implements AdminFindPwService {
             dao.updatePw(vo);
             // 비밀번호 변경 메일 발송
             sendEmail(vo, "findPw");
-            
-            out.print("이메일로 임시 비밀번호를 발송하였습니다.");
-            out.close();
         }
     }
     
