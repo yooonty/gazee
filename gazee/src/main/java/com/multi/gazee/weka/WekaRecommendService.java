@@ -68,7 +68,7 @@ public class WekaRecommendService {
 		} else if (result == 5.0) {
 			return "취미/게임/음반";
 		} else if (result == 6.0) {
-			return "디지털기기";
+			return "디지털 기기";
 		} else {
 			return "가구/인테리어";
 		}
