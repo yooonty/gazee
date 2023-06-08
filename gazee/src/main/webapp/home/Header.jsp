@@ -84,7 +84,7 @@ $(function() {
 								style="position: relative; top: 60px; border: solid 1px black;">
 							<ul class="nav_mobile">
 								<li><a class="categoryMenu">의류</a><a class="categoryMenu">잡화</a><a class="categoryMenu">도서</a></li>
-						     	<li><a class="categoryMenu">디지털기기</a><a class="categoryMenu">생활가전</a><a class="categoryMenu">가구/인테리어</a></li>
+						     	<li><a class="categoryMenu">디지털 기기</a><a class="categoryMenu">생활가전</a><a class="categoryMenu">가구/인테리어</a></li>
 						      	<li><a class="categoryMenu">뷰티/미용</a><a class="categoryMenu">스포츠/레저</a><a class="categoryMenu">생활/주방</a></li>
 						      	<li><a class="categoryMenu">취미/게임/음반</a><a class="categoryMenu">반려동물용품</a><a class="categoryMenu">기타</a></li>
 							</ul>
