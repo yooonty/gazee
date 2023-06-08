@@ -422,7 +422,7 @@ $(function() {
 			</td>
 		</tr>
 		<tr>
-			<td style="font-weight: 900; font-size: xx-large;"><div>
+			<td style="font-weight: 900; font-size: xx-large; width: 300px;"><div>
 					${bag.productName}</div></td>
 		</tr>
 		<tr>
@@ -439,10 +439,10 @@ $(function() {
 		</tr>
 
 		<tr height="150px">
-			<td><div style="font-size: medium;">${bag.productContent}</div></td>
+			<td><div style="font-size: medium; width: 300px;">${bag.productContent}</div></td>
 		</tr>
 		<tr>
-			<td><div style="font-weight: 900; font-size: xx-large;"><fmt:formatNumber value="${bag.price}" pattern="#,###"/>원</div></td>
+			<td><div style="font-weight: 900; font-size: xx-large; width: 300px;"><fmt:formatNumber value="${bag.price}" pattern="#,###"/>원</div></td>
 		</tr>
 		<tr>
 			<td><c:if test="${bag.dealDirect == 1}">
