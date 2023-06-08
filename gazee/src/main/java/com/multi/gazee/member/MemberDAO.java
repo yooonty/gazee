@@ -61,8 +61,8 @@ public class MemberDAO { // CRUD
 		return vo;
 	}
 	
-	public MemberVO nicknameCheck(String id) {
-		MemberVO vo = my.selectOne("member.nickOne", id);
+	public MemberVO nicknameCheck(String nickname) {
+		MemberVO vo = my.selectOne("member.searchOneByNickname", nickname);
 		return vo;
 	}
 	

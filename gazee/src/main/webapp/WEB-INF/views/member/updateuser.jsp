@@ -6,10 +6,28 @@
 <script type="text/javascript" src="../resources/js/jquery-3.6.4.js"></script>
 <script type="text/javascript">
 		var session = '<%= session.getAttribute("id")%>'
-
+		
+			function uploadFiles() {
+			var formData = new FormData($("#uploadForm")[0]);
+			$.ajax({
+				url: "profileUpdate",
+				type: "POST",
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(response) {
+					alert('변경이 완료되었습니다.')
+					location.reload();
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.error("Upload failed: " + errorThrown);
+				}
+			});
+		}
 		$(function() {
 		
-		$('#pwReSet').click(function() {
+		$('#btn_pwReSet').click(function() {
 
 		    var pw = $('#pw').val();
 		    var pw2 = $('#pw2').val();
@@ -54,24 +72,7 @@
 	   })
 	   
 	}) 
-	   function uploadFiles() {
-			var formData = new FormData($("#uploadForm")[0]);
-			$.ajax({
-				url: "profileUpdate",
-				type: "POST",
-				data: formData,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function(response) {
-					alert('변경이 완료되었습니다.')
-					location.reload();
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					console.error("Upload failed: " + errorThrown);
-				}
-			});
-		}
+	   
 	
 	$(function(){
 	    $('#pw').keyup(function(){
@@ -203,6 +204,14 @@
 	color: #FFF;
 	gap : 10px;
 }
+#btn_img{
+	width: 100px;
+	height: 40px;
+	background : #693FAA;
+	color: #FFF;
+	border-radius: 3px;
+    margin: 20px;
+}
 #btn_leave{
 	width: 150px;
 	height: 40px;
@@ -227,7 +236,7 @@ button{
     margin: 20px;
 }
 </style>
-	<div id="content_wrap">
+	
 		<div id="content">
 					 <div style="padding: 10px 0px; display: flex; gap: 50px;">
 					<div style="display: flex; gap: 40px; width: 50%;">				
@@ -252,7 +261,7 @@ button{
 											<h2 style="text-align: center;">이미지수정 </h2>
 									<form id="uploadForm" enctype="multipart/form-data">
 										프로필: <input type="file" name="file">
-										<input type="button" value="변경하기" onclick="uploadFiles()">
+										<input type="button" value="변경하기" id="btn_img"onclick="uploadFiles()">
 									</form>
 							  </div>
 						</div>
@@ -282,7 +291,7 @@ button{
 					</div>
 				  </div>
 				</div>		
-			</div>
+			
 				 <div class="head"></div>
 					 <div id="btnBox" style="padding-top: 10px;">
 						<button type="submit" id="btn_leave" onclick="leave()">회원탈퇴</button>
