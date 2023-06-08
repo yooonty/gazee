@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Product 상세</title>
+<title>가지가지</title>
+<link rel="shortcut icon" href="../resources/favicon.ico">
 <link rel="stylesheet" href="../resources/css/pay.css" type="text/css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
