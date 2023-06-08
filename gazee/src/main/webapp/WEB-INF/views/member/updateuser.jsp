@@ -49,34 +49,29 @@
 		    }
 		});	
 		
-		//작성
-		// 05-17 00:25 추가
-			$('#btn_Img').click(function() {				
-			
+		$('#btn_Img').click(function() {				
+			uploadFiles();
+	   })
+	   
+	}) 
+	   function uploadFiles() {
 			var formData = new FormData($("#uploadForm")[0]);
-			
 			$.ajax({
-				url: "profile",
+				url: "profileUpdate",
 				type: "POST",
 				data: formData,
 				cache: false,
 				contentType: false,
 				processData: false,
 				success: function(response) {
-					// Handle success response
-					console.log("Upload successful!");
+					alert('변경이 완료되었습니다.')
+					location.reload();
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
-					// Handle error response
 					console.error("Upload failed: " + errorThrown);
 				}
 			});
-		   })
-		
-			$('#btn_Img').click(function(){
-				uploadFiles();
-			})
-	}) 
+		}
 	
 	$(function(){
 	    $('#pw').keyup(function(){
