@@ -38,12 +38,10 @@
 }
 
 .guide_content_img {
-	width: 50%;
-	height: 300px;
+	width: 80%;
 	margin: 40px 0 50px auto;
-	background: #000;
 	border-radius: 10px;
-	box-shadow: 5px 5px 7px 0px #3d3d3d3b;
+	over-flow: hidden;
 }
 
 .guide_step_no {
@@ -58,12 +56,10 @@
 }
 
 .guide_step_img {
-	width: 50%;
-	height: 100px;
+	width: 80%;
 	margin: 20px 0 50px auto;
-	background: #000;
 	border-radius: 10px;
-	box-shadow: 5px 5px 7px 0px #3d3d3d3b;
+	over-flow: hidden;
 }
 
 .phoneImg {

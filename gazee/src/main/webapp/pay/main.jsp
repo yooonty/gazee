@@ -311,8 +311,8 @@ $(function() {
 	</div>
 	</div>
 			<jsp:include page="../home/SideBar.jsp" flush="true"/>
-			<jsp:include page="../home/Footer.jsp" flush="true"/>
 		</div>
+			<jsp:include page="../home/Footer.jsp" flush="true"/>
 
 </body>
 
